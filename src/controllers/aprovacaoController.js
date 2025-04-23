@@ -57,34 +57,7 @@ const aprovar = async (req, res) => {
       });
     }
 
-    if (!["requisicao", "aprovacao-cadastro"].includes(ticket.etapa)) {
-      ticket.etapa = etapas[currentEtapaIndex + 1].codigo;
-    }
-
-    if (ticket?.etapa === "aprovacao-cadastro") {
-      ticket.etapa = etapas[currentEtapaIndex + 1].codigo;
-
-      if (ticket?.prestador?.tipo !== "pf") {
-        ticket.etapa = "aprovacao-fiscal";
-      }
-    }
-
-    if (ticket.etapa === "requisicao") {
-      ticket.etapa = etapas[currentEtapaIndex + 1].codigo;
-
-      const jaExisteServicoPago = await Servico.findOne({
-        prestador: ticket?.prestador?._id,
-        status: "pago",
-      });
-
-      if (jaExisteServicoPago) {
-        if (ticket?.prestador?.tipo !== "pf") {
-          ticket.etapa = "aprovacao-fiscal";
-        } else {
-          ticket.etapa = "geracao-rpa";
-        }
-      }
-    }
+    ticket.etapa = etapas[currentEtapaIndex + 1].codigo;
 
     ticket.status = "aguardando-inicio";
     await ticket.save();
@@ -141,13 +114,6 @@ const recusar = async (req, res) => {
     // Retrocede uma etapa e muda status para 'revisao'
     if (currentEtapaIndex > 0)
       ticket.etapa = etapas[currentEtapaIndex - 1].codigo;
-
-    if (
-      ticket.etapa === "aprovacao-fiscal" &&
-      ticket.prestador?.tipo !== "pf"
-    ) {
-      ticket.etapa = etapas[currentEtapaIndex - 2].codigo;
-    }
 
     ticket.status = "revisao";
 
