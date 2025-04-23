@@ -18,7 +18,6 @@ exports.getServicoById = async (req, res) => {
 
     res.status(200).json(servico);
   } catch (error) {
-    // console.error("Erro ao obter serviço:", error);
     res.status(500).json({
       message: "Erro ao obter serviço",
       detalhes: error.message,
@@ -27,45 +26,39 @@ exports.getServicoById = async (req, res) => {
 };
 
 exports.createServicoETicket = async (req, res) => {
-  const { descricao, data, valor, prestador } = req.body;
-
-  try {
-    // Cria um novo documento Servico
-    const novoServico = new Servico({
-      descricao,
-      data,
-      valor,
-      status: "aberto",
-    });
-
-    // console.log("novoServico", novoServico);
-
-    await novoServico.save();
-
-    // Cria um novo ticket referenciando o documento Servico
-    const novoTicket = new Ticket({
-      titulo: "novo serviço: " + descricao,
-      etapa: "requisicao",
-      status: "aguardando-inicio",
-      prestador,
-      servico: novoServico._id,
-    });
-    // console.log("novoTicket", novoTicket);
-
-    await novoTicket.save();
-
-    res.status(201).json({
-      message: "Serviço e Ticket criados com sucesso!",
-      servico: novoServico,
-      ticket: novoTicket,
-    });
-  } catch (error) {
-    // console.error("Erro ao criar serviço e ticket:", error);
-    res.status(500).json({
-      message: "Erro ao criar serviço e ticket",
-      detalhes: error.message,
-    });
-  }
+  // const { descricao, data, valor, prestador } = req.body;
+  // try {
+  //   // Cria um novo documento Servico
+  //   const novoServico = new Servico({
+  //     descricao,
+  //     data,
+  //     valor,
+  //     status: "aberto",
+  //   });
+  //   // console.log("novoServico", novoServico);
+  //   await novoServico.save();
+  //   // Cria um novo ticket referenciando o documento Servico
+  //   const novoTicket = new Ticket({
+  //     titulo: "novo serviço: " + descricao,
+  //     etapa: "requisicao",
+  //     status: "aguardando-inicio",
+  //     prestador,
+  //     servico: novoServico._id,
+  //   });
+  //   // console.log("novoTicket", novoTicket);
+  //   await novoTicket.save();
+  //   res.status(201).json({
+  //     message: "Serviço e Ticket criados com sucesso!",
+  //     servico: novoServico,
+  //     ticket: novoTicket,
+  //   });
+  // } catch (error) {
+  //   // console.error("Erro ao criar serviço e ticket:", error);
+  //   res.status(500).json({
+  //     message: "Erro ao criar serviço e ticket",
+  //     detalhes: error.message,
+  //   });
+  // }
 };
 
 exports.createServico = async (req, res) => {
@@ -164,24 +157,7 @@ exports.listarServicos = async (req, res) => {
     const searchTermCondition = filtersUtils.querySearchTerm({
       searchTerm,
       schema: Servico.schema,
-      camposBusca: [
-        "notaFiscal",
-        "dataProvisaoContabil",
-        "dataRegistro",
-        "campanha",
-        "tipoDocumentoFiscal",
-        "competencia",
-        "valores.grossValue",
-        "valores.bonus",
-        "valores.ajusteComercial",
-        "valores.paidPlacement",
-        "valores.revisionMonthProvision",
-        "valores.revisionGrossValue",
-        "valores.revisionProvisionBonus",
-        "valores.revisionComissaoPlataforma",
-        "valores.revisionPaidPlacement",
-        "valor",
-      ],
+      camposBusca: ["tipo", "dataRegistro", "competencia", "valor"],
     });
 
     const queryResult = {

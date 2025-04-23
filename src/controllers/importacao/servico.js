@@ -14,9 +14,9 @@ const {
 
 const converterLinhaEmServico = async ({ row }) => {
   const tipoPessoa =
-    row[3] === "RPA" ? "pf" : row[3] === "invoice" ? "ext" : "pj";
+    row[2] === "RPA" ? "pf" : row[3] === "invoice" ? "ext" : "pj";
 
-  const competencia = row[7];
+  const competencia = row[6];
 
   const servico = {
     prestador: {
@@ -24,30 +24,15 @@ const converterLinhaEmServico = async ({ row }) => {
       documento: row[1],
       tipo: tipoPessoa,
     },
-    notaFiscal: row[2],
-    tipoDocumentoFiscal: row[3],
-    dataProvisaoContabil: row[4],
+    tipoDocumentoFiscal: row[2],
+    descricao: row[3],
+    codigoCNAE: row[4],
     dataRegistro: row[5],
-    campanha: row[6],
     competencia: {
       mes: competencia && competencia.getMonth() + 1,
       ano: competencia && competencia.getFullYear(),
     },
-
-    valores: {
-      grossValue: arredondarValor(row[8]),
-      bonus: arredondarValor(row[9]),
-      ajusteComercial: arredondarValor(row[10]),
-      paidPlacement: arredondarValor(row[11]),
-
-      revisionMonthProvision: row[13],
-
-      revisionGrossValue: arredondarValor(row[14]),
-      revisionProvisionBonus: arredondarValor(row[15]),
-      revisionComissaoPlataforma: arredondarValor(row[16]),
-      revisionPaidPlacement: arredondarValor(row[17]),
-      imposto: arredondarValor(row[19]),
-    },
+    valor: arredondarValor(row[7]),
   };
 
   return servico;
@@ -107,26 +92,26 @@ const criarNovoServico = async (servico) => {
   await novoServico.save();
 };
 
-const criarNovaCampanha = async ({ campanha }) => {
-  if (!campanha || campanha.trim() === "") return;
+// const criarNovaCampanha = async ({ campanha }) => {
+//   if (!campanha || campanha.trim() === "") return;
 
-  const trimmedCampanha = campanha.trim();
+//   const trimmedCampanha = campanha.trim();
 
-  try {
-    await Lista.findOneAndUpdate(
-      {
-        codigo: "campanha",
-        "valores.valor": { $ne: trimmedCampanha },
-      },
-      {
-        $push: { valores: { valor: trimmedCampanha } },
-      },
-      { upsert: true, new: true }
-    );
-  } catch (error) {
-    console.error("Erro ao adicionar nova campanha:", error);
-  }
-};
+//   try {
+//     await Lista.findOneAndUpdate(
+//       {
+//         codigo: "campanha",
+//         "valores.valor": { $ne: trimmedCampanha },
+//       },
+//       {
+//         $push: { valores: { valor: trimmedCampanha } },
+//       },
+//       { upsert: true, new: true }
+//     );
+//   } catch (error) {
+//     console.error("Erro ao adicionar nova campanha:", error);
+//   }
+// };
 
 const processarJsonServicos = async ({ json }) => {
   const detalhes = {
@@ -187,7 +172,7 @@ const processarJsonServicos = async ({ json }) => {
         // await servicoExistente.save();
       }
 
-      await criarNovaCampanha({ campanha: servico?.campanha });
+      // await criarNovaCampanha({ campanha: servico?.campanha });
 
       if (!servicoExistente) {
         await criarNovoServico({ ...servico, prestador: prestador?._id });

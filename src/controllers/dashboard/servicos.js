@@ -8,17 +8,7 @@ exports.valoresPorStatus = async (req, res) => {
           _id: "$status",
           total: {
             $sum: {
-              $add: [
-                { $ifNull: ["$valores.grossValue", 0] },
-                { $ifNull: ["$valores.bonus", 0] },
-                { $ifNull: ["$valores.ajusteComercial", 0] },
-                { $ifNull: ["$valores.paidPlacement", 0] },
-                { $ifNull: ["$valores.revisionGrossValue", 0] },
-                { $ifNull: ["$valores.revisionProvisionBonus", 0] },
-                { $ifNull: ["$valores.revisionComissaoPlataforma", 0] },
-                { $ifNull: ["$valores.revisionPaidPlacement", 0] },
-                { $ifNull: ["$valores.imposto", 0] },
-              ],
+              $ifNull: ["$valor", 0],
             },
           },
           count: { $sum: 1 },

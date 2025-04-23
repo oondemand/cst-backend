@@ -208,34 +208,13 @@ exports.getTicketsByUsuarioPrestador = async (req, res) => {
           },
         },
       },
-      {
-        $addFields: {
-          totalValores: {
-            $add: [
-              { $ifNull: ["$valores.grossValue", 0] },
-              { $ifNull: ["$valores.bonus", 0] },
-              { $ifNull: ["$valores.ajusteComercial", 0] },
-              { $ifNull: ["$valores.paidPlacement", 0] },
-            ],
-          },
-          totalRevisao: {
-            $add: [
-              { $ifNull: ["$valores.revisionGrossValue", 0] },
-              { $ifNull: ["$valores.revisionProvisionBonus", 0] },
-              { $ifNull: ["$valores.revisionComissaoPlataforma", 0] },
-              { $ifNull: ["$valores.revisionPaidPlacement", 0] },
-            ],
-          },
-        },
-      },
+
       {
         $addFields: {
           valor: {
-            $add: [
-              "$totalValores",
-              "$totalRevisao",
-              { $ifNull: ["$valores.imposto", 0] },
-            ],
+            $sum: {
+              $ifNull: ["$valor", 0],
+            },
           },
         },
       },

@@ -353,12 +353,11 @@ const cadastrarContaAPagar = async (baseOmie, codigoFornecedor, ticket) => {
   try {
     let valorTotalDaNota = 0;
     let observacao = `-- Serviços --\n`;
-    let notaFiscalOmie = "";
 
     const config = await Sistema.findOne();
 
     for (const id of ticket.servicos) {
-      const { valor, competencia, notaFiscal } = await Servico.findById(id);
+      const { valor, competencia } = await Servico.findById(id);
 
       const valorTotalFormatado = valor.toLocaleString("pt-BR", {
         style: "currency",
@@ -367,7 +366,6 @@ const cadastrarContaAPagar = async (baseOmie, codigoFornecedor, ticket) => {
 
       observacao += `Competência: ${competencia?.mes}/${competencia?.ano} - Valor total: ${valorTotalFormatado}\n`;
       valorTotalDaNota += valor;
-      notaFiscalOmie += `/${notaFiscal}`;
     }
 
     if (valorTotalDaNota === 0) {
@@ -388,7 +386,6 @@ const cadastrarContaAPagar = async (baseOmie, codigoFornecedor, ticket) => {
       id_conta_corrente:
         config?.omie?.id_conta_corrente ?? process.env.ID_CONTA_CORRENTE,
       dataRegistro: ticket?.servicos[0]?.dataRegistro,
-      notaFiscal: notaFiscalOmie?.replace("/", ""),
       codigo_categoria:
         config?.omie?.codigo_categoria ?? process.env.CODIGO_CATEGORIA,
     });
