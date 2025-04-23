@@ -352,7 +352,7 @@ const atualizarOuCriarFornecedor = async ({
 const cadastrarContaAPagar = async (baseOmie, codigoFornecedor, ticket) => {
   try {
     let valorTotalDaNota = 0;
-    let observacao = `Serviços prestados SID - ${ticket.prestador.sid}\n-- Serviços --\n`;
+    let observacao = `-- Serviços --\n`;
     let notaFiscalOmie = "";
 
     const config = await Sistema.findOne();

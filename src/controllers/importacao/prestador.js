@@ -28,11 +28,11 @@ const criarNovoManager = async ({ manager }) => {
 
 const converterLinhaEmPrestador = async ({ row }) => {
   const pais = LISTA_PAISES_OMIE.find(
-    (e) => e.cDescricao.toLowerCase() === row[17]?.toLowerCase()
+    (e) => e.cDescricao.toLowerCase() === row[15]?.toLowerCase()
   );
 
   const formatDataNascimento = () => {
-    const data = row[18];
+    const data = row[16];
 
     if (data === "") return null;
 
@@ -44,33 +44,31 @@ const converterLinhaEmPrestador = async ({ row }) => {
   };
 
   const prestador = {
-    sciUnico: row[0],
-    manager: row[1],
-    nome: row[2],
-    sid: row[3],
-    tipo: row[4],
-    documento: row[5],
+    manager: row[0],
+    nome: row[1],
+    tipo: row[2],
+    documento: row[3],
     dadosBancarios: {
-      banco: row[6],
-      agencia: row[7],
-      conta: row[8],
-      tipoConta: row[9]?.toLowerCase(),
+      banco: row[4],
+      agencia: row[5],
+      conta: row[6],
+      tipoConta: row[7]?.toLowerCase(),
     },
-    email: row[10] === "" ? null : row[10],
+    email: row[8] === "" ? null : row[8],
     endereco: {
-      cep: row[11]?.replaceAll("-", ""),
-      rua: row[12],
-      numero: row[13],
-      complemento: row[14],
-      cidade: row[15],
-      estado: row[16],
+      cep: row[9]?.replaceAll("-", ""),
+      rua: row[10],
+      numero: row[11],
+      complemento: row[12],
+      cidade: row[13],
+      estado: row[14],
       pais: { nome: pais?.cDescricao, cod: pais?.cCodigo },
     },
     pessoaFisica: {
       dataNascimento: formatDataNascimento(),
-      pis: row[19],
+      pis: row[17],
     },
-    pessoaJuridica: { nomeFantasia: row[20] },
+    pessoaJuridica: { nomeFantasia: row[18] },
   };
 
   return prestador;
@@ -86,10 +84,13 @@ const criarNovoPrestador = async ({ prestador }) => {
   return novoPrestador;
 };
 
-const buscarPrestadorPorSidEAtualizar = async ({ sid, prestador }) => {
-  if (!sid || !prestador) return null;
+const buscarPrestadorPorDocumentoEAtualizar = async ({
+  documento,
+  prestador,
+}) => {
+  if (!documento || !prestador) return null;
   const prestadorAtualizado = await Prestador.findOneAndUpdate(
-    { sid: sid },
+    { documento },
     prestador
   );
   return prestadorAtualizado;
@@ -131,8 +132,8 @@ const processarJsonPrestadores = async ({ json }) => {
       }
       const prestadorObj = await converterLinhaEmPrestador({ row });
 
-      let prestador = await buscarPrestadorPorSidEAtualizar({
-        sid: prestadorObj?.sid,
+      let prestador = await buscarPrestadorPorDocumentoEAtualizar({
+        documento: prestadorObj?.documento,
         prestador: prestadorObj,
       });
 
@@ -159,7 +160,7 @@ const processarJsonPrestadores = async ({ json }) => {
       console.log("ERROR", error);
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;
-      detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [SID: ${row[3]} - PRESTADOR: ${row[2]}] - \nDETALHES DO ERRO: ${error}\n\n`;
+      detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PRESTADOR: ${row[2]}] - \nDETALHES DO ERRO: ${error}\n\n`;
     }
   }
 

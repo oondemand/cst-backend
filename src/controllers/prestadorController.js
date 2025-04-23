@@ -23,21 +23,6 @@ exports.obterPrestadorPorIdUsuario = async (req, res) => {
   }
 };
 
-// obter prestador pelo sid
-exports.obterPrestadorPorSid = async (req, res) => {
-  try {
-    const prestador = await Prestador.findOne({ sid: req.params.sid });
-    if (!prestador)
-      return res.status(404).json({ error: "Prestador não encontrado" });
-    res.status(200).json(prestador);
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao obter prestador",
-      detalhes: error.message,
-    });
-  }
-};
-
 exports.adicionarPrestadorECriarTicket = async (req, res) => {
   // console.log("adicionarPrestadorECriarTicket", req.body);
 
@@ -80,30 +65,6 @@ exports.criarPrestador = async (req, res) => {
     const { email, ...rest } = req.body;
     const data = email === "" ? rest : req.body;
 
-    if (req.body?.sid) {
-      const prestador = await Prestador.findOne({
-        sid: req.body.sid,
-      });
-
-      if (prestador) {
-        return res.status(409).json({
-          message: "Já existe um prestador com esse sid registrado",
-        });
-      }
-    }
-
-    if (req.body?.sciUnico) {
-      const prestador = await Prestador.findOne({
-        sciUnico: req.body.sciUnico,
-      });
-
-      if (prestador) {
-        return res.status(409).json({
-          message: "Já existe um prestador com esse sciUnico registrado",
-        });
-      }
-    }
-
     if (req.body?.documento) {
       const prestador = await Prestador.findOne({
         documento: req.body.documento,
@@ -140,10 +101,8 @@ exports.listarPrestadores = async (req, res) => {
     const schema = Prestador.schema;
 
     const camposBusca = [
-      "sciUnico",
       "manager",
       "nome",
-      "sid",
       "documento",
       "dadosBancariosSchema.agencia",
       "dadosBancariosSchema.conta",
@@ -223,36 +182,6 @@ exports.atualizarPrestador = async (req, res) => {
 
     if (!prestador) {
       return res.status(404).json({ message: "Prestador não encontrado" });
-    }
-
-    if (req.body.sid) {
-      const prestadorSid = await Prestador.findOne({
-        sid: req.body.sid,
-      });
-
-      if (
-        prestadorSid &&
-        prestador._id.toString() !== prestadorSid._id.toString()
-      ) {
-        return res.status(409).json({
-          message: "Já existe um prestador com esse sid registrado",
-        });
-      }
-    }
-
-    if (req.body.sciUnico) {
-      const prestadorSciUnico = await Prestador.findOne({
-        sciUnico: req.body.sciUnico,
-      });
-
-      if (
-        prestadorSciUnico &&
-        prestador._id.toString() !== prestadorSciUnico._id.toString()
-      ) {
-        return res.status(409).json({
-          message: "Já existe um prestador com esse sciUnico registrado",
-        });
-      }
     }
 
     if (req.body.documento) {

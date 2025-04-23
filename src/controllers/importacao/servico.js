@@ -14,40 +14,39 @@ const {
 
 const converterLinhaEmServico = async ({ row }) => {
   const tipoPessoa =
-    row[4] === "RPA" ? "pf" : row[4] === "invoice" ? "ext" : "pj";
+    row[3] === "RPA" ? "pf" : row[3] === "invoice" ? "ext" : "pj";
 
-  const competencia = row[8];
+  const competencia = row[7];
 
   const servico = {
     prestador: {
       nome: row[0],
-      sid: row[1],
-      documento: row[2],
+      documento: row[1],
       tipo: tipoPessoa,
     },
-    notaFiscal: row[3],
-    tipoDocumentoFiscal: row[4],
-    dataProvisaoContabil: row[5],
-    dataRegistro: row[6],
-    campanha: row[7],
+    notaFiscal: row[2],
+    tipoDocumentoFiscal: row[3],
+    dataProvisaoContabil: row[4],
+    dataRegistro: row[5],
+    campanha: row[6],
     competencia: {
       mes: competencia && competencia.getMonth() + 1,
       ano: competencia && competencia.getFullYear(),
     },
 
     valores: {
-      grossValue: arredondarValor(row[9]),
-      bonus: arredondarValor(row[10]),
-      ajusteComercial: arredondarValor(row[11]),
-      paidPlacement: arredondarValor(row[12]),
+      grossValue: arredondarValor(row[8]),
+      bonus: arredondarValor(row[9]),
+      ajusteComercial: arredondarValor(row[10]),
+      paidPlacement: arredondarValor(row[11]),
 
-      revisionMonthProvision: row[14],
+      revisionMonthProvision: row[13],
 
-      revisionGrossValue: arredondarValor(row[15]),
-      revisionProvisionBonus: arredondarValor(row[16]),
-      revisionComissaoPlataforma: arredondarValor(row[17]),
-      revisionPaidPlacement: arredondarValor(row[18]),
-      imposto: arredondarValor(row[20]),
+      revisionGrossValue: arredondarValor(row[14]),
+      revisionProvisionBonus: arredondarValor(row[15]),
+      revisionComissaoPlataforma: arredondarValor(row[16]),
+      revisionPaidPlacement: arredondarValor(row[17]),
+      imposto: arredondarValor(row[19]),
     },
   };
 
@@ -65,14 +64,13 @@ const buscarServicoExistente = async ({ prestadorId, competencia }) => {
   return servico;
 };
 
-const buscarPrestadorPorSid = async ({ sid }) => {
-  if (!sid) return null;
-  return await Prestador.findOne({ sid });
+const buscarPrestadorPorDocumento = async ({ documento }) => {
+  if (!documento) return null;
+  return await Prestador.findOne({ documento });
 };
 
-const criarNovoPrestador = async ({ sid, nome, tipo, documento }) => {
+const criarNovoPrestador = async ({ nome, tipo, documento }) => {
   const prestador = new Prestador({
-    sid,
     nome,
     tipo,
     documento,
@@ -149,13 +147,12 @@ const processarJsonServicos = async ({ json }) => {
       }
 
       const servico = await converterLinhaEmServico({ row });
-      let prestador = await buscarPrestadorPorSid({
-        sid: servico?.prestador?.sid,
+      let prestador = await buscarPrestadorPorDocumento({
+        documento: servico?.prestador?.documento,
       });
 
       if (!prestador) {
         prestador = await criarNovoPrestador({
-          sid: servico?.prestador?.sid,
           documento: servico?.prestador?.documento,
           nome: servico?.prestador?.nome,
           tipo: servico?.prestador?.tipo,
@@ -198,11 +195,11 @@ const processarJsonServicos = async ({ json }) => {
       }
     } catch (error) {
       console.log(
-        `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [SID: ${row[1]} - PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`
+        `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`
       );
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;
-      detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [SID: ${row[1]} - PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`;
+      detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`;
     }
   }
 

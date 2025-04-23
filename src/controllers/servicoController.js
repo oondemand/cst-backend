@@ -143,7 +143,7 @@ exports.listarServicos = async (req, res) => {
     const prestadoresQuery = filtersUtils.querySearchTerm({
       searchTerm,
       schema: Prestador.schema,
-      camposBusca: ["sid", "documento", "nome"],
+      camposBusca: ["documento", "nome"],
     });
 
     // Busca ids de prestadores com base nas condições criadas de acordo ao search term
@@ -205,7 +205,7 @@ exports.listarServicos = async (req, res) => {
 
     const [servicos, totalDeServicos] = await Promise.all([
       Servico.find(queryResult)
-        .populate("prestador", "sid nome documento tipo")
+        .populate("prestador", "nome documento tipo")
         .skip(skip)
         .limit(limite)
         .sort(sorting),
@@ -236,7 +236,7 @@ exports.listarServicoPorPrestador = async (req, res) => {
       prestador: prestadorId,
       status: "aberto",
       ...(dataRegistro ? { dataRegistro: dataRegistro } : {}),
-    }).populate("prestador", "sid nome documento");
+    }).populate("prestador", "nome documento");
 
     res.status(200).json(servicos);
   } catch (error) {

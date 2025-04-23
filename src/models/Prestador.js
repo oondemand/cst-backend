@@ -27,31 +27,11 @@ const dadosBancariosSchema = new mongoose.Schema({
 // Esquema Principal do Prestador
 const prestadorSchema = new mongoose.Schema(
   {
-    sciUnico: { type: Number, match: /^\d{6,}$/ },
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
     manager: { type: String },
     nome: { type: String, required: true },
-    sid: {
-      type: Number,
-      required: true,
-      unique: true,
-      match: [/^\d{7}$/, "O SID deve ter exatamente 7 dígitos."],
-    },
     tipo: { type: String, enum: ["pj", "pf", "ext", ""] },
-    documento: {
-      type: String,
-      unique: true,
-      // validate: {
-      //   validator: function (valor) {
-      //     if (this.tipo === "ext") {
-      //       return true;
-      //     }
-
-      //     return /^\d{11}$|^\d{14}$/.test(valor);
-      //   },
-      //   message: "Documento inválido para o tipo selecionado.",
-      // },
-    },
+    documento: { type: String, unique: true },
     dadosBancarios: dadosBancariosSchema,
     email: {
       type: String,

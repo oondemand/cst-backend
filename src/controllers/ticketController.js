@@ -510,7 +510,6 @@ exports.uploadFiles = async (req, res) => {
 exports.getArchivedTickets = async (req, res) => {
   try {
     const {
-      ["prestador.sid"]: prestadorSid,
       ["prestador.nome"]: prestadorNome,
       ["prestador.tipo"]: prestadorTipo,
       ["prestador.documento"]: prestadorDocumento,
@@ -524,7 +523,6 @@ exports.getArchivedTickets = async (req, res) => {
 
     const prestadorFiltersQuery = filterUtils.queryFiltros({
       filtros: {
-        sid: prestadorSid,
         nome: prestadorNome,
         tipo: prestadorTipo,
         documento: prestadorDocumento,
@@ -535,7 +533,7 @@ exports.getArchivedTickets = async (req, res) => {
     const prestadoresQuerySearchTerm = filterUtils.querySearchTerm({
       schema: Prestador.schema,
       searchTerm,
-      camposBusca: ["nome", "tipo", "documento", "sid"],
+      camposBusca: ["nome", "tipo", "documento"],
     });
 
     let prestadoresIds = [];
@@ -594,7 +592,7 @@ exports.getArchivedTickets = async (req, res) => {
 
     const [tickets, totalDeTickets] = await Promise.all([
       Ticket.find(queryResult)
-        .populate("prestador", "sid nome documento")
+        .populate("prestador", "nome documento")
         .populate({
           path: "servicos",
           options: { virtuals: true },
@@ -626,7 +624,6 @@ exports.getArchivedTickets = async (req, res) => {
 exports.getTicketsPago = async (req, res) => {
   try {
     const {
-      ["prestador.sid"]: prestadorSid,
       ["prestador.nome"]: prestadorNome,
       ["prestador.tipo"]: prestadorTipo,
       ["prestador.documento"]: prestadorDocumento,
@@ -640,7 +637,6 @@ exports.getTicketsPago = async (req, res) => {
 
     const prestadorFiltersQuery = filterUtils.queryFiltros({
       filtros: {
-        sid: prestadorSid,
         nome: prestadorNome,
         tipo: prestadorTipo,
         documento: prestadorDocumento,
@@ -651,7 +647,7 @@ exports.getTicketsPago = async (req, res) => {
     const prestadoresQuerySearchTerm = filterUtils.querySearchTerm({
       schema: Prestador.schema,
       searchTerm,
-      camposBusca: ["nome", "tipo", "documento", "sid"],
+      camposBusca: ["nome", "tipo", "documento"],
     });
 
     const prestadoresIds = await Prestador.find({
@@ -699,7 +695,7 @@ exports.getTicketsPago = async (req, res) => {
 
     const [tickets, totalDeTickets] = await Promise.all([
       Ticket.find(queryResult)
-        .populate("prestador", "sid nome documento")
+        .populate("prestador", "nome documento")
         .populate("arquivos", "nomeOriginal size mimetype tipo")
         .populate({
           path: "servicos",

@@ -5,7 +5,6 @@ const criarFornecedor = ({
   // codigo_cliente_integracao,
   documento,
   nome,
-  sid,
   tipo,
   email,
   banco,

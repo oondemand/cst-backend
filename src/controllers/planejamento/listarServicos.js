@@ -5,7 +5,6 @@ const { queryFiltros, buildQuery } = require("../../utils/filter");
 exports.listarServicos = async (req, res) => {
   try {
     const {
-      ["prestador.sid"]: prestadorSid,
       ["prestador.nome"]: prestadorNome,
       ["prestador.tipo"]: prestadorTipo,
       ["prestador.documento"]: prestadorDocumento,
@@ -18,7 +17,6 @@ exports.listarServicos = async (req, res) => {
 
     const prestadorFiltersQuery = queryFiltros({
       filtros: {
-        sid: prestadorSid,
         nome: prestadorNome,
         tipo: prestadorTipo,
         documento: prestadorDocumento,
@@ -68,7 +66,7 @@ exports.listarServicos = async (req, res) => {
 
     const [servicos, totalDeServicos] = await Promise.all([
       Servico.find(queryResult)
-        .populate("prestador", "sid nome documento tipo")
+        .populate("prestador", "nome documento tipo")
         .skip(skip)
         .limit(limite),
       Servico.countDocuments(queryResult),

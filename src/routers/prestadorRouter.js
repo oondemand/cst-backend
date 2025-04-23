@@ -16,8 +16,6 @@ router.get(
   prestadorController.obterPrestadorPorIdUsuario
 );
 
-router.get("/sid/:sid", prestadorController.obterPrestadorPorSid);
-
 router.get(
   "/documento/:documento",
   prestadorController.obterPrestadorPorDocumento

@@ -30,7 +30,6 @@ const controleAlteracaoSchema = new mongoose.Schema({
     enum: [
       "formulario",
       "importacao-payment-control",
-      "integracao-sci",
       "integracao-omie",
     ],
     required: true,
