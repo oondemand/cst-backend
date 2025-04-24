@@ -1,21 +1,21 @@
 # apiVersion: apps/v1
 # kind: Deployment
 # metadata:
-#   name: esteira-de-servicos-backend
-#   namespace: esteira-de-servicos
+#   name: cst-backend
+#   namespace: cst
 # spec:
 #   replicas: 2
 #   selector:
 #     matchLabels:
-#       app: esteira-de-servicos-backend
+#       app: cst-backend
 #   template:
 #     metadata:
 #       labels:
-#         app: esteira-de-servicos-backend
+#         app: cst-backend
 #     spec:
 #       containers:
-#         - name: esteira-de-servicos-backend-container
-#           image: ghcr.io/oondemand/esteira-de-servicos-backend:${IMAGE_TAG}
+#         - name: cst-backend-container
+#           image: ghcr.io/oondemand/cst-backend:${IMAGE_TAG}
 #           ports:
 #             - containerPort: 4000
 #           resources:

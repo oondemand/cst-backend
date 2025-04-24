@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: esteira-de-servicos-backend-service
-  namespace: esteira-de-servicos
+  name: cst-backend-service
+  namespace: cst
 spec:
   type: LoadBalancer
   selector:
-    app: esteira-de-servicos-backend
+    app: cst-backend
   ports:
     - name: http
       protocol: TCP

@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: app-tls
-  namespace: esteira-de-servicos
+  namespace: cst
 spec:
   secretName: app-tls
   issuerRef:
@@ -10,5 +10,4 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - api.cst.oondemand.com.br
-    - cst.oondemand.com.br 
-
+    - cst.oondemand.com.br
