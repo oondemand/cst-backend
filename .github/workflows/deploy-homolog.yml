@@ -1,4 +1,4 @@
-name: Deploy adn publish backend homolog
+name: Deploy
 
 on:
   push:
