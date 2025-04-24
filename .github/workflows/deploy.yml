@@ -1,76 +1,74 @@
-name: Deploy adn publish backend
+# name: Deploy adn publish backend
 
-on:
-  pull_request:
-    branches:
-      - main 
-    types:
-      - closed
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#     types:
+#       - closed
 
-jobs:
-  build_and_publish:
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write # Permissão para o workflow criar tags
+# jobs:
+#   build_and_publish:
+#     runs-on: ubuntu-24.04
+#     permissions:
+#       contents: write # Permissão para o workflow criar tags
 
-    steps:
-      - uses: actions/checkout@v3
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Config git
-        run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+#       - name: Config git
+#         run: |
+#           git config user.name "${GITHUB_ACTOR}"
+#           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - name: Instalar dependências
-        run: npm install
+#       - name: Instalar dependências
+#         run: npm install
 
-      - name: Criar release com release-it
-        run: npm run release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Criar release com release-it
+#         run: npm run release
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Obter tag da release
-        id: extract_tag
-        run: |
-          TAG=$(git describe --tags --abbrev=0)
-          echo "TAG=$TAG" >> $GITHUB_ENV
+#       - name: Obter tag da release
+#         id: extract_tag
+#         run: |
+#           TAG=$(git describe --tags --abbrev=0)
+#           echo "TAG=$TAG" >> $GITHUB_ENV
 
-      - name: Construir e publicar imagem
-        run: |
-          docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build -f ./infra/docker/Dockerfile.prod --build-arg SERVICE_VERSION=${{ env.TAG }} --tag ghcr.io/oondemand/cst-rakuten-backend:${{ env.TAG }} .
-          docker push ghcr.io/oondemand/cst-rakuten-backend:${{ env.TAG }}
+#       - name: Construir e publicar imagem
+#         run: |
+#           docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.GH_PAT }} ghcr.io
+#           docker build -f ./infra/docker/Dockerfile.prod --build-arg SERVICE_VERSION=${{ env.TAG }} --tag ghcr.io/oondemand/esteira-de-servicos-backend:${{ env.TAG }} .
+#           docker push ghcr.io/oondemand/esteira-de-servicos-backend:${{ env.TAG }}
 
-      - name: Criar kubeconfig
-        run: |
-          mkdir -p "${HOME}/.kube"
-          curl -s -H "Authorization: Bearer ${{secrets.DO_ACCESS_TOKEN}}" "${{secrets.DO_CLUSTER_AUTHENTICATION_URL}}" > "$HOME/.kube/config"
+#       - name: Criar kubeconfig
+#         run: |
+#           mkdir -p "${HOME}/.kube"
+#           curl -s -H "Authorization: Bearer ${{secrets.DO_ACCESS_TOKEN}}" "${{secrets.DO_CLUSTER_AUTHENTICATION_URL}}" > "$HOME/.kube/config"
 
-      - name: Usar contexto do cluster
-        run: |
-          kubectl config use-context ${{ secrets.CLUSTER }}
+#       - name: Usar contexto do cluster
+#         run: |
+#           kubectl config use-context ${{ secrets.CLUSTER }}
 
-      - name: 🚀 Substituir variáveis no deployment.yml e aplicar no cluster
-        run: |
-          envsubst < infra/kubernetes/deployment.yaml | kubectl apply -f -
+#       - name: 🚀 Substituir variáveis no deployment.yml e aplicar no cluster
+#         run: |
+#           envsubst < infra/kubernetes/deployment.yaml | kubectl apply -f -
 
-        env:
-          IMAGE_TAG: ${{ env.TAG }}
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
-          PORT: ${{ secrets.PORT }}
-          DB_SERVER: ${{ secrets.DB_SERVER }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_AUTH_SOURCE: ${{ secrets.DB_AUTH_SOURCE }}
-          DB_REPLICA_SET: ${{ secrets.DB_REPLICA_SET }}
-          DB_TSL: ${{ secrets.DB_TSL }}
-          API_OMIE: ${{ secrets.API_OMIE }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          SENDGRID_REMETENTE: ${{ secrets.SENDGRID_REMETENTE }}
-          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-          BASE_URL_CST: ${{ secrets.BASE_URL_CST }}
-          BASE_URL_APP_PUBLISHER: ${{ secrets.BASE_URL_APP_PUBLISHER }}
-          ID_CONTA_CORRENTE: ${{ secrets.ID_CONTA_CORRENTE }}
-          CODIGO_CATEGORIA: ${{ secrets.CODIGO_CATEGORIA }}
+#         env:
+#           IMAGE_TAG: ${{ env.TAG }}
+#           NODE_ENV: ${{ secrets.NODE_ENV }}
+#           SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+#           PORT: ${{ secrets.PORT }}
+#           DB_SERVER: ${{ secrets.DB_SERVER }}
+#           DB_USER: ${{ secrets.DB_USER }}
+#           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+#           DB_NAME: ${{ secrets.DB_NAME }}
+#           DB_AUTH_SOURCE: ${{ secrets.DB_AUTH_SOURCE }}
+#           DB_REPLICA_SET: ${{ secrets.DB_REPLICA_SET }}
+#           DB_TSL: ${{ secrets.DB_TSL }}
+#           API_OMIE: ${{ secrets.API_OMIE }}
+#           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+#           SENDGRID_REMETENTE: ${{ secrets.SENDGRID_REMETENTE }}
+#           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+#           BASE_URL_CST: ${{ secrets.BASE_URL_CST }}
+#           BASE_URL_APP_PUBLISHER: ${{ secrets.BASE_URL_APP_PUBLISHER }}

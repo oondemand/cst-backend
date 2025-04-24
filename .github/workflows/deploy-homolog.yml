@@ -36,8 +36,8 @@ jobs:
       - name: Construir e publicar imagem
         run: |
           docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build -f ./infra/docker/Dockerfile.prod --build-arg SERVICE_VERSION=${{ env.TAG }} --tag ghcr.io/oondemand/cst-rakuten-backend:${{ env.TAG }}-homolog .
-          docker push ghcr.io/oondemand/cst-rakuten-backend:${{ env.TAG }}-homolog
+          docker build -f ./infra/docker/Dockerfile.prod --build-arg SERVICE_VERSION=${{ env.TAG }} --tag ghcr.io/oondemand/esteira-de-servicos-backend:${{ env.TAG }}-homolog .
+          docker push ghcr.io/oondemand/esteira-de-servicos-backend:${{ env.TAG }}-homolog
 
       - name: Criar kubeconfig
         run: |
@@ -70,5 +70,3 @@ jobs:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           BASE_URL_CST: ${{ secrets.BASE_URL_CST_HOMOLOG }}
           BASE_URL_APP_PUBLISHER: ${{ secrets.BASE_URL_APP_PUBLISHER_HOMOLOG }}
-          ID_CONTA_CORRENTE: ${{ secrets.ID_CONTA_CORRENTE }}
-          CODIGO_CATEGORIA: ${{ secrets.CODIGO_CATEGORIA }}

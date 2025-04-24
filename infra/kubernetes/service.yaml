@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cst-rakuten-backend-service
-  namespace: rakuten
+  name: esteira-de-servicos-backend-service
+  namespace: esteira-de-servicos
 spec:
   type: LoadBalancer
   selector:
-    app: cst-rakuten-backend
+    app: esteira-de-servicos-backend
   ports:
     - name: http
       protocol: TCP

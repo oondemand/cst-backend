@@ -2,16 +2,13 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: app-tls
-  namespace: rakuten
+  namespace: esteira-de-servicos
 spec:
   secretName: app-tls
   issuerRef:
     name: letsencrypt-nginx
     kind: ClusterIssuer
   dnsNames:
-    - homolog.api.rakuten.oondemand.com.br
-    - homolog.app.rakuten.oondemand.com.br
-    - homolog.cst.rakuten.oondemand.com.br
-# homolog.api.rakuten.oondemand.com.br
-# homolog.app.rakuten.oondemand.com.br
-# homolog.cst.rakuten.oondemand.com.br
+    - api.cst.oondemand.com.br
+    - cst.oondemand.com.br 
+    # - homolog.cst.rakuten.oondemand.com.br

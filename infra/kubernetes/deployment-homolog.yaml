@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cst-rakuten-backend
-  namespace: rakuten
+  name: esteira-de-servicos-backend
+  namespace: esteira-de-servicos
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cst-rakuten-backend
+      app: esteira-de-servicos-backend
   template:
     metadata:
       labels:
-        app: cst-rakuten-backend
+        app: esteira-de-servicos-backend
     spec:
       containers:
-        - name: cst-rakuten-backend-container
-          image: ghcr.io/oondemand/cst-rakuten-backend:${IMAGE_TAG}-homolog
+        - name: esteira-de-servicos-backend-container
+          image: ghcr.io/oondemand/esteira-de-servicos-backend:${IMAGE_TAG}-homolog
           ports:
             - containerPort: 4000
           resources:
@@ -58,7 +58,3 @@ spec:
               value: "${BASE_URL_CST}"
             - name: BASE_URL_APP_PUBLISHER
               value: "${BASE_URL_APP_PUBLISHER}"
-            - name: ID_CONTA_CORRENTE
-              value: "${ID_CONTA_CORRENTE}"
-            - name: CODIGO_CATEGORIA
-              value: "${CODIGO_CATEGORIA}"
