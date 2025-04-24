@@ -21,8 +21,6 @@ if (config.dbReplicaSet) mongoUri += `replicaSet=${config.dbReplicaSet}`;
 
 const connectDB = async () => {
   try {
-    console.log("URI", mongoUri);
-
     await mongoose.connect(mongoUri, {
       user: config.dbUser,
       pass: config.dbPassword,
