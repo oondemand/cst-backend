@@ -11,4 +11,4 @@ spec:
   dnsNames:
     - api.cst.oondemand.com.br
     - cst.oondemand.com.br 
-    # - homolog.cst.rakuten.oondemand.com.br
+
