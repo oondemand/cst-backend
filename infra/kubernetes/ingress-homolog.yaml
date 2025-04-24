@@ -12,10 +12,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - homolog.api.rakuten.oondemand.com.br
+        - api.cst.oondemand.com.br
       secretName: app-tls
   rules:
-    - host: homolog.api.rakuten.oondemand.com.br
+    - host: api.cst.oondemand.com.br
       http:
         paths:
           - path: /

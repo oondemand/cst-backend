@@ -1,26 +1,26 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: esteira-de-servicos-backend-ingress
-  namespace: esteira-de-servicos
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - api.oondemand.com.br
-      secretName: app-tls
-  rules:
-    - host: api.oondemand.com.br
-      http:
-        paths:
-          - path: /cst-rakuten(/|$)(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: esteira-de-servicos-backend-service
-                port:
-                  number: 80
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: esteira-de-servicos-backend-ingress
+#   namespace: esteira-de-servicos
+#   annotations:
+#     cert-manager.io/cluster-issuer: letsencrypt-nginx
+#     nginx.ingress.kubernetes.io/rewrite-target: /$2
+#     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+# spec:
+#   ingressClassName: nginx
+#   tls:
+#     - hosts:
+#         - api.oondemand.com.br
+#       secretName: app-tls
+#   rules:
+#     - host: api.oondemand.com.br
+#       http:
+#         paths:
+#           - path: /cst-rakuten(/|$)(.*)
+#             pathType: ImplementationSpecific
+#             backend:
+#               service:
+#                 name: esteira-de-servicos-backend-service
+#                 port:
+#                   number: 80
