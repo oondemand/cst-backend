@@ -2,7 +2,7 @@ const BaseOmie = require("../../models/BaseOmie");
 const ListaOmie = require("../../models/ListaOmie");
 const { ListaOmieService } = require("../../services/omie/listasOmie");
 
-const update = async (req, res) => {
+const syncOmie = async (req, res) => {
   try {
     const baseOmie = await BaseOmie.findOne();
     const listaOmie = await ListaOmie.findByIdAndUpdate(req.params.id);
@@ -23,6 +23,18 @@ const update = async (req, res) => {
     await listaOmie.save();
 
     res.send();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    const lista = await ListaOmie.findByIdAndUpdate(req.params.id, {
+      ...req.body,
+    }).select("-__v -data");
+
+    res.json(lista);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -55,6 +67,8 @@ const create = async (req, res) => {
       ...req.body,
     });
 
+    await lista.save();
+
     res.status(200).json(lista);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -76,4 +90,5 @@ exports.ListaOmieController = {
   getListaPorCodigo,
   create,
   deleteLista,
+  syncOmie,
 };
