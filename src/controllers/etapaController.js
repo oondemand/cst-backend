@@ -1,4 +1,5 @@
 const Etapa = require("../models/Etapa");
+const filtersUtils = require("../utils/filter");
 
 // Função para criar uma nova etapa
 exports.criarEtapa = async (req, res) => {
@@ -11,12 +12,65 @@ exports.criarEtapa = async (req, res) => {
   }
 };
 
-// Função para listar todas as etapas
 exports.listarEtapas = async (req, res) => {
   try {
-    const etapas = await Etapa.find();
-    res.status(200).json(etapas);
+    const { sortBy, pageIndex, pageSize, searchTerm, tipo, ...rest } =
+      req.query;
+
+    const schema = Etapa.schema;
+
+    const camposBusca = ["codigo", "nome", "posicao", "status"];
+
+    // Monta a query para buscar serviços baseados nos demais filtros
+    const filterFromFiltros = filtersUtils.queryFiltros({
+      filtros: rest,
+      schema,
+    });
+
+    // Monta a query para buscar serviços baseados no searchTerm
+    const searchTermCondition = filtersUtils.querySearchTerm({
+      searchTerm,
+      schema,
+      camposBusca,
+    });
+
+    console.log(searchTermCondition);
+
+    const queryResult = {
+      $and: [
+        filterFromFiltros, // Filtros principais
+        searchTermCondition, // Filtros de busca
+      ],
+    };
+
+    let sorting = {};
+
+    if (sortBy) {
+      const [campo, direcao] = sortBy.split(".");
+      const campoFormatado = campo.replaceAll("_", ".");
+      sorting[campoFormatado] = direcao === "desc" ? -1 : 1;
+    }
+
+    const page = parseInt(pageIndex) || 0;
+    const limite = parseInt(pageSize) || 10;
+    const skip = page * limite;
+
+    const [etapas, totalDeEtapas] = await Promise.all([
+      Etapa.find(queryResult).skip(skip).limit(limite),
+      Etapa.countDocuments(queryResult),
+    ]);
+
+    res.status(200).json({
+      etapas,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(totalDeEtapas / limite),
+        totalItems: totalDeEtapas,
+        itemsPerPage: limite,
+      },
+    });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: "Erro ao listar etapas" });
   }
 };
