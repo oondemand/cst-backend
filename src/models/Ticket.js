@@ -13,6 +13,8 @@ const TicketSchema = new mongoose.Schema(
     contaPagarOmie: { type: Schema.Types.ObjectId, ref: "ContaPagar" },
     arquivos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Arquivo" }],
     dataRegistro: { type: Date },
+    conta_corrente: { type: String },
+    codigo_categoria: { type: String },
     status: {
       type: String,
       enum: [
