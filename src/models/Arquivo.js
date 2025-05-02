@@ -4,15 +4,14 @@ const ArquivoSchema = new mongoose.Schema(
   {
     nome: { type: String, required: true },
     nomeOriginal: { type: String, required: true },
-    tipo: { type: String, enum: ["generico", "rpa"], default: "generico" },
+    tipo: {
+      type: String,
+      enum: ["generico", "rpa", "documento-fiscal"],
+      default: "generico",
+    },
     mimetype: { type: String, required: true },
     size: { type: Number, required: true },
     buffer: { type: Buffer },
-    ticket: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Ticket",
-      required: true,
-    },
   },
   { timestamps: true }
 );

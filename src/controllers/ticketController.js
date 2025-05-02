@@ -7,6 +7,7 @@ const Servico = require("../models/Servico");
 const Sistema = require("../models/Sistema");
 const { isEqual } = require("date-fns");
 const filterUtils = require("../utils/filter");
+const DocumentoFiscal = require("../models/DocumentoFiscal");
 
 exports.createTicket = async (req, res) => {
   const { baseOmieId, titulo, observacao, servicosIds, prestadorId } = req.body;
@@ -766,6 +767,59 @@ exports.removeServico = async (req, res) => {
       ticket.dataRegistro = null;
       await ticket.save();
     }
+
+    return res.status(200).json(ticket);
+  } catch (error) {
+    // console.log(error);
+    return res.status(500).json();
+  }
+};
+
+exports.addDocumentoFiscal = async (req, res) => {
+  try {
+    const { ticketId, documentoFiscalId } = req.params;
+    const documentoFiscal = await DocumentoFiscal.findById(documentoFiscalId);
+    const ticket = await Ticket.findById(ticketId);
+
+    ticket.documentosFiscais = [
+      ...ticket?.documentosFiscais,
+      documentoFiscal?._id,
+    ];
+
+    await ticket.save();
+
+    documentoFiscal.status = "processando";
+    await documentoFiscal.save();
+
+    const populatedTicket = await Ticket.findById(ticket._id).populate(
+      "documentosFiscais"
+    );
+
+    return res.status(200).json(populatedTicket);
+  } catch (error) {
+    return res.status(500).json();
+  }
+};
+
+exports.removeDocumentoFiscal = async (req, res) => {
+  try {
+    const { documentoFiscalId } = req.params;
+    await DocumentoFiscal.findByIdAndUpdate(
+      documentoFiscalId,
+      { statusValidacao: "pendente", status: "aberto" },
+      { new: true }
+    );
+
+    const ticket = await Ticket.findOneAndUpdate(
+      { documentosFiscais: documentoFiscalId }, // Busca o ticket que contém este serviço
+      { $pull: { documentosFiscais: documentoFiscalId } }, // Remove o serviço do array
+      { new: true }
+    ).populate("documentosFiscais");
+
+    // if (ticket?.documentosFiscais.length === 0) {
+    //   ticket.dataRegistro = null;
+    //   await ticket.save();
+    // }
 
     return res.status(200).json(ticket);
   } catch (error) {

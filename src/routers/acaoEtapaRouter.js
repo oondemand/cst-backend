@@ -3,6 +3,9 @@ const router = express.Router();
 const multer = require("multer");
 const { importarServico } = require("../controllers/importacao/servico");
 const { importarPrestador } = require("../controllers/importacao/prestador");
+const {
+  importarDocumentoFiscal,
+} = require("../controllers/importacao/documentosFiscais");
 
 const inMemoryStorage = multer.memoryStorage({});
 
@@ -31,5 +34,11 @@ const upload = multer({
 
 router.post("/importar-servicos", upload.array("file"), importarServico);
 router.post("/importar-prestadores", upload.array("file"), importarPrestador);
+
+router.post(
+  "/importar-documentos-fiscais",
+  upload.array("file"),
+  importarDocumentoFiscal
+);
 
 module.exports = router;
