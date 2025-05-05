@@ -117,6 +117,7 @@ exports.getAllTickets = async (req, res) => {
     })
       .populate("prestador")
       .populate("servicos")
+      .populate("documentosFiscais")
       .populate("arquivos", "nomeOriginal size mimetype tipo")
       .populate("contaPagarOmie");
 
@@ -406,10 +407,10 @@ exports.listFilesFromTicket = async (req, res) => {
 
 exports.deleteFileFromTicket = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, ticketId } = req.params;
 
     const arquivo = await Arquivo.findByIdAndDelete(id);
-    const ticket = await Ticket.findByIdAndUpdate(arquivo.ticket, {
+    const ticket = await Ticket.findByIdAndUpdate(ticketId, {
       $pull: { arquivos: id },
     });
 
@@ -781,6 +782,8 @@ exports.addDocumentoFiscal = async (req, res) => {
     const documentoFiscal = await DocumentoFiscal.findById(documentoFiscalId);
     const ticket = await Ticket.findById(ticketId);
 
+    console.log(documentoFiscalId, ticketId, documentoFiscal);
+
     ticket.documentosFiscais = [
       ...ticket?.documentosFiscais,
       documentoFiscal?._id,
@@ -797,6 +800,7 @@ exports.addDocumentoFiscal = async (req, res) => {
 
     return res.status(200).json(populatedTicket);
   } catch (error) {
+    console.log(error);
     return res.status(500).json();
   }
 };

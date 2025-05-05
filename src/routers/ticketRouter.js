@@ -36,7 +36,7 @@ router.post(
 );
 
 router.get("/:id/arquivos", ticketController.listFilesFromTicket);
-router.delete("/arquivo/:id", ticketController.deleteFileFromTicket);
+router.delete("/arquivo/:ticketId/:id", ticketController.deleteFileFromTicket);
 router.get("/arquivo/:id", ticketController.getArquivoPorId);
 
 router.post("/", ticketController.createTicket);
@@ -64,5 +64,15 @@ router.post(
 );
 
 router.post("/remover-servico/:servicoId", ticketController.removeServico);
+
+router.post(
+  "/adicionar-documento-fiscal/:ticketId/:documentoFiscalId/",
+  ticketController.addDocumentoFiscal
+);
+
+router.post(
+  "/remover-documento-fiscal/:documentoFiscalId",
+  ticketController.removeDocumentoFiscal
+);
 
 module.exports = router;
