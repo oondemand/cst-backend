@@ -308,7 +308,9 @@ exports.getTicketById = async (req, res) => {
   try {
     const ticket = await Ticket.findById(req.params.id)
       .populate("baseOmie")
-      .populate("prestador prestador.endereco")
+      .populate("arquivos")
+      .populate("documentosFiscais")
+      .populate("prestador")
       .populate("servicos");
 
     if (!ticket) {

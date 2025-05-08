@@ -75,6 +75,7 @@ app.use("/importacoes", require("./routers/importacaoRouter"));
 app.use("/dashboard", require("./routers/dashoboardRouter"));
 app.use("/sistema", require("./routers/sistemaRouter"));
 app.use("/lista-omie", require("./routers/listasOmieRouter"));
+app.use("/assistentes", require("./routers/assistenteRouter"));
 
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
