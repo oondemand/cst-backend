@@ -6,7 +6,7 @@ exports.sincronizarEsteira = async (req, res) => {
   try {
     const servicos = await Servico.find({
       status: "pendente",
-    }).populate("prestador", "nome");
+    }).populate("prestador", "nome documento");
 
     const etapasValidas = [
       "requisicao",
@@ -52,7 +52,7 @@ exports.sincronizarEsteira = async (req, res) => {
       if (!ticket) {
         ticket = new Ticket({
           prestador: servico.prestador._id,
-          titulo: `Comissão ${servico.prestador.nome}`,
+          titulo: `Comissão ${servico.prestador.nome} - ${servico.prestador?.documento}`,
           servicos: [servico._id],
           etapa: "requisicao",
           dataRegistro: servico?.dataRegistro,

@@ -1,6 +1,8 @@
 const Prestador = require("../../models/Prestador");
 const Ticket = require("../../models/Ticket");
 const Arquivo = require("../../models/Arquivo");
+const Servico = require("../../models/Servico");
+const Etapa = require("../../models/Etapa");
 
 const DocumentoFiscal = require("../../models/DocumentoFiscal");
 
@@ -319,5 +321,51 @@ exports.excluirArquivo = async (req, res) => {
       message: "Erro ao deletar arquivo do ticket",
       error: error.message,
     });
+  }
+};
+
+exports.aprovarDocumento = async (req, res) => {
+  try {
+    const { documentoFiscalId, servicos, prestadorId } = req.body;
+    const documentoFiscal = await DocumentoFiscal.findById(documentoFiscalId);
+
+    if (!documentoFiscal) {
+      return res.status(404).json({ error: "Documento fiscal não encontrado" });
+    }
+
+    const prestador = await Prestador.findById(prestadorId);
+
+    if (!prestador) {
+      return res.status(404).json({ error: "Prestador não encontrado" });
+    }
+
+    const servicosEncontrados = await Servico.find({ _id: { $in: servicos } });
+
+    const etapa = await Etapa.find({ status: "ativo" }).sort({ posicao: 1 });
+
+    const ticket = new Ticket({
+      servicos: servicosEncontrados.map((e) => e._id),
+      titulo: `Comissão ${prestador?.nome} - ${prestador?.documento}`,
+      status: "aguardando-inicio",
+      documentosFiscais: documentoFiscal?._id,
+      prestador: prestador?._id,
+      etapa: etapa?.[0]?.codigo,
+    });
+
+    await ticket.save();
+
+    documentoFiscal.status = "processando";
+    documentoFiscal.statusValidacao = "aprovado";
+    await documentoFiscal.save();
+
+    await Servico.updateMany(
+      { _id: { $in: servicos } },
+      { $set: { status: "processando" } }
+    );
+
+    return res.status(200).json(ticket);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ error: "Erro ao aprovar documento" });
   }
 };

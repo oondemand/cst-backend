@@ -68,4 +68,6 @@ router.delete(
 router.patch("/:id", documentoFiscalController.updateDocumentoFiscal);
 // router.patch("/", documentoFiscalController.atualizarStatus);
 
+router.post("/aprovar-documento", documentoFiscalController.aprovarDocumento);
+
 module.exports = router;
