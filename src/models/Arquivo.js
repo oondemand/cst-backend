@@ -6,7 +6,7 @@ const ArquivoSchema = new mongoose.Schema(
     nomeOriginal: { type: String, required: true },
     tipo: {
       type: String,
-      enum: ["generico", "rpa", "documento-fiscal"],
+      enum: ["generico", "rpa", "documento-fiscal", "documento-cadastral"],
       default: "generico",
     },
     mimetype: { type: String, required: true },

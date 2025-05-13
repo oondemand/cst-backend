@@ -11,7 +11,13 @@ const ImportacaoSchema = new mongoose.Schema(
   {
     tipo: {
       type: String,
-      enum: ["prestador", "servico", "rpa", "documento-fiscal"],
+      enum: [
+        "prestador",
+        "servico",
+        "rpa",
+        "documento-fiscal",
+        "documento-cadastral",
+      ],
     },
     arquivoOriginal: ArquivoSchema,
     arquivoErro: { type: Buffer },

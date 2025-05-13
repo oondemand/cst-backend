@@ -4,38 +4,37 @@ const Arquivo = require("../../models/Arquivo");
 const Servico = require("../../models/Servico");
 const Etapa = require("../../models/Etapa");
 
-const DocumentoFiscal = require("../../models/DocumentoFiscal");
+const DocumentoCadastral = require("../../models/DocumentoCadastral");
 
 const filtersUtils = require("../../utils/filter");
 const { criarNomePersonalizado } = require("../../utils/formatters");
 
-exports.createDocumentoFiscal = async (req, res) => {
+exports.createDocumentoCadastral = async (req, res) => {
   try {
     const filteredBody = Object.fromEntries(
       Object.entries(req.body).filter(([_, value]) => value !== "")
     );
 
-    const novoDocumentoFiscal = new DocumentoFiscal({
+    const novoDocumentoCadastral = new DocumentoCadastral({
       ...filteredBody,
-      status: "aberto",
     });
 
-    await novoDocumentoFiscal.save();
+    await novoDocumentoCadastral.save();
 
     res.status(201).json({
-      message: "Documento fiscal criado com sucesso!",
-      documentoFiscal: novoDocumentoFiscal,
+      message: "Documento cadastral criado com sucesso!",
+      documentoCadastral: novoDocumentoCadastral,
     });
   } catch (error) {
-    console.error("Erro ao criar documento fiscal:", error);
+    console.error("Erro ao criar documento cadastral:", error);
     res.status(500).json({
-      message: "Erro ao criar documento fiscal",
+      message: "Erro ao criar documento cadastral",
       detalhes: error.message,
     });
   }
 };
 
-exports.criarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
+exports.criarDocumentoCadastralPorUsuarioPrestador = async (req, res) => {
   try {
     const usuario = req.usuario;
     const arquivo = req.file;
@@ -58,85 +57,69 @@ exports.criarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
       Object.entries(req.body).filter(([_, value]) => value !== "")
     );
 
-    if (filteredBody?.mes && filteredBody?.ano) {
-      filteredBody.competencia = {
-        mes: Number(filteredBody.mes),
-        ano: Number(filteredBody.ano),
-      };
-    }
-
     const novoArquivo = new Arquivo({
       nome: criarNomePersonalizado({ nomeOriginal: arquivo.originalname }),
       nomeOriginal: arquivo.originalname,
       mimetype: arquivo.mimetype,
       size: arquivo.size,
       buffer: arquivo.buffer,
-      tipo: "documento-fiscal",
+      tipo: "documento-cadastral",
     });
 
     await novoArquivo.save();
 
-    const novoDocumentoFiscal = new DocumentoFiscal({
+    const novoDocumentoCadastral = new DocumentoCadastral({
       ...filteredBody,
       prestador: prestador._id,
-      status: "aberto",
       arquivo: novoArquivo._id,
     });
 
-    await novoDocumentoFiscal.save();
+    await novoDocumentoCadastral.save();
 
     return res.status(201).json({
-      message: "Documento fiscal criado com sucesso!",
-      documentoFiscal: novoDocumentoFiscal,
+      message: "Documento Cadastral criado com sucesso!",
+      documentoCadastral: novoDocumentoCadastral,
     });
   } catch (e) {
     console.log(e);
-    return res.status(400).json({ message: "Erro ao criar documento fiscal" });
+    return res
+      .status(400)
+      .json({ message: "Erro ao criar documento cadastral" });
   }
 };
 
-exports.updateDocumentoFiscal = async (req, res) => {
+exports.updateDocumentoCadastral = async (req, res) => {
   const { id } = req.params;
   const updateData = req.body;
 
   try {
-    const documentoFiscal = await DocumentoFiscal.findById(id);
+    const documentoCadastral = await DocumentoCadastral.findById(id);
 
-    if (!documentoFiscal) {
+    if (!documentoCadastral) {
       return res.status(404).json({
-        message: "Documento fiscal não encontrado",
+        message: "Documento Cadastral não encontrado",
       });
     }
 
-    if (["pago", "processando"].includes(documentoFiscal.status)) {
-      return res.status(400).json({
-        message:
-          "Não é possível atualizar um documento fiscal com status pago ou processando.",
-      });
-    }
-
-    const documentoFiscalAtualizado = await DocumentoFiscal.findByIdAndUpdate(
-      id,
-      updateData,
-      {
+    const documentoCadastralAtualizado =
+      await DocumentoCadastral.findByIdAndUpdate(id, updateData, {
         new: true,
-      }
-    );
+      });
 
     res.status(200).json({
-      message: "Documento fiscal atualizado com sucesso!",
-      documentoFiscal: documentoFiscalAtualizado,
+      message: "Documento Cadastral atualizado com sucesso!",
+      documentoCadastral: documentoCadastralAtualizado,
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Erro ao atualizar documento fiscal",
+      message: "Erro ao atualizar documento cadastral",
       detalhes: error.message,
     });
   }
 };
 
-exports.listarDocumentoFiscal = async (req, res) => {
+exports.listarDocumentoCadastral = async (req, res) => {
   try {
     const { sortBy, pageIndex, pageSize, searchTerm, ...rest } = req.query;
 
@@ -157,13 +140,13 @@ exports.listarDocumentoFiscal = async (req, res) => {
     // Monta a query para buscar serviços baseados nos demais filtros
     const filterFromFiltros = filtersUtils.queryFiltros({
       filtros: rest,
-      schema: DocumentoFiscal.schema,
+      schema: DocumentoCadastral.schema,
     });
 
     // Monta a query para buscar serviços baseados no searchTerm
     const searchTermCondition = filtersUtils.querySearchTerm({
       searchTerm,
-      schema: DocumentoFiscal.schema,
+      schema: DocumentoCadastral.schema,
       camposBusca: [],
     });
 
@@ -186,22 +169,23 @@ exports.listarDocumentoFiscal = async (req, res) => {
     const limite = parseInt(pageSize) || 10;
     const skip = page * limite;
 
-    const [documentosFiscais, totalDedocumentosFiscais] = await Promise.all([
-      DocumentoFiscal.find(queryResult)
-        .populate("prestador", "sid nome documento tipo")
-        .populate("arquivo", "nomeOriginal mimetype size")
-        .skip(skip)
-        .limit(limite)
-        .sort(sorting),
-      DocumentoFiscal.countDocuments(queryResult),
-    ]);
+    const [documentosCadastrais, totalDedocumentosCadastrais] =
+      await Promise.all([
+        DocumentoCadastral.find(queryResult)
+          .populate("prestador", "sid nome documento tipo")
+          .populate("arquivo", "nomeOriginal mimetype size")
+          .skip(skip)
+          .limit(limite)
+          .sort(sorting),
+        DocumentoCadastral.countDocuments(queryResult),
+      ]);
 
     res.status(200).json({
-      documentosFiscais,
+      documentosCadastrais,
       pagination: {
         currentPage: page,
-        totalPages: Math.ceil(totalDedocumentosFiscais / limite),
-        totalItems: totalDedocumentosFiscais,
+        totalPages: Math.ceil(totalDedocumentosCadastrais / limite),
+        totalItems: totalDedocumentosCadastrais,
         itemsPerPage: limite,
       },
     });
@@ -211,17 +195,16 @@ exports.listarDocumentoFiscal = async (req, res) => {
   }
 };
 
-exports.listarDocumentoFiscalPorPrestador = async (req, res) => {
+exports.listarDocumentoCadastralPorPrestador = async (req, res) => {
   try {
     const { prestadorId } = req.params;
 
-    const documentosFiscais = await DocumentoFiscal.find({
+    const documentosCadastrais = await DocumentoCadastral.find({
       prestador: prestadorId,
       statusValidacao: "aprovado",
-      status: { $nin: ["processando", "pago"] },
-    }).populate("prestador", "sid nome documento");
+    }).populate("arquivo");
 
-    res.status(200).json(documentosFiscais);
+    res.status(200).json(documentosCadastrais);
   } catch (error) {
     console.error("Erro na listagem:", error);
     res
@@ -230,21 +213,21 @@ exports.listarDocumentoFiscalPorPrestador = async (req, res) => {
   }
 };
 
-exports.listarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
+exports.listarDocumentoCadastralPorUsuarioPrestador = async (req, res) => {
   try {
     const prestador = await Prestador.findOne({
       usuario: req.usuario,
     });
 
-    const documentosFiscais = await DocumentoFiscal.find({
+    const documentosCadastrais = await DocumentoCadastral.find({
       prestador: prestador,
       // statusValidacao: "aprovado",
       // status: { $nin: ["processando", "pago"] },
     }).populate("prestador", "sid nome documento");
 
-    console.log("documentosFiscais", documentosFiscais);
+    console.log("documentosCadastrais", documentosCadastrais);
 
-    res.status(200).json(documentosFiscais);
+    res.status(200).json(documentosCadastrais);
   } catch (error) {
     console.error("Erro na listagem:", error);
     res
@@ -253,33 +236,36 @@ exports.listarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
   }
 };
 
-exports.excluirDocumentoFiscal = async (req, res) => {
+exports.excluirDocumentoCadastral = async (req, res) => {
   try {
-    const documentoFiscalId = req.params.id;
+    const documentoCadastralId = req.params.id;
 
     await Ticket.updateMany(
-      { documentosFiscais: documentoFiscalId },
-      { $pull: { documentosFiscais: documentoFiscalId } }
+      { documentosCadastrais: documentoCadastralId },
+      { $pull: { documentosCadastrais: documentoCadastralId } }
     );
 
-    const documentoFiscal =
-      await DocumentoFiscal.findByIdAndDelete(documentoFiscalId);
+    const documentoCadastral =
+      await DocumentoCadastral.findByIdAndDelete(documentoCadastralId);
 
-    if (!documentoFiscal)
-      return res.status(404).json({ error: "Documento fiscal não encontrado" });
+    if (!documentoCadastral)
+      return res
+        .status(404)
+        .json({ error: "Documento Cadastral não encontrado" });
 
-    res.status(200).json({ data: documentoFiscal });
+    res.status(200).json({ data: documentoCadastral });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao excluir documento fiscal" });
+    res.status(400).json({ error: "Erro ao excluir documento cadastral" });
   }
 };
 
 exports.anexarArquivo = async (req, res) => {
   try {
     const arquivo = req.file;
-    const documentoFiscalId = req.params.documentoFiscalId;
+    const documentoCadastralId = req.params.documentoCadastralId;
 
-    const documentoFiscal = await DocumentoFiscal.findById(documentoFiscalId);
+    const documentoCadastral =
+      await DocumentoCadastral.findById(documentoCadastralId);
 
     const novoArquivo = new Arquivo({
       nome: criarNomePersonalizado({ nomeOriginal: arquivo.originalname }),
@@ -287,13 +273,13 @@ exports.anexarArquivo = async (req, res) => {
       mimetype: arquivo.mimetype,
       size: arquivo.size,
       buffer: arquivo.buffer,
-      tipo: "documento-fiscal",
+      tipo: "documento-cadastral",
     });
 
     await novoArquivo?.save();
 
-    documentoFiscal.arquivo = novoArquivo._id;
-    await documentoFiscal.save();
+    documentoCadastral.arquivo = novoArquivo._id;
+    await documentoCadastral.save();
 
     return res.status(200).json(novoArquivo);
   } catch (error) {
@@ -304,12 +290,12 @@ exports.anexarArquivo = async (req, res) => {
 
 exports.excluirArquivo = async (req, res) => {
   try {
-    const { id, documentoFiscalId } = req.params;
+    const { id, documentoCadastralId } = req.params;
 
     const arquivo = await Arquivo.findByIdAndDelete(id);
 
-    const documentoFiscal = await DocumentoFiscal.findByIdAndUpdate(
-      documentoFiscalId,
+    const documentoCadastral = await DocumentoCadastral.findByIdAndUpdate(
+      documentoCadastralId,
       { $unset: { arquivo: id } }
     );
 
@@ -326,11 +312,14 @@ exports.excluirArquivo = async (req, res) => {
 
 exports.aprovarDocumento = async (req, res) => {
   try {
-    const { documentoFiscalId, servicos, prestadorId } = req.body;
-    const documentoFiscal = await DocumentoFiscal.findById(documentoFiscalId);
+    const { documentoCadastralId, servicos, prestadorId } = req.body;
+    const documentoCadastral =
+      await DocumentoCadastral.findById(documentoCadastralId);
 
-    if (!documentoFiscal) {
-      return res.status(404).json({ error: "Documento fiscal não encontrado" });
+    if (!documentoCadastral) {
+      return res
+        .status(404)
+        .json({ error: "Documento Cadastral não encontrado" });
     }
 
     const prestador = await Prestador.findById(prestadorId);
@@ -347,16 +336,16 @@ exports.aprovarDocumento = async (req, res) => {
       servicos: servicosEncontrados.map((e) => e._id),
       titulo: `Comissão ${prestador?.nome} - ${prestador?.documento}`,
       status: "aguardando-inicio",
-      documentosFiscais: documentoFiscal?._id,
+      documentosCadastrais: documentoCadastral?._id,
       prestador: prestador?._id,
       etapa: etapa?.[0]?.codigo,
     });
 
     await ticket.save();
 
-    documentoFiscal.status = "processando";
-    documentoFiscal.statusValidacao = "aprovado";
-    await documentoFiscal.save();
+    documentoCadastral.status = "processando";
+    documentoCadastral.statusValidacao = "aprovado";
+    await documentoCadastral.save();
 
     await Servico.updateMany(
       { _id: { $in: servicos } },

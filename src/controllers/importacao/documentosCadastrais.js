@@ -1,7 +1,7 @@
-const Importacao = require("../../models/Importacao");
-const Prestador = require("../../models/Prestador");
-const DocumentoFiscal = require("../../models/DocumentoFiscal.js");
-const Lista = require("../../models/Lista");
+const Importacao = require("../../models/Importacao.js");
+const Prestador = require("../../models/Prestador.js");
+const DocumentoCadastral = require("../../models/DocumentoCadastral.js");
+const Lista = require("../../models/Lista.js");
 
 const {
   arrayToExcelBuffer,
@@ -9,35 +9,25 @@ const {
   excelToJson,
 } = require("../../utils/excel.js");
 
-const converterLinhaEmDocumentoFiscal = async ({ row }) => {
-  const competencia = row[5];
-
-  const documentoFiscal = {
+const converterLinhaEmDocumentoCadastral = async ({ row }) => {
+  const documentoCadastral = {
     prestador: {
       nome: row[0],
       sid: row[1],
       documento: row[2],
     },
-    tipoDocumentoFiscal: row[3],
+    tipoDocumento: row[3],
     numero: row[4],
-    competencia: {
-      mes: competencia && competencia.getMonth() + 1,
-      ano: competencia && competencia.getFullYear(),
-    },
-
-    valor: arredondarValor(row[6]),
-    imposto: arredondarValor(row[7]),
-    classificacaoFiscal: row[8],
-    descricao: row[9],
-    motivoRecusa: row[10],
-    observacaoPrestador: row[11],
-    observacao: row[12],
+    descricao: row[5],
+    motivoRecusa: row[6],
+    observacaoPrestador: row[7],
+    observacao: row[8],
   };
 
-  return documentoFiscal;
+  return documentoCadastral;
 };
 
-// const buscarDocumentoFiscalExistente = async ({ prestadorId, competencia }) => {
+// const buscarDocumentoCadastralExistente = async ({ prestadorId, competencia }) => {
 //   if (!prestadorId || !competencia) return null;
 //   const servico = await Servico.findOne({
 //     prestador: prestadorId,
@@ -66,13 +56,13 @@ const criarNovoPrestador = async ({ sid, nome, tipo, documento }) => {
   return prestador;
 };
 
-const criarNovoDocumentoFiscal = async (documentoFiscal) => {
-  const novoDocumentoFiscal = new DocumentoFiscal({
-    ...documentoFiscal,
+const criarNovoDocumentoCadastral = async (documentoCadastral) => {
+  const novoDocumentoCadastral = new DocumentoCadastral({
+    ...documentoCadastral,
     status: "aberto",
   });
 
-  await novoDocumentoFiscal.save();
+  await novoDocumentoCadastral.save();
 };
 
 const criarNovoMotivoRecusa = async ({ motivoRecusa }) => {
@@ -96,12 +86,12 @@ const criarNovoMotivoRecusa = async ({ motivoRecusa }) => {
   }
 };
 
-const processarJsonDocumentosFiscais = async ({ json }) => {
+const processarJsonDocumentosCadastrais = async ({ json }) => {
   const detalhes = {
     totalDeLinhasLidas: json.length - 1,
     linhasLidasComErro: 0,
     novosPrestadores: 0,
-    novosDocumentosFiscais: 0,
+    novosDocumentosCadastrais: 0,
     errors: "",
   };
 
@@ -114,44 +104,46 @@ const processarJsonDocumentosFiscais = async ({ json }) => {
         continue;
       }
 
-      const documentoFiscal = await converterLinhaEmDocumentoFiscal({ row });
+      const documentoCadastral = await converterLinhaEmDocumentoCadastral({
+        row,
+      });
 
       let prestador = await buscarPrestadorPorSid({
-        sid: documentoFiscal?.prestador?.sid,
+        sid: documentoCadastral?.prestador?.sid,
       });
 
       if (!prestador) {
         prestador = await criarNovoPrestador({
-          sid: documentoFiscal?.prestador?.sid,
-          documento: documentoFiscal?.prestador?.documento,
-          nome: documentoFiscal?.prestador?.nome,
-          tipo: documentoFiscal?.prestador?.tipo,
+          sid: documentoCadastral?.prestador?.sid,
+          documento: documentoCadastral?.prestador?.documento,
+          nome: documentoCadastral?.prestador?.nome,
+          tipo: documentoCadastral?.prestador?.tipo,
         });
 
         detalhes.novosPrestadores += 1;
       }
 
-      // const documentoFiscalExistente = await buscarDocumentoFiscalExistente({
-      //   competencia: documentoFiscal?.competencia,
+      // const documentoCadastralExistente = await buscarDocumentoCadastralExistente({
+      //   competencia: documentoCadastral?.competencia,
       //   prestadorId: prestador?._id,
       // });
 
-      // if (documentoFiscalExistente) {
+      // if (documentoCadastralExistente) {
       //   throw new Error(
       //     "Serviço para esse prestador com competência já cadastrada!"
       //   );
       // }
 
       await criarNovoMotivoRecusa({
-        motivoRecusa: documentoFiscal?.motivoRecusa,
+        motivoRecusa: documentoCadastral?.motivoRecusa,
       });
 
       // if (!servicoExistente) {
-      await criarNovoDocumentoFiscal({
-        ...documentoFiscal,
+      await criarNovoDocumentoCadastral({
+        ...documentoCadastral,
         prestador: prestador?._id,
       });
-      detalhes.novosDocumentosFiscais += 1;
+      detalhes.novosDocumentosCadastrais += 1;
       // }
     } catch (error) {
       console.log(
@@ -166,12 +158,12 @@ const processarJsonDocumentosFiscais = async ({ json }) => {
   return { detalhes, arquivoDeErro };
 };
 
-exports.importarDocumentoFiscal = async (req, res) => {
+exports.importarDocumentoCadastral = async (req, res) => {
   try {
     const arquivo = req.files[0];
 
     const importacao = new Importacao({
-      tipo: "documento-fiscal",
+      tipo: "documento-cadastral",
       arquivoOriginal: { ...arquivo, nome: arquivo.originalname },
     });
 
@@ -181,9 +173,11 @@ exports.importarDocumentoFiscal = async (req, res) => {
 
     const json = excelToJson({ arquivo });
 
-    const { detalhes, arquivoDeErro } = await processarJsonDocumentosFiscais({
-      json,
-    });
+    const { detalhes, arquivoDeErro } = await processarJsonDocumentosCadastrais(
+      {
+        json,
+      }
+    );
 
     importacao.arquivoErro = arrayToExcelBuffer({ array: arquivoDeErro });
     importacao.arquivoLog = Buffer.from(detalhes.errors);

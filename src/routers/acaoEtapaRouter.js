@@ -6,6 +6,9 @@ const { importarPrestador } = require("../controllers/importacao/prestador");
 const {
   importarDocumentoFiscal,
 } = require("../controllers/importacao/documentosFiscais");
+const {
+  importarDocumentoCadastral,
+} = require("../controllers/importacao/documentosCadastrais");
 
 const inMemoryStorage = multer.memoryStorage({});
 
@@ -39,6 +42,12 @@ router.post(
   "/importar-documentos-fiscais",
   upload.array("file"),
   importarDocumentoFiscal
+);
+
+router.post(
+  "/importar-documentos-cadastrais",
+  upload.array("file"),
+  importarDocumentoCadastral
 );
 
 module.exports = router;
