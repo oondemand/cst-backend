@@ -28,35 +28,6 @@ const criarConta = ({
     observacao,
   };
 
-  // if (dadosNFSe.pis && dadosNFSe.pis > 0) {
-  //   conta.valor_pis = parseFloat(dadosNFSe.pis);
-  //   conta.retem_pis = "S";
-  // }
-
-  // if (dadosNFSe.cofins && dadosNFSe.cofins > 0) {
-  //   conta.valor_cofins = parseFloat(dadosNFSe.cofins);
-  //   conta.retem_cofins = "S";
-  // }
-
-  // if (dadosNFSe.csll && dadosNFSe.csll > 0) {
-  //   conta.valor_csll = parseFloat(dadosNFSe.csll);
-  //   conta.retem_csll = "S";
-  // }
-
-  // if (dadosNFSe.ir && dadosNFSe.ir > 0) {
-  //   conta.valor_ir = parseFloat(dadosNFSe.ir);
-  //   conta.retem_ir = "S";
-  // }
-
-  // // if (dadosNFSe.iss && dadosNFSe.iss > 0) {
-  // //   conta.valor_iss = parseFloat(dadosNFSe.iss);
-  // //   conta.retem_iss = "S";
-  // // }
-
-  // if (dadosNFSe.inss && dadosNFSe.inss > 0) {
-  //   conta.valor_inss = parseFloat(dadosNFSe.inss);
-  //   conta.retem_inss = "S";
-  // }
   return conta;
 };
 
@@ -65,9 +36,6 @@ const incluir = async (appKey, appSecret, conta, maxTentativas = 3) => {
   let erroEncontrado;
 
   while (tentativas < maxTentativas) {
-    // console.log(
-    //   `[CONTA A PAGAR]: Criando conta a pagar tentativa ${tentativas + 1}`
-    // );
     try {
       const body = {
         call: "IncluirContaPagar",
@@ -93,8 +61,6 @@ const incluir = async (appKey, appSecret, conta, maxTentativas = 3) => {
         error.response?.data ||
         error.response ||
         error;
-
-      // console.log(`Falha ao criar conta a pagar: ${erroEncontrado}`);
     }
   }
 
@@ -109,10 +75,6 @@ const remover = async (
   let erroEncontrado;
   while (tentativas < maxTentativas) {
     try {
-      // console.log(
-      //   `[CONTA A PAGAR/REMOVER CONTA]: Tentando remover conta, ${tentativas + 1} tentativa`
-      // );
-
       const body = {
         call: "ExcluirContaPagar",
         app_key: appKey,
@@ -137,8 +99,6 @@ const remover = async (
         error.response?.data ||
         error.response ||
         error;
-
-      // console.log(`Erro ao remover conta a pagar: ${erroEncontrado}`);
     }
   }
 
@@ -183,19 +143,16 @@ const consultarInterno = async (appKey, appSecret, codigoLancamento) => {
   const cacheKey = `${appKey}-${appSecret}-${codigoLancamento}`;
   const now = Date.now();
 
-  // Verifica se o resultado está no cache e se não está expirado
   const cacheExpirationTime = 1 * 60 * 1000 * 10; // 10 min
 
   if (
     cache[cacheKey] &&
     now - cache[cacheKey].timestamp < cacheExpirationTime
   ) {
-    // console.log("Retornando resultado do cache");
     return cache[cacheKey].data;
   }
 
   try {
-    // console.log("Retornando resultado do omie");
     const body = {
       call: "ConsultarContaPagar",
       app_key: appKey,
@@ -209,9 +166,6 @@ const consultarInterno = async (appKey, appSecret, codigoLancamento) => {
 
     const response = await apiOmie.post("financas/contapagar/", body);
 
-    // console.log("LOG IMPORTANTE ->", response);
-
-    // Armazena o resultado no cache
     cache[cacheKey] = {
       data: response.data,
       timestamp: now,

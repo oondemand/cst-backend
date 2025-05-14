@@ -15,7 +15,6 @@ const { ControleAlteracaoService } = require("../services/controleAlteracao");
 const ContaPagar = require("../models/ContaPagar");
 const Sistema = require("../models/Sistema");
 
-// Função para aprovar um ticket
 const aprovar = async (req, res) => {
   try {
     const { ticketId } = req.params;
@@ -77,7 +76,6 @@ const aprovar = async (req, res) => {
       message: `Ticket aprovado e movido para a etapa: ${ticket.etapa}`,
     });
   } catch (error) {
-    // console.error("Erro ao aprovar ticket:", error);
     res.status(500).send({
       success: false,
       message: "Erro ao aprovar ticket",
@@ -86,7 +84,6 @@ const aprovar = async (req, res) => {
   }
 };
 
-// Função para recusar um ticket
 const recusar = async (req, res) => {
   try {
     const { ticketId } = req.params;
@@ -111,7 +108,6 @@ const recusar = async (req, res) => {
         .send({ success: false, message: "Etapa inválida." });
     }
 
-    // Retrocede uma etapa e muda status para 'revisao'
     if (currentEtapaIndex > 0)
       ticket.etapa = etapas[currentEtapaIndex - 1].codigo;
 
@@ -132,12 +128,10 @@ const recusar = async (req, res) => {
       message: `Ticket recusado e movido para a etapa: ${ticket.etapa}`,
     });
   } catch (error) {
-    // console.error("Erro ao recusar ticket:", error);
     res.status(500).send({ success: false, error: error.message });
   }
 };
 
-// Função para gerar a conta a pagar
 const gerarContaPagar = async ({ ticket, usuario }) => {
   try {
     const baseOmie = await BaseOmie.findOne({ status: "ativo" });
@@ -150,8 +144,6 @@ const gerarContaPagar = async ({ ticket, usuario }) => {
       appSecret: baseOmie.appSecret,
       prestadorId: ticket.prestador,
     });
-
-    // console.log(fornecedor);
 
     // Caso ticket nã tenha serviços adiciona anexo ao prestador
     if (ticket.servicos.length === 0) {
@@ -194,7 +186,6 @@ const gerarContaPagar = async ({ ticket, usuario }) => {
 
           throw error;
         } catch (error) {
-          //caso de erro ao remover a conta repassa o erro
           throw error;
         }
       }
@@ -213,7 +204,6 @@ const gerarContaPagar = async ({ ticket, usuario }) => {
       usuario: usuario?._id,
     });
   } catch (error) {
-    // se ocorrer qualquer erro, volta ticket para etapa de aprovação, criar obs e atualiza o status
     ticket.observacao += `\n ${error} - ${format(new Date(), "dd/MM/yyyy")}`;
     ticket.etapa = "aprovacao-fiscal";
     ticket.status = "revisao";
@@ -242,8 +232,6 @@ const atualizarOuCriarFornecedor = async ({
   prestadorId,
 }) => {
   try {
-    let banco = "";
-
     const prestador = await Prestador.findById(prestadorId);
 
     let fornecedor = null;
@@ -335,7 +323,6 @@ const cadastrarContaAPagar = async (baseOmie, codigoFornecedor, ticket) => {
     }
 
     if (valorTotalDaNota === 0) {
-      // console.error("Valor do serviço é zero. Não será gerada conta a pagar.");
       return;
     }
 
@@ -401,7 +388,6 @@ const uploadDeArquivosOmie = async ({ ticket, nId, tabela }) => {
       });
     }
   } catch (error) {
-    // console.log("Erro ao anexar arquivo:", error);
     throw error;
   }
 };

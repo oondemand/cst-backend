@@ -68,38 +68,6 @@ const criarFiltroPorTipoDeCampo = ({ tipo, campo, valor }) => {
       return null;
     };
 
-    // Casos especiais (dia, mês, ano isolado)
-    // if (/^\d+$/.test(dataStr)) {
-    //   const numero = parseInt(dataStr, 10);
-
-    //   // Determinar o tipo (dia, mês ou ano)
-    //   let tipo;
-    //   if (dataStr.length === 4) {
-    //     tipo = "ano";
-    //   } else if (numero >= 1 && numero <= 31) {
-    //     tipo = "dia";
-    //   } else if (numero >= 1 && numero <= 12) {
-    //     tipo = "mês";
-    //   } else {
-    //     return null;
-    //   }
-
-    //   console.log("tipo", tipo);
-
-    //   // Criar expressão de filtro dinâmico
-    //   const expressao = {
-    //     dia: { $dayOfMonth: `$${campo}` },
-    //     mês: { $month: `$${campo}` },
-    //     ano: { $year: `$${campo}` },
-    //   }[tipo];
-
-    //   return {
-    //     [`$${operador ? "expr" : "where"}`]: operador
-    //       ? { [operador === ">" ? "$gte" : "$lte"]: [expressao, numero] }
-    //       : { $eq: [expressao, numero] },
-    //   };
-    // }
-
     const data = parseDataCompleta(dataStr);
     if (!data) return null;
 

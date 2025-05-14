@@ -4,34 +4,34 @@ const logSchema = new mongoose.Schema(
   {
     usuario: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Usuario", // Referência ao usuário que fez a requisição
-      required: false, // Pode ser null se for uma ação pública ou do sistema
+      ref: "Usuario",
+      required: false,
     },
     endpoint: {
       type: String,
-      required: true, // Ex: '/api/tickets/123'
+      required: true,
     },
     metodo: {
       type: String,
-      required: true, // GET, POST, PUT, DELETE, etc.
+      required: true,
     },
     ip: {
       type: String,
-      required: true, // IP do cliente que fez a requisição
+      required: true,
     },
     dadosRequisicao: {
-      type: Object, // Corpo da requisição (JSON)
+      type: Object,
     },
     dadosResposta: {
-      type: Object, // Corpo da resposta (JSON)
+      type: Object,
     },
     statusResposta: {
-      type: Number, // Código de status da resposta (200, 404, 500, etc.)
+      type: Number,
     },
   },
   {
-    timestamps: true, // Adiciona campos de createdAt e updatedAt automaticamente
-  },
+    timestamps: true,
+  }
 );
 
 const Log = mongoose.model("Log", logSchema);

@@ -1,5 +1,3 @@
-// backend/routes/empresaRoutes.js
-
 const express = require("express");
 const baseOmieController = require("../controllers/baseOmieController");
 const router = express.Router();

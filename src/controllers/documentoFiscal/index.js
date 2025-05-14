@@ -89,8 +89,7 @@ exports.criarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
       message: "Documento fiscal criado com sucesso!",
       documentoFiscal: novoDocumentoFiscal,
     });
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
     return res.status(400).json({ message: "Erro ao criar documento fiscal" });
   }
 };
@@ -128,7 +127,6 @@ exports.updateDocumentoFiscal = async (req, res) => {
       documentoFiscal: documentoFiscalAtualizado,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Erro ao atualizar documento fiscal",
       detalhes: error.message,
@@ -206,7 +204,6 @@ exports.listarDocumentoFiscal = async (req, res) => {
       },
     });
   } catch (error) {
-    // console.log(error);
     res.status(400).json({ error: "Erro ao listar documentos fiscais" });
   }
 };
@@ -238,15 +235,10 @@ exports.listarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
 
     const documentosFiscais = await DocumentoFiscal.find({
       prestador: prestador,
-      // statusValidacao: "aprovado",
-      // status: { $nin: ["processando", "pago"] },
     }).populate("prestador", "sid nome documento");
-
-    console.log("documentosFiscais", documentosFiscais);
 
     res.status(200).json(documentosFiscais);
   } catch (error) {
-    console.error("Erro na listagem:", error);
     res
       .status(400)
       .json({ error: "Falha ao buscar serviços", details: error.message });
@@ -297,7 +289,6 @@ exports.anexarArquivo = async (req, res) => {
 
     return res.status(200).json(novoArquivo);
   } catch (error) {
-    console.log("Erro ao anexar arquivo:", error);
     res.status(400).json({ message: "Ouve um erro ao anexar o arquivo" });
   }
 };
@@ -315,8 +306,6 @@ exports.excluirArquivo = async (req, res) => {
 
     res.status(200).json(arquivo);
   } catch (error) {
-    console.log(error);
-
     res.status(500).json({
       message: "Erro ao deletar arquivo do ticket",
       error: error.message,
@@ -365,7 +354,6 @@ exports.aprovarDocumento = async (req, res) => {
 
     return res.status(200).json(ticket);
   } catch (error) {
-    console.log(error);
     return res.status(400).json({ error: "Erro ao aprovar documento" });
   }
 };

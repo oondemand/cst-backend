@@ -1,17 +1,9 @@
 const Importacao = require("../../models/Importacao");
 const Prestador = require("../../models/Prestador");
 const Usuario = require("../../models/Usuario");
-const Servico = require("../../models/Servico");
 const Lista = require("../../models/Lista");
-const emailUtils = require("../../utils/emailUtils");
 const { parse } = require("date-fns");
-
-const {
-  arrayToExcelBuffer,
-  arredondarValor,
-  excelToJson,
-} = require("../../utils/excel.js");
-
+const { arrayToExcelBuffer, excelToJson } = require("../../utils/excel.js");
 const { LISTA_PAISES_OMIE } = require("../../utils/omie.js");
 
 const criarNovoManager = async ({ manager }) => {
@@ -157,7 +149,6 @@ const processarJsonPrestadores = async ({ json }) => {
         await prestador.save();
       }
     } catch (error) {
-      console.log("ERROR", error);
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;
       detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PRESTADOR: ${row[2]}] - \nDETALHES DO ERRO: ${error}\n\n`;
@@ -191,15 +182,7 @@ exports.importarPrestador = async (req, res) => {
     importacao.detalhes = detalhes;
 
     await importacao.save();
-
-    await emailUtils.importarPrestadorDetalhes({
-      detalhes,
-      usuario: req.usuario,
-    });
-
-    console.log("[EMAIL ENVIADO PARA]:", req.usuario.email);
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ message: "Ouve um erro ao importar arquivo" });

@@ -38,7 +38,6 @@ router.get(
   documentoFiscalController.listarDocumentoFiscalPorUsuarioPrestador
 );
 
-// router.get("/:id", documentoFiscalController.getServicoById);
 router.delete("/:id", documentoFiscalController.excluirDocumentoFiscal);
 
 router.post("/", documentoFiscalController.createDocumentoFiscal);
@@ -60,14 +59,7 @@ router.delete(
   documentoFiscalController.excluirArquivo
 );
 
-// router.post(
-//   "/adicionar-e-criar-ticket",
-//   documentoFiscalController.createServicoETicket
-// );
-
 router.patch("/:id", documentoFiscalController.updateDocumentoFiscal);
-// router.patch("/", documentoFiscalController.atualizarStatus);
-
 router.post("/aprovar-documento", documentoFiscalController.aprovarDocumento);
 
 module.exports = router;

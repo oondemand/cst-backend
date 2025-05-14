@@ -1,5 +1,4 @@
 const apiOmie = require("../../config/apiOmie");
-// const { logger } = require("../../config/msLogger");
 
 const criarFornecedor = ({
   // codigo_cliente_integracao,
@@ -79,7 +78,6 @@ const consultar = async (appKey, appSecret, codCliente) => {
 
   // Verificar se o cliente está no cache e se ainda é válido (10 minuto)
   if (cache[cacheKey] && now - cache[cacheKey].timestamp < 600000) {
-    // console.log(`Retornando do cache para o cliente: ${codCliente}`);
     return cache[cacheKey].data;
   }
 
@@ -151,8 +149,6 @@ const incluir = async (appKey, appSecret, cliente, maxTentativas = 3) => {
         error.response?.data ||
         error.response ||
         error;
-
-      // console.error(`Falha ao criar cliente: ${erroEncontrado}`);
     }
   }
 
@@ -189,8 +185,6 @@ const update = async (appKey, appSecret, cliente, maxTentativas = 3) => {
         error.response?.data ||
         error.response ||
         error;
-
-      // console.error(`Falha ao atualizar cliente: ${erroEncontrado}`);
     }
   }
 
@@ -204,12 +198,10 @@ const pesquisarPorCNPJ = async (appKey, appSecret, cnpj, maxTentativas = 3) => {
 
   let tentativas = 0;
 
-  // Verificar se o CNPJ está no cache e se ainda é válido (10 minuto)
   if (
     cachePesquisaPorCNPJ[cacheKey] &&
     now - cachePesquisaPorCNPJ[cacheKey].timestamp < 60 * 1000
   ) {
-    // console.log(`Retornando do cache para o CNPJ: ${cnpj}`);
     return cachePesquisaPorCNPJ[cacheKey].data;
   }
   while (tentativas < maxTentativas) {
@@ -229,7 +221,6 @@ const pesquisarPorCNPJ = async (appKey, appSecret, cnpj, maxTentativas = 3) => {
         ],
       };
 
-      // console.log(JSON.stringify(body));
       const response = await apiOmie.post("geral/clientes/", body);
       const data = response.data?.clientes_cadastro[0];
 
@@ -255,7 +246,6 @@ const pesquisarPorCNPJ = async (appKey, appSecret, cnpj, maxTentativas = 3) => {
           "API bloqueada por consumo indevido."
         )
       ) {
-        // console.log("Esperando 5 minutos");
         await new Promise((resolve) => setTimeout(resolve, 60 * 1000 * 5));
       }
 
@@ -264,7 +254,6 @@ const pesquisarPorCNPJ = async (appKey, appSecret, cnpj, maxTentativas = 3) => {
           "Consumo redundante detectado"
         )
       ) {
-        // console.log("Aguardando 1 minuto");
         await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
       }
     }
@@ -290,7 +279,6 @@ const pesquisarCodIntegracao = async (
     cachePesquisarPorCodIntegracao[cacheKey] &&
     now - cachePesquisarPorCodIntegracao[cacheKey].timestamp < 60 * 1000
   ) {
-    // console.log(`Retornando do cache para o codigo_cliente_integracao	: ${codigo_cliente_integracao	}`);
     return cachePesquisarPorCodIntegracao[cacheKey].data;
   }
   while (tentativas < maxTentativas) {
@@ -310,7 +298,6 @@ const pesquisarCodIntegracao = async (
         ],
       };
 
-      // console.log(JSON.stringify(body));
       const response = await apiOmie.post("geral/clientes/", body);
       const data = response.data?.clientes_cadastro[0];
 
@@ -336,7 +323,6 @@ const pesquisarCodIntegracao = async (
           "API bloqueada por consumo indevido."
         )
       ) {
-        // console.log("Esperando 5 minutos");
         await new Promise((resolve) => setTimeout(resolve, 60 * 1000 * 5));
       }
 
@@ -345,7 +331,6 @@ const pesquisarCodIntegracao = async (
           "Consumo redundante detectado"
         )
       ) {
-        // console.log("Aguardando 1 minuto");
         await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
       }
     }

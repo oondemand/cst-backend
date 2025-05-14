@@ -27,7 +27,6 @@ exports.valoresPorStatus = async (req, res) => {
     const response = await Servico.aggregate(aggregationPipeline);
     return res.status(200).json(response);
   } catch (error) {
-    // console.log("Error", error);
     res.status(500).json({ message: "Ouve um erro inesperado" });
   }
 };

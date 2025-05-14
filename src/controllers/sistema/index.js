@@ -51,8 +51,6 @@ exports.testeEmail = async (req, res) => {
     await emailTeste({ email: req.body.email });
     res.status(200).json();
   } catch (error) {
-    console.log("[TESTE EMAIL, ERRO AO ENVIA EMAIL]", error);
-
     res
       .status(500)
       .json({ mensagem: "Erro enviar email", erro: error.message });

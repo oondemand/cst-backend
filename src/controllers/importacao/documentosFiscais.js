@@ -37,17 +37,6 @@ const converterLinhaEmDocumentoFiscal = async ({ row }) => {
   return documentoFiscal;
 };
 
-// const buscarDocumentoFiscalExistente = async ({ prestadorId, competencia }) => {
-//   if (!prestadorId || !competencia) return null;
-//   const servico = await Servico.findOne({
-//     prestador: prestadorId,
-//     "competencia.mes": competencia?.mes,
-//     "competencia.ano": competencia?.ano,
-//   });
-
-//   return servico;
-// };
-
 const buscarPrestadorPorSid = async ({ sid }) => {
   if (!sid) return null;
   return await Prestador.findOne({ sid });
@@ -131,32 +120,16 @@ const processarJsonDocumentosFiscais = async ({ json }) => {
         detalhes.novosPrestadores += 1;
       }
 
-      // const documentoFiscalExistente = await buscarDocumentoFiscalExistente({
-      //   competencia: documentoFiscal?.competencia,
-      //   prestadorId: prestador?._id,
-      // });
-
-      // if (documentoFiscalExistente) {
-      //   throw new Error(
-      //     "Serviço para esse prestador com competência já cadastrada!"
-      //   );
-      // }
-
       await criarNovoMotivoRecusa({
         motivoRecusa: documentoFiscal?.motivoRecusa,
       });
 
-      // if (!servicoExistente) {
       await criarNovoDocumentoFiscal({
         ...documentoFiscal,
         prestador: prestador?._id,
       });
       detalhes.novosDocumentosFiscais += 1;
-      // }
     } catch (error) {
-      console.log(
-        `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [SID: ${row[1]} - PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`
-      );
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;
       detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [SID: ${row[1]} - PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`;
@@ -191,7 +164,6 @@ exports.importarDocumentoFiscal = async (req, res) => {
 
     await importacao.save();
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ message: "Ouve um erro ao importar arquivo" });

@@ -2,9 +2,6 @@ const Importacao = require("../../models/Importacao");
 const Prestador = require("../../models/Prestador");
 const Usuario = require("../../models/Usuario");
 const Servico = require("../../models/Servico");
-const Lista = require("../../models/Lista");
-// const { CNPJouCPF } = require("../../utils/formatters");
-const emailUtils = require("../../utils/emailUtils");
 
 const {
   arrayToExcelBuffer,
@@ -92,27 +89,6 @@ const criarNovoServico = async (servico) => {
   await novoServico.save();
 };
 
-// const criarNovaCampanha = async ({ campanha }) => {
-//   if (!campanha || campanha.trim() === "") return;
-
-//   const trimmedCampanha = campanha.trim();
-
-//   try {
-//     await Lista.findOneAndUpdate(
-//       {
-//         codigo: "campanha",
-//         "valores.valor": { $ne: trimmedCampanha },
-//       },
-//       {
-//         $push: { valores: { valor: trimmedCampanha } },
-//       },
-//       { upsert: true, new: true }
-//     );
-//   } catch (error) {
-//     console.error("Erro ao adicionar nova campanha:", error);
-//   }
-// };
-
 const processarJsonServicos = async ({ json }) => {
   const detalhes = {
     totalDeLinhasLidas: json.length - 1,
@@ -161,27 +137,17 @@ const processarJsonServicos = async ({ json }) => {
         prestadorId: prestador?._id,
       });
 
-      // Atualiza o serviço caso já exista
       if (servicoExistente) {
         throw new Error(
           "Serviço para esse prestador com competência já cadastrada!"
         );
-        // console.log("Serviço já existente");
-        // servicoExistente.valores = servico.valores;
-        // servicoExistente.tipoDocumentoFiscal = servico.tipoDocumentoFiscal;
-        // await servicoExistente.save();
       }
-
-      // await criarNovaCampanha({ campanha: servico?.campanha });
 
       if (!servicoExistente) {
         await criarNovoServico({ ...servico, prestador: prestador?._id });
         detalhes.novosServicos += 1;
       }
     } catch (error) {
-      console.log(
-        `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`
-      );
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;
       detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`;
@@ -213,16 +179,7 @@ exports.importarServico = async (req, res) => {
     importacao.detalhes = detalhes;
 
     await importacao.save();
-
-    // await emailUtils.importarServicoDetalhes({
-    //   detalhes,
-    //   usuario: req.usuario,
-    // });
-
-    // console.log("[EMAIL ENVIADO PARA]:", req.usuario.email);
   } catch (error) {
-    // console.log("ERROR", error);
-
     return res
       .status(500)
       .json({ message: "Ouve um erro ao importar arquivo" });

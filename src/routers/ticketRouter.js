@@ -2,25 +2,11 @@ const express = require("express");
 const router = express.Router();
 const ticketController = require("../controllers/ticketController");
 const multer = require("multer");
-const path = require("node:path");
-const Arquivo = require("../models/Arquivo");
 
 const storage = multer.memoryStorage({});
 
 const fileFilter = (req, file, cb) => {
   return cb(null, true);
-
-  // Aceitar apenas certos tipos de arquivos, por exemplo, imagens e PDFs
-  const allowedTypes = /jpeg|jpg|png|pdf|xml|txt/;
-  const mimetype = allowedTypes.test(file.mimetype);
-  const extname = allowedTypes.test(
-    path.extname(file.originalname).toLowerCase()
-  );
-
-  if (mimetype && extname) {
-    return cb(null, true);
-  }
-  cb(new Error("Tipo de arquivo não suportado"));
 };
 
 const upload = multer({

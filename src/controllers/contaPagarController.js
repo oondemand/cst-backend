@@ -29,7 +29,6 @@ const obterContaPagarOmie = async (req, res) => {
         .status(400)
         .json({ mensagem: "Credenciais Base Omie não encontradas." });
 
-    // Consultar a conta a pagar na Omie usando o serviço de consulta
     const contaPagarOmie = await consultar(appKey, appSecret, codigoLancamento);
 
     if (!contaPagarOmie) {
@@ -50,10 +49,7 @@ const obterContaPagarOmie = async (req, res) => {
       });
     }
 
-    // Verificar se o status do título é "PAGO"
     if (contaPagarOmie.status_titulo === "PAGO") {
-      // Alterar o status do ticket para "concluído"
-
       ticket.status = "concluido";
       ticket.etapa = "concluido";
       await ticket.save();
@@ -64,7 +60,6 @@ const obterContaPagarOmie = async (req, res) => {
 
     return res.status(200).json(contaPagarOmie);
   } catch (error) {
-    console.error("❌ Erro ao obter conta a pagar Omie:", error);
     return res.status(500).json({
       mensagem: "Erro ao obter conta a pagar Omie.",
       erro: error.message,
@@ -204,7 +199,6 @@ const contaPagarWebHook = async (req, res) => {
 
     res.status(200).json({ message: "Webhook recebido. Fatura sendo gerada." });
   } catch (error) {
-    console.error("Erro ao processar o webhook:", error);
     res.status(500).json({ error: "Erro ao processar o webhook." });
   }
 };

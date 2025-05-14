@@ -45,7 +45,6 @@ exports.createTicket = async (req, res) => {
       ticket: ticketPopulado,
     });
   } catch (error) {
-    // console.error("Erro ao criar ticket:", error);
     res.status(500).json({
       message: "Erro ao criar ticket",
       detalhes: error.message,
@@ -100,7 +99,6 @@ exports.getAllByBaseOmie = async (req, res) => {
 
     res.status(200).json(tickets);
   } catch (error) {
-    // console.error("Erro ao buscar tickets:", error);
     res.status(500).json({
       message: "Erro ao buscar tickets",
       detalhes: error.message,
@@ -123,7 +121,6 @@ exports.getAllTickets = async (req, res) => {
 
     res.status(200).json(tickets);
   } catch (error) {
-    // console.error("Erro ao buscar tickets:", error);
     res.status(500).json({
       message: "Erro ao buscar tickets",
       detalhes: error.message,
@@ -143,7 +140,6 @@ exports.getTicketsByPrestadorId = async (req, res) => {
 
     res.status(200).json(tickets);
   } catch (error) {
-    // console.error("Erro ao buscar tickets:", error);
     res.status(500).json({
       message: "Erro ao buscar tickets",
       detalhes: error.message,
@@ -257,13 +253,12 @@ exports.getTicketsByUsuarioPrestador = async (req, res) => {
         if (ticket.dataRegistro) return ticket.dataRegistro; // Ticket normal
         if (ticket.servicos?.[0]?.dataRegistro)
           return ticket.servicos[0].dataRegistro; // Serviços pagos externos
-        return null; // Sem data
+        return null;
       };
 
       const aDate = getDate(a);
       const bDate = getDate(b);
 
-      // Tickets sem data primeiro
       if (!aDate && !bDate) return 0;
       if (!aDate) return -1;
       if (!bDate) return 1;
@@ -319,7 +314,6 @@ exports.getTicketById = async (req, res) => {
 
     res.status(200).json(ticket);
   } catch (error) {
-    // console.error("Erro ao buscar ticket:", error);
     res
       .status(500)
       .json({ message: "Erro ao buscar ticket", detalhes: error.message });
@@ -349,7 +343,6 @@ exports.deleteTicket = async (req, res) => {
       ticket,
     });
   } catch (error) {
-    // console.error("Erro ao remover ticket:", error);
     res.status(500).json({
       message: "Erro ao remover ticket",
       detalhes: error.message,
@@ -386,7 +379,6 @@ exports.updateStatusTicket = async (req, res) => {
       ticket,
     });
   } catch (error) {
-    // console.error("Erro ao atualizar status do ticket:", error);
     res.status(500).json({
       message: "Erro ao atualizar status do ticket",
       detalhes: error.message,
@@ -482,7 +474,6 @@ exports.uploadFiles = async (req, res) => {
       arquivos: arquivosSalvos,
     });
   } catch (error) {
-    // console.error("Erro ao fazer upload de arquivos:", error);
     res.status(500).json({
       message: "Erro ao fazer upload de arquivos.",
       detalhes: error.message,
@@ -595,8 +586,6 @@ exports.getArchivedTickets = async (req, res) => {
       },
     });
   } catch (error) {
-    // console.log(error);
-
     res.status(500).json({
       message: "Erro ao buscar tickets arquivados",
       detalhes: error.message,
@@ -700,8 +689,6 @@ exports.getTicketsPago = async (req, res) => {
       },
     });
   } catch (error) {
-    // console.log(error);
-
     res.status(500).json({
       message: "Erro ao buscar tickets arquivados",
       detalhes: error.message,
@@ -773,7 +760,6 @@ exports.removeServico = async (req, res) => {
 
     return res.status(200).json(ticket);
   } catch (error) {
-    // console.log(error);
     return res.status(500).json();
   }
 };
@@ -783,8 +769,6 @@ exports.addDocumentoFiscal = async (req, res) => {
     const { ticketId, documentoFiscalId } = req.params;
     const documentoFiscal = await DocumentoFiscal.findById(documentoFiscalId);
     const ticket = await Ticket.findById(ticketId);
-
-    console.log(documentoFiscalId, ticketId, documentoFiscal);
 
     ticket.documentosFiscais = [
       ...ticket?.documentosFiscais,
@@ -802,7 +786,6 @@ exports.addDocumentoFiscal = async (req, res) => {
 
     return res.status(200).json(populatedTicket);
   } catch (error) {
-    console.log(error);
     return res.status(500).json();
   }
 };
@@ -822,14 +805,8 @@ exports.removeDocumentoFiscal = async (req, res) => {
       { new: true }
     ).populate("documentosFiscais");
 
-    // if (ticket?.documentosFiscais.length === 0) {
-    //   ticket.dataRegistro = null;
-    //   await ticket.save();
-    // }
-
     return res.status(200).json(ticket);
   } catch (error) {
-    // console.log(error);
     return res.status(500).json();
   }
 };

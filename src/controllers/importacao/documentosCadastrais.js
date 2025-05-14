@@ -2,12 +2,7 @@ const Importacao = require("../../models/Importacao.js");
 const Prestador = require("../../models/Prestador.js");
 const DocumentoCadastral = require("../../models/DocumentoCadastral.js");
 const Lista = require("../../models/Lista.js");
-
-const {
-  arrayToExcelBuffer,
-  arredondarValor,
-  excelToJson,
-} = require("../../utils/excel.js");
+const { arrayToExcelBuffer, excelToJson } = require("../../utils/excel.js");
 
 const converterLinhaEmDocumentoCadastral = async ({ row }) => {
   const documentoCadastral = {
@@ -26,17 +21,6 @@ const converterLinhaEmDocumentoCadastral = async ({ row }) => {
 
   return documentoCadastral;
 };
-
-// const buscarDocumentoCadastralExistente = async ({ prestadorId, competencia }) => {
-//   if (!prestadorId || !competencia) return null;
-//   const servico = await Servico.findOne({
-//     prestador: prestadorId,
-//     "competencia.mes": competencia?.mes,
-//     "competencia.ano": competencia?.ano,
-//   });
-
-//   return servico;
-// };
 
 const buscarPrestadorPorSid = async ({ sid }) => {
   if (!sid) return null;
@@ -123,32 +107,16 @@ const processarJsonDocumentosCadastrais = async ({ json }) => {
         detalhes.novosPrestadores += 1;
       }
 
-      // const documentoCadastralExistente = await buscarDocumentoCadastralExistente({
-      //   competencia: documentoCadastral?.competencia,
-      //   prestadorId: prestador?._id,
-      // });
-
-      // if (documentoCadastralExistente) {
-      //   throw new Error(
-      //     "Serviço para esse prestador com competência já cadastrada!"
-      //   );
-      // }
-
       await criarNovoMotivoRecusa({
         motivoRecusa: documentoCadastral?.motivoRecusa,
       });
 
-      // if (!servicoExistente) {
       await criarNovoDocumentoCadastral({
         ...documentoCadastral,
         prestador: prestador?._id,
       });
       detalhes.novosDocumentosCadastrais += 1;
-      // }
     } catch (error) {
-      console.log(
-        `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [SID: ${row[1]} - PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`
-      );
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;
       detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [SID: ${row[1]} - PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`;
@@ -174,9 +142,7 @@ exports.importarDocumentoCadastral = async (req, res) => {
     const json = excelToJson({ arquivo });
 
     const { detalhes, arquivoDeErro } = await processarJsonDocumentosCadastrais(
-      {
-        json,
-      }
+      { json }
     );
 
     importacao.arquivoErro = arrayToExcelBuffer({ array: arquivoDeErro });
@@ -185,7 +151,6 @@ exports.importarDocumentoCadastral = async (req, res) => {
 
     await importacao.save();
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ message: "Ouve um erro ao importar arquivo" });

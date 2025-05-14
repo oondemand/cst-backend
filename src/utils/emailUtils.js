@@ -1,6 +1,5 @@
 const sgMail = require("@sendgrid/mail");
 const { format } = require("date-fns");
-const Usuario = require("../models/Usuario");
 const Sistema = require("../models/Sistema");
 const { conviteTemplate } = require("../constants/template");
 
@@ -38,43 +37,11 @@ const enviarEmail = async (emailTo, assunto, corpo, anexos = []) => {
     })),
   };
 
-  // console.log("message", JSON.stringify(message, null, 2));
-
   try {
     const retorno = await sgMail.send(message);
     return retorno;
   } catch (error) {
-    // console.error("Erro ao enviar e-mail:", error);
     throw new Error("Erro ao enviar e-mail");
-  }
-};
-
-const confirmacaoEmailPrestador = async (usuarioId) => {
-  try {
-    const usuario = await Usuario.findById(usuarioId);
-    if (!usuario) {
-      throw new Error("Usuário não encontrado");
-    }
-
-    const confirmacaoPrestadorUrl = process.env.BASE_URL_CST;
-    const token = usuario.gerarToken();
-
-    const emailTo = {
-      email: usuario.email,
-      nome: usuario.nome,
-    };
-
-    const assunto = "Confirme seu e-mail";
-
-    // Template do corpo do e-mail com o link de confirmação
-    const corpo = `<h1>Olá, ${usuario.nome}!</h1>
-    <p>Clique no link abaixo para confirmar seu e-mail:</p>
-    <a href="${confirmacaoPrestadorUrl}/confirmar-email?token=${token}">Confirmar e-mail</a>`;
-
-    await enviarEmail(emailTo, assunto, corpo);
-  } catch (error) {
-    // console.error("Erro ao enviar e-mail de confirmação:", error);
-    throw new Error("Erro ao enviar e-mail de confirmação");
   }
 };
 
@@ -87,14 +54,12 @@ const emailEsqueciMinhaSenha = async ({ usuario, url }) => {
 
     const assunto = "Recuperação de senha";
 
-    // Template do corpo do e-mail com o link para recuperação de senha
     const corpo = `<h1>Olá, ${usuario.nome}!</h1>
     <p>Clique no link abaixo darmos inicio ao processo de recuperação de senha:</p>
     <a href="${url}">Recuperar minha senha</a>`;
 
     await enviarEmail(emailTo, assunto, corpo);
   } catch (error) {
-    // console.error("Erro ao enviar e-mail para recuperação de senha:", error);
     throw new Error("Erro ao enviar e-mail para recuperação de senha");
   }
 };
@@ -112,7 +77,6 @@ const emailPrestadoresExportados = async ({
 
     const assunto = "Prestadores exportados";
 
-    // Template do corpo do e-mail com o link de confirmação
     const corpo = `<h1>Olá, ${usuario.nome}!</h1>
     <p>Exportação concluída foram exportados ${prestadoresExportados} novos prestadores!</p>
     <p>Segue em anexo o arquivo com prestadores exportados!</p>`;
@@ -127,7 +91,6 @@ const emailPrestadoresExportados = async ({
 
     return await enviarEmail(emailTo, assunto, corpo, anexos);
   } catch (error) {
-    // console.error("Erro ao enviar e-mail de prestadores exportados:", error);
     throw new Error("Erro ao enviar e-mail de prestadores exportados:");
   }
 };
@@ -145,7 +108,6 @@ const emailServicosExportados = async ({
 
     const assunto = "Serviços exportados";
 
-    // Template do corpo do e-mail com o link de confirmação
     const corpo = `<h1>Olá, ${usuario.nome}!</h1>
     <p>Foram exportados ${servicosExportados} serviços!</p>
     <p>Segue em anexo o arquivo com serviços exportados!</p>`;
@@ -160,7 +122,6 @@ const emailServicosExportados = async ({
 
     return await enviarEmail(emailTo, assunto, corpo, anexos);
   } catch (error) {
-    // console.error("Erro ao enviar e-mail de serviços exportados:", error);
     throw new Error("Erro ao enviar e-mail de serviços exportados:");
   }
 };
@@ -174,7 +135,6 @@ const emailImportarRpas = async ({ usuario, detalhes }) => {
 
     const assunto = "RPAs importadas";
 
-    // Template do corpo do e-mail com o link de confirmação
     const corpo = `<h1>Olá, ${usuario.nome}!</h1>
     <p>Foram importados ${detalhes.sucesso} arquivos.</p>
     <p>Arquivos com erro ${detalhes.erros.quantidade} arquivos.</p>
@@ -197,7 +157,6 @@ const emailImportarRpas = async ({ usuario, detalhes }) => {
 
     return await enviarEmail(emailTo, assunto, corpo);
   } catch (error) {
-    // console.error("Erro ao enviar e-mail de serviços exportados:", error);
     throw new Error("Erro ao enviar e-mail de serviços exportados:");
   }
 };
@@ -211,7 +170,6 @@ const importarComissõesDetalhes = async ({ usuario, detalhes }) => {
 
     const assunto = "Detalhes de importação de comissões";
 
-    // Template do corpo do e-mail com o link para recuperação de senha
     const corpo = `<h1>Olá, ${usuario.nome}!</h1>
     <p>Segue o relatório sobre a importação de comissões:</p>
     <p>Linhas lidas: ${detalhes?.linhasEncontradas}</p>
@@ -222,10 +180,6 @@ const importarComissõesDetalhes = async ({ usuario, detalhes }) => {
     <p>Total de novos tickets criados: ${detalhes?.totalDeNovosTickets}</p>
     <p>Valor total lido: ${detalhes?.valorTotalLido?.toFixed(2)?.replace(".", ",")}</p>`;
 
-    if (process.env.NODE_ENV === "development") {
-      // console.log(corpo);
-    }
-
     if (detalhes.erros) {
       const arquivoDeErros = Buffer.from(detalhes.erros).toString("base64");
       const anexos = [{ filename: "log.txt", fileBuffer: arquivoDeErros }];
@@ -235,10 +189,6 @@ const importarComissõesDetalhes = async ({ usuario, detalhes }) => {
 
     return await enviarEmail(emailTo, assunto, corpo);
   } catch (error) {
-    // console.error(
-    //   "Erro ao enviar e-mail para detalhes de importação de comissões:",
-    //   error
-    // );
     throw new Error(
       "Erro ao enviar e-mail para detalhes de importação de comissões"
     );
@@ -260,7 +210,6 @@ const emailErroIntegracaoOmie = async ({ usuario, error }) => {
 
     await enviarEmail(emailTo, assunto, corpo);
   } catch (error) {
-    // console.error("Erro ao enviar e-mail para erro integração omie:", error);
     throw new Error("Erro ao enviar e-mail para erro integração omie");
   }
 };
@@ -287,7 +236,6 @@ const emailGeralDeErro = async ({ usuario, documento, tipoDeErro }) => {
 
     return await enviarEmail(emailTo, assunto, corpo, anexos);
   } catch (error) {
-    // console.error("Erro ao enviar e-mail de serviços exportados:", error);
     throw new Error("Erro ao enviar e-mail de serviços exportados:");
   }
 };
@@ -305,7 +253,6 @@ const emailLinkCadastroUsuarioPrestador = async ({ email, nome, url }) => {
 
     return await enviarEmail(emailTo, assunto, corpo);
   } catch (error) {
-    // console.log("[ERRO AO ENVIAR CONVITE]", error);
     throw error;
   }
 };
@@ -319,7 +266,6 @@ const importarServicoDetalhes = async ({ usuario, detalhes }) => {
 
     const assunto = "Detalhes de importação de serviços";
 
-    // Template do corpo do e-mail com o link para recuperação de senha
     const corpo = `<h1>Olá, ${usuario.nome}!</h1>
     <p>Segue o relatório sobre a importação de serviços:</p>
     <p>Linhas lidas: ${detalhes?.totalDeLinhasLidas}</p>
@@ -327,10 +273,6 @@ const importarServicoDetalhes = async ({ usuario, detalhes }) => {
     <p>Linhas com sucesso: ${detalhes?.totalDeLinhasLidas - detalhes?.linhasLidasComErro}</p>
     <p>Total de serviços criados: ${detalhes?.novosServicos}</p>
     <p>Total novos prestadores criados: ${detalhes?.novosPrestadores}</p>`;
-
-    if (process.env.NODE_ENV === "development") {
-      // console.log(corpo);
-    }
 
     if (detalhes.errors) {
       const arquivoDeErros = Buffer.from(detalhes.errors).toString("base64");
@@ -356,17 +298,12 @@ const importarPrestadorDetalhes = async ({ usuario, detalhes }) => {
 
     const assunto = "Detalhes de importação de prestadores";
 
-    // Template do corpo do e-mail com o link para recuperação de senha
     const corpo = `<h1>Olá, ${usuario.nome}!</h1>
     <p>Segue o relatório sobre a importação de prestadores:</p>
     <p>Linhas lidas: ${detalhes?.totalDeLinhasLidas}</p>
     <p>Linhas com erro: ${detalhes?.linhasLidasComErro}</p>
     <p>Linhas com sucesso: ${detalhes?.totalDeLinhasLidas - detalhes?.linhasLidasComErro}</p>
     <p>Total novos prestadores criados: ${detalhes?.novosPrestadores}</p>`;
-
-    if (process.env.NODE_ENV === "development") {
-      // console.log(corpo);
-    }
 
     if (detalhes.errors) {
       const arquivoDeErros = Buffer.from(detalhes.errors).toString("base64");
@@ -403,7 +340,6 @@ const emailTeste = async ({ email }) => {
 
 module.exports = {
   emailTeste,
-  confirmacaoEmailPrestador,
   emailEsqueciMinhaSenha,
   emailPrestadoresExportados,
   emailServicosExportados,

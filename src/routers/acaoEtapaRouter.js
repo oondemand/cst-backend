@@ -12,7 +12,6 @@ const {
 
 const inMemoryStorage = multer.memoryStorage({});
 
-// Filtrando arquivos (opcional)
 const fileFilter = (req, file, cb) => {
   const tiposPermitidos = [
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -20,7 +19,6 @@ const fileFilter = (req, file, cb) => {
     "application/vnd.ms-excel.sheet.binary.macroenabled.12",
   ];
 
-  // Aceitar apenas arquivos Excel
   if (tiposPermitidos.includes(file.mimetype)) {
     cb(null, true);
   } else {
@@ -28,7 +26,6 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Inicializando o upload
 const upload = multer({
   storage: inMemoryStorage,
   fileFilter: fileFilter,

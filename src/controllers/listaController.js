@@ -82,7 +82,6 @@ const updateItem = async (req, res) => {
     await lista.save();
     res.json(lista);
   } catch (err) {
-    // console.log(err);
     res.status(500).json({ error: err.message });
   }
 };

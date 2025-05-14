@@ -31,35 +31,6 @@ exports.seedUsuario = async (req, res) => {
   }
 };
 
-// Função para registrar um novo usuário tipo prestador
-exports.registrarUsuarioPrestador = async (req, res) => {
-  const { nome, email, senha } = req.body;
-  try {
-    // Verificar se o e-mail já está cadastrado
-    const usuarioExistente = await Usuario.findOne({ email });
-    if (usuarioExistente) {
-      return res.status(400).json({ mensagem: "E-mail já cadastrado" });
-    }
-
-    const novoUsuario = new Usuario({
-      nome,
-      email,
-      senha,
-      status: "email-nao-confirmado",
-      tipo: "prestador",
-    });
-    await novoUsuario.save();
-
-    // Enviar e-mail de confirmação
-    await emailUtils.confirmacaoEmailPrestador(novoUsuario);
-
-    res.status(201).json(novoUsuario);
-  } catch (error) {
-    // console.error("Erro ao registrar usuário:", error);
-    res.status(400).json({ error: "Erro ao registrar usuário" });
-  }
-};
-
 exports.registrarUsuario = async (req, res) => {
   const { nome, email, senha, status, permissoes, tipo, prestadorId } =
     req.body;
@@ -83,8 +54,6 @@ exports.registrarUsuario = async (req, res) => {
     await novoUsuario.save();
     res.status(201).json(novoUsuario);
   } catch (error) {
-    // console.log(error);
-
     res.status(400).json({ error: "Erro ao registrar usuário" });
   }
 };
@@ -197,14 +166,12 @@ exports.listarUsuarios = async (req, res) => {
 };
 
 exports.obterUsuario = async (req, res) => {
-  // console.log(req.params.id);
   try {
     const usuario = await Usuario.findById(req.params.id);
     if (!usuario)
       return res.status(404).json({ error: "Usuário não encontrado" });
     res.json(usuario);
   } catch (error) {
-    // console.log(error);
     res.status(400).json({ error: "Erro ao obter usuário" });
   }
 };
@@ -298,7 +265,6 @@ exports.confirmarEmail = async (req, res) => {
 
     res.json({ message: "E-mail confirmado com sucesso." });
   } catch (error) {
-    // console.error("Erro ao confirmar e-mail:", error);
     if (error.name === "TokenExpiredError") {
       return res.status(400).json({ error: "Token de confirmação expirado." });
     }
@@ -338,7 +304,6 @@ exports.esqueciMinhaSenha = async (req, res) => {
       }
 
       url.searchParams.append("code", token);
-      // console.log("URL", url.toString());
 
       await emailUtils.emailEsqueciMinhaSenha({
         usuario,
@@ -348,8 +313,6 @@ exports.esqueciMinhaSenha = async (req, res) => {
       res.status(200).json({ message: "Email enviado" });
     }
   } catch (error) {
-    // console.log(error);
-
     res.status(404).json({ error: "Usuário não encontrado" });
   }
 };
@@ -416,7 +379,6 @@ exports.alterarSenha = async (req, res) => {
         },
       });
     } catch (error) {
-      // console.log(error);
       return res.status(401).json({ error: "Token inválido." });
     }
   }
@@ -456,7 +418,7 @@ exports.enviarConvite = async (req, res) => {
     url.searchParams.append("code", token);
 
     //mostra url para não ter que verificar no email
-    console.log("🟨 [CONVITE ENVIADO] URL ", url.toString());
+    console.log("🟨 [CONVITE ENVIADO] URL: ", url.toString());
 
     if (usuario.tipo && usuario.tipo === "prestador") {
       await emailUtils.emailLinkCadastroUsuarioPrestador({
@@ -468,7 +430,6 @@ exports.enviarConvite = async (req, res) => {
 
     res.status(200).json({ message: "Ok" });
   } catch (error) {
-    console.log("[ERRO AO ENVIAR CONVITE]", error);
     res.status(400).json({ message: "Ouve um erro ao enviar convite" });
   }
 };

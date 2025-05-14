@@ -38,9 +38,7 @@ router.get(
   documentoCadastralController.listarDocumentoCadastralPorUsuarioPrestador
 );
 
-// router.get("/:id", documentoCadastralController.getServicoById);
 router.delete("/:id", documentoCadastralController.excluirDocumentoCadastral);
-
 router.post("/", documentoCadastralController.createDocumentoCadastral);
 
 router.post(
@@ -60,13 +58,7 @@ router.delete(
   documentoCadastralController.excluirArquivo
 );
 
-// router.post(
-//   "/adicionar-e-criar-ticket",
-//   documentoCadastralController.createServicoETicket
-// );
-
 router.patch("/:id", documentoCadastralController.updateDocumentoCadastral);
-// router.patch("/", documentoCadastralController.atualizarStatus);
 
 router.post(
   "/aprovar-documento",

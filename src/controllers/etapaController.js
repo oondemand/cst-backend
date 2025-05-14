@@ -34,8 +34,6 @@ exports.listarEtapas = async (req, res) => {
       camposBusca,
     });
 
-    console.log(searchTermCondition);
-
     const queryResult = {
       $and: [
         filterFromFiltros, // Filtros principais
@@ -70,7 +68,6 @@ exports.listarEtapas = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({ error: "Erro ao listar etapas" });
   }
 };

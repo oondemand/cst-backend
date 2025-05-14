@@ -4,7 +4,6 @@ exports.registrarBaseOmie = async (req, res) => {
   const { nome, cnpj, appKey, appSecret, status } = req.body;
 
   try {
-    // Cria a nova Base Omie
     const baseOmie = new BaseOmie({
       nome,
       cnpj,
@@ -14,8 +13,6 @@ exports.registrarBaseOmie = async (req, res) => {
     });
 
     await baseOmie.save();
-
-    // Popula os campos necessários (se houver referências)
     const baseOmiePopulada = await BaseOmie.findById(baseOmie._id);
 
     res.status(201).json({
@@ -23,7 +20,6 @@ exports.registrarBaseOmie = async (req, res) => {
       baseOmie: baseOmiePopulada,
     });
   } catch (error) {
-    // console.error("Erro ao registrar Base Omie:", error);
     res.status(500).json({
       message: "Erro ao registrar Base Omie",
       detalhes: error.message,
@@ -74,7 +70,6 @@ exports.atualizarBaseOmie = async (req, res) => {
       baseOmie: baseOmiePopulada,
     });
   } catch (error) {
-    // console.error("Erro ao atualizar Base Omie:", error);
     res.status(500).json({
       message: "Erro ao atualizar Base Omie",
       detalhes: error.message,

@@ -1,9 +1,7 @@
-// src/routers/prestadorRouter.js
 const express = require("express");
 const prestadorController = require("../controllers/prestadorController");
 const router = express.Router();
 
-// Rotas para CRUD de Prestador
 router.post(
   "/adicionar-e-criar-ticket",
   prestadorController.adicionarPrestadorECriarTicket

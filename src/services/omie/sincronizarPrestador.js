@@ -1,4 +1,3 @@
-const Prestador = require("../../models/Prestador");
 const clienteService = require("../omie/clienteService");
 
 const BaseOmie = require("../../models/BaseOmie");

@@ -5,7 +5,6 @@ const rastreabilidadeMiddleware = async (req, res, next) => {
     return next();
   }
 
-  const inicio = Date.now();
   const usuarioId = req.usuario ? req.usuario.id : null;
   const endpoint = req.originalUrl;
   const metodo = req.method;
@@ -23,13 +22,9 @@ const rastreabilidadeMiddleware = async (req, res, next) => {
 
   res.on("finish", () => {
     log.statusResposta = res.statusCode;
-    log.dadosResposta = res.locals.body || null; // Capturar o corpo se armazenado anteriormente
+    log.dadosResposta = res.locals.body || null;
 
     log.save();
-    // .then(() => console.log("Log de rastreabilidade salvo com sucesso"))
-    // .catch((error) =>
-    //   console.error("Erro ao salvar log de rastreabilidade:", error),
-    // );
   });
 
   next();

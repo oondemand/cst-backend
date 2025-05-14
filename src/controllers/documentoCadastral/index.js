@@ -81,7 +81,6 @@ exports.criarDocumentoCadastralPorUsuarioPrestador = async (req, res) => {
       documentoCadastral: novoDocumentoCadastral,
     });
   } catch (e) {
-    console.log(e);
     return res
       .status(400)
       .json({ message: "Erro ao criar documento cadastral" });
@@ -111,7 +110,6 @@ exports.updateDocumentoCadastral = async (req, res) => {
       documentoCadastral: documentoCadastralAtualizado,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Erro ao atualizar documento cadastral",
       detalhes: error.message,
@@ -129,7 +127,6 @@ exports.listarDocumentoCadastral = async (req, res) => {
       camposBusca: ["sid", "documento", "nome"],
     });
 
-    // Busca ids de prestadores com base nas condições criadas de acordo ao search term
     const prestadoresIds = await Prestador.find(prestadoresQuery).select("_id");
 
     const prestadorConditions =
@@ -137,13 +134,11 @@ exports.listarDocumentoCadastral = async (req, res) => {
         ? [{ prestador: { $in: prestadoresIds.map((e) => e._id) } }]
         : [];
 
-    // Monta a query para buscar serviços baseados nos demais filtros
     const filterFromFiltros = filtersUtils.queryFiltros({
       filtros: rest,
       schema: DocumentoCadastral.schema,
     });
 
-    // Monta a query para buscar serviços baseados no searchTerm
     const searchTermCondition = filtersUtils.querySearchTerm({
       searchTerm,
       schema: DocumentoCadastral.schema,
@@ -190,7 +185,6 @@ exports.listarDocumentoCadastral = async (req, res) => {
       },
     });
   } catch (error) {
-    // console.log(error);
     res.status(400).json({ error: "Erro ao listar documentos fiscais" });
   }
 };
@@ -206,7 +200,6 @@ exports.listarDocumentoCadastralPorPrestador = async (req, res) => {
 
     res.status(200).json(documentosCadastrais);
   } catch (error) {
-    console.error("Erro na listagem:", error);
     res
       .status(400)
       .json({ error: "Falha ao buscar serviços", details: error.message });
@@ -221,15 +214,10 @@ exports.listarDocumentoCadastralPorUsuarioPrestador = async (req, res) => {
 
     const documentosCadastrais = await DocumentoCadastral.find({
       prestador: prestador,
-      // statusValidacao: "aprovado",
-      // status: { $nin: ["processando", "pago"] },
     }).populate("prestador", "sid nome documento");
-
-    console.log("documentosCadastrais", documentosCadastrais);
 
     res.status(200).json(documentosCadastrais);
   } catch (error) {
-    console.error("Erro na listagem:", error);
     res
       .status(400)
       .json({ error: "Falha ao buscar serviços", details: error.message });
@@ -283,7 +271,6 @@ exports.anexarArquivo = async (req, res) => {
 
     return res.status(200).json(novoArquivo);
   } catch (error) {
-    console.log("Erro ao anexar arquivo:", error);
     res.status(400).json({ message: "Ouve um erro ao anexar o arquivo" });
   }
 };
@@ -294,15 +281,12 @@ exports.excluirArquivo = async (req, res) => {
 
     const arquivo = await Arquivo.findByIdAndDelete(id);
 
-    const documentoCadastral = await DocumentoCadastral.findByIdAndUpdate(
-      documentoCadastralId,
-      { $unset: { arquivo: id } }
-    );
+    await DocumentoCadastral.findByIdAndUpdate(documentoCadastralId, {
+      $unset: { arquivo: id },
+    });
 
     res.status(200).json(arquivo);
   } catch (error) {
-    console.log(error);
-
     res.status(500).json({
       message: "Erro ao deletar arquivo do ticket",
       error: error.message,
@@ -354,7 +338,6 @@ exports.aprovarDocumento = async (req, res) => {
 
     return res.status(200).json(ticket);
   } catch (error) {
-    console.log(error);
     return res.status(400).json({ error: "Erro ao aprovar documento" });
   }
 };

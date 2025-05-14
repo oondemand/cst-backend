@@ -3,9 +3,8 @@ const mongoose = require("mongoose");
 
 const router = express.Router();
 
-// Rota raiz para verificar o status do serviço e a conexão com o MongoDB
 router.get("/", async (req, res) => {
-  const dbState = mongoose.connection.readyState; // Verifica o status da conexão com o DB
+  const dbState = mongoose.connection.readyState;
   const status = {
     0: "Desconectado",
     1: "Conectado",

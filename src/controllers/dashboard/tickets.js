@@ -21,7 +21,6 @@ exports.ticketsPorStatus = async (req, res) => {
     const response = await Ticket.aggregate(aggregationPipeline);
     return res.status(200).json(response);
   } catch (error) {
-    // console.log("Error", error);
     res.status(500).json({ message: "Ouve um erro inesperado" });
   }
 };
@@ -47,7 +46,6 @@ exports.ticketsPorEtapa = async (req, res) => {
     const response = await Ticket.aggregate(aggregationPipeline);
     return res.status(200).json(response);
   } catch (error) {
-    // console.log("Error", error);
     res.status(500).json({ message: "Ouve um erro inesperado" });
   }
 };

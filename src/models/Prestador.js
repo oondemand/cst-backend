@@ -1,8 +1,6 @@
-// src/models/Prestador.js
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-// Esquema de Endereço
 const enderecoSchema = new mongoose.Schema({
   cep: { type: String, match: /^\d{8}$/ },
   rua: String,
@@ -16,7 +14,6 @@ const enderecoSchema = new mongoose.Schema({
   },
 });
 
-// Esquema de Dados Bancários
 const dadosBancariosSchema = new mongoose.Schema({
   banco: String,
   agencia: String,
@@ -24,7 +21,6 @@ const dadosBancariosSchema = new mongoose.Schema({
   tipoConta: { type: String, enum: ["", "corrente", "poupanca"] },
 });
 
-// Esquema Principal do Prestador
 const prestadorSchema = new mongoose.Schema(
   {
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },

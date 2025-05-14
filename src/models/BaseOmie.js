@@ -1,5 +1,3 @@
-// backend/models/BaseOmie.js
-
 const mongoose = require("mongoose");
 
 const BaseOmieSchema = new mongoose.Schema({

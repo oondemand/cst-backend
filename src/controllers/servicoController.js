@@ -25,42 +25,6 @@ exports.getServicoById = async (req, res) => {
   }
 };
 
-exports.createServicoETicket = async (req, res) => {
-  // const { descricao, data, valor, prestador } = req.body;
-  // try {
-  //   // Cria um novo documento Servico
-  //   const novoServico = new Servico({
-  //     descricao,
-  //     data,
-  //     valor,
-  //     status: "aberto",
-  //   });
-  //   // console.log("novoServico", novoServico);
-  //   await novoServico.save();
-  //   // Cria um novo ticket referenciando o documento Servico
-  //   const novoTicket = new Ticket({
-  //     titulo: "novo serviço: " + descricao,
-  //     etapa: "requisicao",
-  //     status: "aguardando-inicio",
-  //     prestador,
-  //     servico: novoServico._id,
-  //   });
-  //   // console.log("novoTicket", novoTicket);
-  //   await novoTicket.save();
-  //   res.status(201).json({
-  //     message: "Serviço e Ticket criados com sucesso!",
-  //     servico: novoServico,
-  //     ticket: novoTicket,
-  //   });
-  // } catch (error) {
-  //   // console.error("Erro ao criar serviço e ticket:", error);
-  //   res.status(500).json({
-  //     message: "Erro ao criar serviço e ticket",
-  //     detalhes: error.message,
-  //   });
-  // }
-};
-
 exports.createServico = async (req, res) => {
   try {
     const servicoExistente = await Servico.findOne({
@@ -198,7 +162,6 @@ exports.listarServicos = async (req, res) => {
       },
     });
   } catch (error) {
-    // console.log(error);
     res.status(400).json({ error: "Erro ao listar servicoes" });
   }
 };

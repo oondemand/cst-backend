@@ -85,8 +85,6 @@ exports.ListaOmieService = async ({ call, url, baseOmie, select, fields }) => {
       pagina++;
     }
 
-    console.log("REs", resultados);
-
     return resultados;
   } catch (error) {
     console.error(`Erro: ${error.message}`);

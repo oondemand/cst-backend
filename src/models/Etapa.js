@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Definição do esquema (schema) para Etapa
 const etapaSchema = new mongoose.Schema(
   {
     nome: {
@@ -26,10 +25,8 @@ const etapaSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
-// Criação do modelo (model) com base no esquema
 const Etapa = mongoose.model("Etapa", etapaSchema);
-
 module.exports = Etapa;
