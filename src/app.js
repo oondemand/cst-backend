@@ -59,7 +59,6 @@ app.use("/usuarios", require("./routers/usuarioRouter"));
 app.use("/baseomies", require("./routers/baseOmieRouter"));
 app.use("/tickets", require("./routers/ticketRouter"));
 app.use("/aprovacoes", require("./routers/aprovacaoRouter"));
-app.use("/contas-pagar", require("./routers/contaPagarRouter"));
 app.use("/etapas", require("./routers/etapaRouter"));
 app.use("/logs", require("./routers/logRouter"));
 app.use("/prestadores", require("./routers/prestadorRouter"));
