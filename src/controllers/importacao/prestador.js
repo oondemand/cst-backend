@@ -169,9 +169,8 @@ const processarJsonPrestadores = async ({ json }) => {
         });
 
         detalhes.novosPrestadores += 1;
+        await prestador.save();
       }
-
-      await prestador.save();
     } catch (error) {
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;

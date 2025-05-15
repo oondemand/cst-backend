@@ -63,23 +63,6 @@ const criarNovoPrestador = async ({ nome, tipo, documento }) => {
   return prestador;
 };
 
-const criarNovoUsuario = async ({ nome, email }) => {
-  const usuario = await Usuario.findOne({ email });
-
-  if (!usuario) {
-    const novoUsuario = new Usuario({
-      email: email,
-      nome: nome,
-      tipo: "prestador",
-      senha: "123456",
-    });
-
-    return await novoUsuario.save();
-  }
-
-  return usuario;
-};
-
 const criarNovoServico = async (servico) => {
   const novoServico = new Servico({
     ...servico,
@@ -120,15 +103,6 @@ const processarJsonServicos = async ({ json }) => {
         });
 
         detalhes.novosPrestadores += 1;
-      }
-
-      if (prestador.email && !prestador.usuario) {
-        const usuario = await criarNovoUsuario({
-          email: prestador?.email,
-          nome: prestador?.nome,
-        });
-
-        prestador.usuario = usuario._id;
         await prestador.save();
       }
 
