@@ -139,4 +139,4 @@ const contaPagarWebHook = async (req, res) => {
   }
 };
 
-module.exports = { obterContaPagarOmie, contaPagarWebHook };
+module.exports = { contaPagarWebHook };
