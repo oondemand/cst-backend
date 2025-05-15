@@ -38,7 +38,6 @@ exports.listarImportacoes = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Erro ao listar importações:", error);
     res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };

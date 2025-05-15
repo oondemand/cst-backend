@@ -1,6 +1,5 @@
 const Log = require("../models/Log");
 
-// Listar todos os logs
 const listarTodosLogs = async (req, res) => {
   try {
     const logs = await Log.find()
@@ -14,7 +13,6 @@ const listarTodosLogs = async (req, res) => {
   }
 };
 
-// Listar logs por usuário (filtrar por usuário específico)
 const listarLogsPorUsuario = async (req, res) => {
   const { usuarioId } = req.params;
 
@@ -38,7 +36,6 @@ const listarLogsPorUsuario = async (req, res) => {
   }
 };
 
-// Filtrar logs por endpoint e método HTTP (opcional)
 const filtrarLogs = async (req, res) => {
   const { endpoint, metodo } = req.query;
 
@@ -46,11 +43,11 @@ const filtrarLogs = async (req, res) => {
     const query = {};
 
     if (endpoint) {
-      query.endpoint = { $regex: endpoint, $options: "i" }; // Busca o endpoint ignorando maiúsculas/minúsculas
+      query.endpoint = { $regex: endpoint, $options: "i" };
     }
 
     if (metodo) {
-      query.metodo = metodo.toUpperCase(); // Certifica-se de que o método HTTP é em maiúsculas
+      query.metodo = metodo.toUpperCase();
     }
 
     const logs = await Log.find(query)

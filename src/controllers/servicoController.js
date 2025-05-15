@@ -49,7 +49,6 @@ exports.createServico = async (req, res) => {
       servico: novoServico,
     });
   } catch (error) {
-    console.error("Erro ao criar serviço:", error);
     res.status(500).json({
       message: "Erro ao criar serviço",
       detalhes: error.message,

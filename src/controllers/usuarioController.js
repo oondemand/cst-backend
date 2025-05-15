@@ -13,7 +13,6 @@ const filtersUtils = require("../utils/filter");
 exports.seedUsuario = async (req, res) => {
   const { nome, email, senha, status, permissoes } = req.body;
   try {
-    // Verifica se há algum usuário ativo no banco de dados
     const usuarioAtivo = await Usuario.findOne({ status: "ativo" });
 
     if (usuarioAtivo) {
@@ -22,7 +21,6 @@ exports.seedUsuario = async (req, res) => {
         .json({ error: "Já existe um usuário ativo no sistema" });
     }
 
-    // Cria um novo usuário se não houver nenhum usuário ativo
     const novoUsuario = new Usuario({ nome, email, senha, status, permissoes });
     await novoUsuario.save();
     res.status(201).json(novoUsuario);
@@ -225,50 +223,12 @@ exports.excluirUsuario = async (req, res) => {
   }
 };
 
-// Função para validar o token e retornar os dados do usuário
 exports.validarToken = async (req, res) => {
   try {
-    // Se o middleware `protect` passou, `req.usuario` já está preenchido
+    // Se passou pelo middleware, `req.usuario` já está preenchido
     res.json(req.usuario);
   } catch (error) {
     res.status(401).json({ error: "Token inválido ou expirado" });
-  }
-};
-
-// Função para confirmar o e-mail do prestador
-exports.confirmarEmail = async (req, res) => {
-  const { token } = req.body; // Espera-se que o token seja enviado no corpo da requisição
-
-  if (!token)
-    return res
-      .status(400)
-      .json({ error: "Token de confirmação é obrigatório." });
-
-  try {
-    // Decodificar o token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Encontrar o usuário pelo ID decodificado
-    const usuario = await Usuario.findById(decoded.id);
-
-    if (!usuario)
-      return res.status(404).json({ error: "Usuário não encontrado." });
-
-    if (usuario.status !== "email-nao-confirmado")
-      return res
-        .status(400)
-        .json({ error: "E-mail já confirmado ou status inválido." });
-
-    // Atualizar o status do usuário para "ativo"
-    usuario.status = "ativo";
-    await usuario.save();
-
-    res.json({ message: "E-mail confirmado com sucesso." });
-  } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      return res.status(400).json({ error: "Token de confirmação expirado." });
-    }
-    res.status(400).json({ error: "Token de confirmação inválido." });
   }
 };
 

@@ -5,7 +5,6 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 router.post("/login", usuarioController.loginUsuario);
 router.post("/seed-usuario", usuarioController.seedUsuario);
-router.post("/confirmar-email", usuarioController.confirmarEmail);
 router.get("/validar-token", authMiddleware, usuarioController.validarToken);
 
 router.post("/esqueci-minha-senha", usuarioController.esqueciMinhaSenha);

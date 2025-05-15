@@ -64,68 +64,6 @@ const emailEsqueciMinhaSenha = async ({ usuario, url }) => {
   }
 };
 
-const emailPrestadoresExportados = async ({
-  usuario,
-  documento,
-  prestadoresExportados,
-}) => {
-  try {
-    const emailTo = {
-      email: usuario.email,
-      nome: usuario.nome,
-    };
-
-    const assunto = "Prestadores exportados";
-
-    const corpo = `<h1>Olá, ${usuario.nome}!</h1>
-    <p>Exportação concluída foram exportados ${prestadoresExportados} novos prestadores!</p>
-    <p>Segue em anexo o arquivo com prestadores exportados!</p>`;
-
-    const arquivoExportado = Buffer.from(documento).toString("base64");
-    const anexos = [
-      {
-        filename: `prestadores-${format(new Date(), "dd-MM-yyy")}.txt`,
-        fileBuffer: arquivoExportado,
-      },
-    ];
-
-    return await enviarEmail(emailTo, assunto, corpo, anexos);
-  } catch (error) {
-    throw new Error("Erro ao enviar e-mail de prestadores exportados:");
-  }
-};
-
-const emailServicosExportados = async ({
-  usuario,
-  documento,
-  servicosExportados,
-}) => {
-  try {
-    const emailTo = {
-      email: usuario.email,
-      nome: usuario.nome,
-    };
-
-    const assunto = "Serviços exportados";
-
-    const corpo = `<h1>Olá, ${usuario.nome}!</h1>
-    <p>Foram exportados ${servicosExportados} serviços!</p>
-    <p>Segue em anexo o arquivo com serviços exportados!</p>`;
-
-    const arquivoExportado = Buffer.from(documento).toString("base64");
-    const anexos = [
-      {
-        filename: `servicos-${format(new Date(), "dd-MM-yyy")}.txt`,
-        fileBuffer: arquivoExportado,
-      },
-    ];
-
-    return await enviarEmail(emailTo, assunto, corpo, anexos);
-  } catch (error) {
-    throw new Error("Erro ao enviar e-mail de serviços exportados:");
-  }
-};
-
 const emailImportarRpas = async ({ usuario, detalhes }) => {
   try {
     const emailTo = {
@@ -161,40 +99,6 @@ const emailImportarRpas = async ({ usuario, detalhes }) => {
   }
 };
 
-const importarComissõesDetalhes = async ({ usuario, detalhes }) => {
-  try {
-    const emailTo = {
-      email: usuario.email,
-      nome: usuario.nome,
-    };
-
-    const assunto = "Detalhes de importação de comissões";
-
-    const corpo = `<h1>Olá, ${usuario.nome}!</h1>
-    <p>Segue o relatório sobre a importação de comissões:</p>
-    <p>Linhas lidas: ${detalhes?.linhasEncontradas}</p>
-    <p>Linhas com erro: ${detalhes?.linhasLidasComErro}</p>
-    <p>Linhas com sucesso: ${detalhes?.linhasEncontradas - detalhes?.linhasLidasComErro}</p>
-    <p>Total de serviços criados: ${detalhes?.linhasEncontradas - detalhes?.linhasLidasComErro}</p>
-    <p>Total novos prestadores criados: ${detalhes?.totalDeNovosPrestadores}</p>
-    <p>Total de novos tickets criados: ${detalhes?.totalDeNovosTickets}</p>
-    <p>Valor total lido: ${detalhes?.valorTotalLido?.toFixed(2)?.replace(".", ",")}</p>`;
-
-    if (detalhes.erros) {
-      const arquivoDeErros = Buffer.from(detalhes.erros).toString("base64");
-      const anexos = [{ filename: "log.txt", fileBuffer: arquivoDeErros }];
-
-      return await enviarEmail(emailTo, assunto, corpo, anexos);
-    }
-
-    return await enviarEmail(emailTo, assunto, corpo);
-  } catch (error) {
-    throw new Error(
-      "Erro ao enviar e-mail para detalhes de importação de comissões"
-    );
-  }
-};
-
 const emailErroIntegracaoOmie = async ({ usuario, error }) => {
   try {
     const emailTo = {
@@ -214,32 +118,6 @@ const emailErroIntegracaoOmie = async ({ usuario, error }) => {
   }
 };
 
-const emailGeralDeErro = async ({ usuario, documento, tipoDeErro }) => {
-  try {
-    const emailTo = {
-      email: usuario.email,
-      nome: usuario.nome,
-    };
-
-    const assunto = "Erro ao realizar ação!";
-
-    const corpo = `<h1>Olá, ${usuario.nome}!</h1>
-    <p>Ouve um erro ao ${tipoDeErro}, segue o log do erro em anexo.</p>`;
-
-    const arquivoDeErro = Buffer.from(documento).toString("base64");
-    const anexos = [
-      {
-        filename: "log.txt",
-        fileBuffer: arquivoDeErro,
-      },
-    ];
-
-    return await enviarEmail(emailTo, assunto, corpo, anexos);
-  } catch (error) {
-    throw new Error("Erro ao enviar e-mail de serviços exportados:");
-  }
-};
-
 const emailLinkCadastroUsuarioPrestador = async ({ email, nome, url }) => {
   try {
     const emailTo = {
@@ -254,69 +132,6 @@ const emailLinkCadastroUsuarioPrestador = async ({ email, nome, url }) => {
     return await enviarEmail(emailTo, assunto, corpo);
   } catch (error) {
     throw error;
-  }
-};
-
-const importarServicoDetalhes = async ({ usuario, detalhes }) => {
-  try {
-    const emailTo = {
-      email: usuario.email,
-      nome: usuario.nome,
-    };
-
-    const assunto = "Detalhes de importação de serviços";
-
-    const corpo = `<h1>Olá, ${usuario.nome}!</h1>
-    <p>Segue o relatório sobre a importação de serviços:</p>
-    <p>Linhas lidas: ${detalhes?.totalDeLinhasLidas}</p>
-    <p>Linhas com erro: ${detalhes?.linhasLidasComErro}</p>
-    <p>Linhas com sucesso: ${detalhes?.totalDeLinhasLidas - detalhes?.linhasLidasComErro}</p>
-    <p>Total de serviços criados: ${detalhes?.novosServicos}</p>
-    <p>Total novos prestadores criados: ${detalhes?.novosPrestadores}</p>`;
-
-    if (detalhes.errors) {
-      const arquivoDeErros = Buffer.from(detalhes.errors).toString("base64");
-      const anexos = [{ filename: "log.txt", fileBuffer: arquivoDeErros }];
-
-      return await enviarEmail(emailTo, assunto, corpo, anexos);
-    }
-
-    return await enviarEmail(emailTo, assunto, corpo);
-  } catch (error) {
-    throw new Error(
-      "Erro ao enviar e-mail para detalhes de importação de serviços"
-    );
-  }
-};
-
-const importarPrestadorDetalhes = async ({ usuario, detalhes }) => {
-  try {
-    const emailTo = {
-      email: usuario.email,
-      nome: usuario.nome,
-    };
-
-    const assunto = "Detalhes de importação de prestadores";
-
-    const corpo = `<h1>Olá, ${usuario.nome}!</h1>
-    <p>Segue o relatório sobre a importação de prestadores:</p>
-    <p>Linhas lidas: ${detalhes?.totalDeLinhasLidas}</p>
-    <p>Linhas com erro: ${detalhes?.linhasLidasComErro}</p>
-    <p>Linhas com sucesso: ${detalhes?.totalDeLinhasLidas - detalhes?.linhasLidasComErro}</p>
-    <p>Total novos prestadores criados: ${detalhes?.novosPrestadores}</p>`;
-
-    if (detalhes.errors) {
-      const arquivoDeErros = Buffer.from(detalhes.errors).toString("base64");
-      const anexos = [{ filename: "log.txt", fileBuffer: arquivoDeErros }];
-
-      return await enviarEmail(emailTo, assunto, corpo, anexos);
-    }
-
-    return await enviarEmail(emailTo, assunto, corpo);
-  } catch (error) {
-    throw new Error(
-      "Erro ao enviar e-mail para detalhes de importação de prestadores"
-    );
   }
 };
 
@@ -341,13 +156,7 @@ const emailTeste = async ({ email }) => {
 module.exports = {
   emailTeste,
   emailEsqueciMinhaSenha,
-  emailPrestadoresExportados,
-  emailServicosExportados,
   emailImportarRpas,
-  importarComissõesDetalhes,
   emailErroIntegracaoOmie,
-  emailGeralDeErro,
   emailLinkCadastroUsuarioPrestador,
-  importarServicoDetalhes,
-  importarPrestadorDetalhes,
 };

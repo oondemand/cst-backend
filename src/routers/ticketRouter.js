@@ -31,8 +31,6 @@ router.get("/", ticketController.getAllTickets);
 router.get("/arquivados", ticketController.getArchivedTickets);
 router.get("/pagos", ticketController.getTicketsPago);
 
-router.get("/base-omie/:baseOmieId", ticketController.getAllByBaseOmie);
-router.get("/prestador/:prestadorId", ticketController.getTicketsByPrestadorId);
 router.get(
   "/usuario-prestador/:usuarioId",
   ticketController.getTicketsByUsuarioPrestador
@@ -40,8 +38,6 @@ router.get(
 router.get("/:id", ticketController.getTicketById);
 
 router.patch("/:id", ticketController.updateTicket);
-router.patch("/:id/status", ticketController.updateStatusTicket);
-
 router.delete("/:id", ticketController.deleteTicket);
 
 router.post(

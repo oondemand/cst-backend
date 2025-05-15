@@ -1,7 +1,6 @@
 const Etapa = require("../models/Etapa");
 const filtersUtils = require("../utils/filter");
 
-// Função para criar uma nova etapa
 exports.criarEtapa = async (req, res) => {
   try {
     const etapa = new Etapa(req.body);

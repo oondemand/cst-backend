@@ -2,11 +2,6 @@ const express = require("express");
 const prestadorController = require("../controllers/prestadorController");
 const router = express.Router();
 
-router.post(
-  "/adicionar-e-criar-ticket",
-  prestadorController.adicionarPrestadorECriarTicket
-);
-
 router.post("/", prestadorController.criarPrestador);
 
 router.get(

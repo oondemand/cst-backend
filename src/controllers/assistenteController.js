@@ -1,7 +1,6 @@
 const Assistente = require("../models/Assistente");
 const filtersUtils = require("../utils/filter");
 
-// Função para criar uma nova assistente
 exports.criarAssistente = async (req, res) => {
   try {
     const assistente = new Assistente(req.body);
@@ -79,7 +78,6 @@ exports.listarAssistentesAtivos = async (req, res) => {
   }
 };
 
-// Função para obter uma assistente por ID
 exports.obterAssistente = async (req, res) => {
   try {
     const assistente = await Assistente.findById(req.params.id);
@@ -92,7 +90,6 @@ exports.obterAssistente = async (req, res) => {
   }
 };
 
-// Função para atualizar uma assistente por ID
 exports.atualizarAssistente = async (req, res) => {
   try {
     const assistente = await Assistente.findByIdAndUpdate(
@@ -108,7 +105,6 @@ exports.atualizarAssistente = async (req, res) => {
   }
 };
 
-// Função para excluir uma assistente por ID
 exports.excluirAssistente = async (req, res) => {
   try {
     const assistente = await Assistente.findByIdAndDelete(req.params.id);

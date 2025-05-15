@@ -92,20 +92,6 @@ exports.updateTicket = async (req, res) => {
   }
 };
 
-exports.getAllByBaseOmie = async (req, res) => {
-  try {
-    const { baseOmieId } = req.params;
-    const tickets = await Ticket.find({ baseOmie: baseOmieId });
-
-    res.status(200).json(tickets);
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao buscar tickets",
-      detalhes: error.message,
-    });
-  }
-};
-
 exports.getAllTickets = async (req, res) => {
   try {
     const filtros = req.query;
@@ -118,25 +104,6 @@ exports.getAllTickets = async (req, res) => {
       .populate("documentosFiscais")
       .populate("arquivos", "nomeOriginal size mimetype tipo")
       .populate("contaPagarOmie");
-
-    res.status(200).json(tickets);
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao buscar tickets",
-      detalhes: error.message,
-    });
-  }
-};
-
-exports.getTicketsByPrestadorId = async (req, res) => {
-  const { prestadorId } = req.params;
-
-  try {
-    const tickets = await Ticket.find({ prestador: prestadorId });
-
-    if (tickets.length === 0) {
-      return res.status(200).json([]);
-    }
 
     res.status(200).json(tickets);
   } catch (error) {
@@ -345,42 +312,6 @@ exports.deleteTicket = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Erro ao remover ticket",
-      detalhes: error.message,
-    });
-  }
-};
-
-exports.updateStatusTicket = async (req, res) => {
-  const { status } = req.body;
-
-  try {
-    const ticket = await Ticket.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true, runValidators: true }
-    );
-
-    if (!ticket) {
-      return res.status(404).json({ message: "Ticket não encontrado" });
-    }
-
-    ControleAlteracaoService.registrarAlteracao({
-      acao: "status",
-      dataHora: new Date(),
-      idRegistroAlterado: ticket._id,
-      origem: "formulario",
-      dadosAtualizados: JSON.stringify(req.body),
-      tipoRegistroAlterado: "ticket",
-      usuario: req.usuario._id,
-    });
-
-    res.status(200).json({
-      message: "Status do ticket atualizado com sucesso!",
-      ticket,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao atualizar status do ticket",
       detalhes: error.message,
     });
   }

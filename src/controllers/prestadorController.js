@@ -23,33 +23,6 @@ exports.obterPrestadorPorIdUsuario = async (req, res) => {
   }
 };
 
-exports.adicionarPrestadorECriarTicket = async (req, res) => {
-  try {
-    const novoPrestador = new Prestador(req.body);
-    novoPrestador.status = "ativo";
-    await novoPrestador.save();
-
-    const novoTicket = new Ticket({
-      titulo: `Novo Prestador: ${novoPrestador.nome}`,
-      etapa: "requisicao",
-      status: "aguardando-inicio",
-      prestador: novoPrestador._id,
-    });
-    await novoTicket.save();
-
-    res.status(201).json({
-      message: "Prestador adicionado e ticket criado com sucesso!",
-      prestador: novoPrestador,
-      ticket: novoTicket,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao adicionar prestador e criar ticket",
-      detalhes: error.message,
-    });
-  }
-};
-
 exports.criarPrestador = async (req, res) => {
   try {
     const { email, ...rest } = req.body;

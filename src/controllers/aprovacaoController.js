@@ -393,3 +393,4 @@ const uploadDeArquivosOmie = async ({ ticket, nId, tabela }) => {
 };
 
 module.exports = { aprovar, recusar };
+ 
