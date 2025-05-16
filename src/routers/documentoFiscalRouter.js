@@ -1,8 +1,12 @@
 const express = require("express");
-const documentoFiscalController = require("../controllers/documentoFiscal/index");
+const documentoFiscalController = require("../controllers/documentoFiscalController");
+const {
+  importarDocumentoFiscal,
+} = require("../controllers/documentoFiscalController/importacao");
 const router = express.Router();
 
 const multer = require("multer");
+const { uploadExcel } = require("../config/multer");
 const path = require("node:path");
 
 const storage = multer.memoryStorage({});
@@ -61,5 +65,7 @@ router.delete(
 
 router.patch("/:id", documentoFiscalController.updateDocumentoFiscal);
 router.post("/aprovar-documento", documentoFiscalController.aprovarDocumento);
+
+router.post("/importar", uploadExcel.array("file"), importarDocumentoFiscal);
 
 module.exports = router;

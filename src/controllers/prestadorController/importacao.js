@@ -1,7 +1,7 @@
-const Importacao = require("../../models/Importacao");
-const Prestador = require("../../models/Prestador");
-const Usuario = require("../../models/Usuario");
-const Lista = require("../../models/Lista");
+const Importacao = require("../../models/Importacao.js");
+const Prestador = require("../../models/Prestador.js");
+const Usuario = require("../../models/Usuario.js");
+const Lista = require("../../models/Lista.js");
 const { parse } = require("date-fns");
 const { arrayToExcelBuffer, excelToJson } = require("../../utils/excel.js");
 const { LISTA_PAISES_OMIE } = require("../../utils/omie.js");

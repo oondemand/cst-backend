@@ -1,8 +1,13 @@
 const express = require("express");
-const documentoCadastralController = require("../controllers/documentoCadastral/index");
+const documentoCadastralController = require("../controllers/documentoCadastralController");
+const {
+  importarDocumentoCadastral,
+} = require("../controllers/documentoCadastralController/importacao");
+
 const router = express.Router();
 
 const multer = require("multer");
+const { uploadExcel } = require("../config/multer");
 const path = require("node:path");
 
 const storage = multer.memoryStorage({});
@@ -65,4 +70,5 @@ router.post(
   documentoCadastralController.aprovarDocumento
 );
 
+router.post("/importar", uploadExcel.array("file"), importarDocumentoCadastral);
 module.exports = router;

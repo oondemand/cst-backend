@@ -1,11 +1,13 @@
 const express = require("express");
 const {
   sincronizarEsteira,
-} = require("../controllers/planejamento/sincronizarEsteira");
+} = require("../controllers/planejamentoController/sincronizarEsteira");
 const {
   listarServicos,
-} = require("../controllers/planejamento/listarServicos");
-const { estatisticas } = require("../controllers/planejamento/estatisticas");
+} = require("../controllers/planejamentoController/listarServicos");
+const {
+  estatisticas,
+} = require("../controllers/planejamentoController/estatisticas");
 
 const router = express.Router();
 

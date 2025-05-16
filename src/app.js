@@ -68,7 +68,6 @@ app.use(
   "/documentos-cadastrais",
   require("./routers/documentoCadastralRouter")
 );
-app.use("/acoes-etapas", require("./routers/acaoEtapaRouter"));
 app.use("/registros", require("./routers/controleAlteracao"));
 app.use("/listas", require("./routers/listaRouter"));
 app.use("/estados", require("./routers/estadoRouter"));

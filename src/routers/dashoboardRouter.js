@@ -1,9 +1,11 @@
 const { Router } = require("express");
-const { valoresPorStatus } = require("../controllers/dashboard/servicos");
+const {
+  valoresPorStatus,
+} = require("../controllers/dashboardController/servicos");
 const {
   ticketsPorStatus,
   ticketsPorEtapa,
-} = require("../controllers/dashboard/tickets");
+} = require("../controllers/dashboardController/tickets");
 
 const router = Router();
 

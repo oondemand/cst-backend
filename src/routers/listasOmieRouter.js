@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ListaOmieController } = require("../controllers/listaOmie/index");
+const { ListaOmieController } = require("../controllers/listaOmieController");
 
 router.post("/", ListaOmieController.create);
 router.get("/", ListaOmieController.listAll);

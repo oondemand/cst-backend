@@ -1,8 +1,8 @@
 // src/controllers/servicoController.js
-const Servico = require("../models/Servico");
-const Prestador = require("../models/Prestador");
-const Ticket = require("../models/Ticket");
-const filtersUtils = require("../utils/filter");
+const Servico = require("../../models/Servico");
+const Prestador = require("../../models/Prestador");
+const Ticket = require("../../models/Ticket");
+const filtersUtils = require("../../utils/filter");
 
 exports.getServicoById = async (req, res) => {
   const { id } = req.params;

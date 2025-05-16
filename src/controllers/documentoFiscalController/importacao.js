@@ -1,7 +1,7 @@
-const Importacao = require("../../models/Importacao");
-const Prestador = require("../../models/Prestador");
+const Importacao = require("../../models/Importacao.js");
+const Prestador = require("../../models/Prestador.js");
 const DocumentoFiscal = require("../../models/DocumentoFiscal.js");
-const Lista = require("../../models/Lista");
+const Lista = require("../../models/Lista.js");
 
 const {
   arrayToExcelBuffer,

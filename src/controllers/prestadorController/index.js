@@ -1,11 +1,11 @@
 // src/controllers/prestadorController.js
-const Prestador = require("../models/Prestador");
-const Ticket = require("../models/Ticket");
+const Prestador = require("../../models/Prestador");
+const Ticket = require("../../models/Ticket");
 const {
   sincronizarPrestador,
-} = require("../services/omie/sincronizarPrestador");
-const filtersUtils = require("../utils/filter");
-const Usuario = require("../models/Usuario");
+} = require("../../services/omie/sincronizarPrestador");
+const filtersUtils = require("../../utils/filter");
+const Usuario = require("../../models/Usuario");
 
 // Método para obter prestador pelo idUsuario
 exports.obterPrestadorPorIdUsuario = async (req, res) => {
