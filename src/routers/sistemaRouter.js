@@ -5,7 +5,7 @@ const {
   testeEmail,
   listarCategoriasOmie,
   listarContaCorrente,
-} = require("../controllers/sistema");
+} = require("../controllers/sistemaController");
 const router = express.Router();
 
 router.get("/", listarSistemaConfig);
