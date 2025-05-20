@@ -11,7 +11,6 @@ const Prestador = require("../models/Prestador");
 const Servico = require("../models/Servico");
 
 const { add, format } = require("date-fns");
-const { ControleAlteracaoService } = require("../services/controleAlteracao");
 const ContaPagar = require("../models/ContaPagar");
 const Sistema = require("../models/Sistema");
 
@@ -61,16 +60,6 @@ const aprovar = async (req, res) => {
     ticket.status = "aguardando-inicio";
     await ticket.save();
 
-    ControleAlteracaoService.registrarAlteracao({
-      acao: "aprovar",
-      dataHora: new Date(),
-      idRegistroAlterado: ticket?._id,
-      origem: "formulario",
-      dadosAtualizados: ticket,
-      tipoRegistroAlterado: "ticket",
-      usuario: req.usuario?._id,
-    });
-
     res.send({
       success: true,
       message: `Ticket aprovado e movido para a etapa: ${ticket.etapa}`,
@@ -114,15 +103,7 @@ const recusar = async (req, res) => {
     ticket.status = "revisao";
 
     await ticket.save();
-    ControleAlteracaoService.registrarAlteracao({
-      acao: "reprovar",
-      dataHora: new Date(),
-      idRegistroAlterado: ticket?._id,
-      origem: "formulario",
-      dadosAtualizados: ticket,
-      tipoRegistroAlterado: "ticket",
-      usuario: req.usuario?._id,
-    });
+  
     res.send({
       success: true,
       message: `Ticket recusado e movido para a etapa: ${ticket.etapa}`,
@@ -194,30 +175,13 @@ const gerarContaPagar = async ({ ticket, usuario }) => {
     ticket.status = "concluido";
     await ticket.save();
 
-    ControleAlteracaoService.registrarAlteracao({
-      acao: "aprovar",
-      dataHora: new Date(),
-      idRegistroAlterado: ticket?._id,
-      origem: "formulario",
-      dadosAtualizados: ticket,
-      tipoRegistroAlterado: "ticket",
-      usuario: usuario?._id,
-    });
+    
   } catch (error) {
     ticket.observacao += `\n ${error} - ${format(new Date(), "dd/MM/yyyy")}`;
     ticket.etapa = "aprovacao-fiscal";
     ticket.status = "revisao";
     await ticket.save();
 
-    ControleAlteracaoService.registrarAlteracao({
-      acao: "aprovar",
-      dataHora: new Date(),
-      idRegistroAlterado: ticket?._id,
-      origem: "formulario",
-      dadosAtualizados: ticket,
-      tipoRegistroAlterado: "ticket",
-      usuario: usuario?._id,
-    });
 
     await emailUtils.emailErroIntegracaoOmie({
       error: error,
@@ -393,4 +357,3 @@ const uploadDeArquivosOmie = async ({ ticket, nId, tabela }) => {
 };
 
 module.exports = { aprovar, recusar };
- 

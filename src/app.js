@@ -13,7 +13,7 @@ const multer = require("multer");
 dotenv.config();
 
 const authMiddleware = require("./middlewares/authMiddleware");
-const rastreabilidadeMiddleware = require("./middlewares/rastreabilidadeMiddleware");
+const logMiddleware = require("./middlewares/logMiddleware");
 
 const app = express();
 
@@ -52,7 +52,7 @@ app.get("/image/:filename", (req, res) => {
 app.use(authMiddleware);
 
 // **Middleware de rastreabilidade** - Pode ser aplicado depois do de autenticação, se necessário
-app.use(rastreabilidadeMiddleware);
+app.use(logMiddleware);
 
 // **Rotas protegidas** - Necessitam de autenticação
 app.use("/usuarios", require("./routers/usuarioRouter"));

@@ -7,7 +7,6 @@ const bcrypt = require("bcryptjs");
 const emailUtils = require("../utils/emailUtils");
 const jwt = require("jsonwebtoken");
 
-const { ControleAlteracaoService } = require("../services/controleAlteracao");
 const filtersUtils = require("../utils/filter");
 
 exports.seedUsuario = async (req, res) => {
@@ -185,16 +184,7 @@ exports.atualizarUsuario = async (req, res) => {
     if (!usuario)
       return res.status(404).json({ error: "Usuário não encontrado" });
 
-    ControleAlteracaoService.registrarAlteracao({
-      acao: "alterar",
-      dataHora: new Date(),
-      idRegistroAlterado: usuario._id,
-      origem: "formulario",
-      dadosAtualizados: req.body,
-      tipoRegistroAlterado: "usuario",
-      usuario: req.usuario._id,
-    });
-
+  
     res.json(usuario);
   } catch (error) {
     res.status(400).json({ error: "Erro ao atualizar usuário" });
@@ -207,15 +197,7 @@ exports.excluirUsuario = async (req, res) => {
     if (!usuario)
       return res.status(404).json({ error: "Usuário não encontrado" });
 
-    ControleAlteracaoService.registrarAlteracao({
-      acao: "excluir",
-      dataHora: new Date(),
-      idRegistroAlterado: usuario._id,
-      origem: "formulario",
-      dadosAtualizados: usuario,
-      tipoRegistroAlterado: "usuario",
-      usuario: req.usuario._id,
-    });
+   
 
     res.status(204).send();
   } catch (error) {

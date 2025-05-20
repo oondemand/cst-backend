@@ -1,5 +1,48 @@
 const mongoose = require("mongoose");
 
+const ENTIDADES = [
+  "prestador",
+  "servico",
+  "documento-fiscal",
+  "ticket",
+  "configuracao.usuario",
+  "configuracao.lista.nome-lista",
+  "configuracao.sistema.email",
+  "configuracao.sistema.omie",
+  "configuracao.sistema.app-prestador",
+  "configuracao.assistente",
+  "configuracao.etapa",
+];
+
+const ACOES = [
+  "adicionado",
+  "alterado",
+  "excluido",
+  "convite-enviado",
+  "aprovado",
+  "reprovado",
+  "arquivado",
+  "pago",
+  "pagamento-excluido",
+  "adicionar",
+  "alterar",
+  "excluir",
+  "envio-convite",
+  "recuperar-senha",
+];
+
+const ORIGENS = [
+  "form",
+  "datagrid",
+  "importacao",
+  "omie",
+  "app-prestador",
+  "aprovacao-documento",
+  "aprovacao-documento-fiscal",
+  "planejamento",
+  "esteira",
+];
+
 const controleAlteracaoSchema = new mongoose.Schema({
   dataHora: {
     type: Date,
@@ -11,9 +54,9 @@ const controleAlteracaoSchema = new mongoose.Schema({
     ref: "Usuario",
     required: true,
   },
-  tipoRegistroAlterado: {
+  entidade: {
     type: String,
-    enum: ["ticket", "usuario"],
+    enum: ENTIDADES,
     required: true,
   },
   idRegistroAlterado: {
@@ -22,16 +65,12 @@ const controleAlteracaoSchema = new mongoose.Schema({
   },
   acao: {
     type: String,
-    enum: ["adicionar", "alterar", "excluir", "aprovar", "reprovar", "status"],
+    enum: ACOES,
     required: true,
   },
   origem: {
     type: String,
-    enum: [
-      "formulario",
-      "importacao-payment-control",
-      "integracao-omie",
-    ],
+    enum: ORIGENS,
     required: true,
   },
   dadosAtualizados: {
@@ -39,8 +78,4 @@ const controleAlteracaoSchema = new mongoose.Schema({
   },
 });
 
-const ControleAlteracao = mongoose.model(
-  "ControleAlteracao",
-  controleAlteracaoSchema
-);
-module.exports = ControleAlteracao;
+module.exports = mongoose.model("ControleAlteracao", controleAlteracaoSchema);

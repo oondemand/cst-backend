@@ -1,6 +1,6 @@
 const Log = require("../models/Log");
 
-const rastreabilidadeMiddleware = async (req, res, next) => {
+const logMiddleware = async (req, res, next) => {
   if (req.method === "GET") {
     return next();
   }
@@ -30,4 +30,4 @@ const rastreabilidadeMiddleware = async (req, res, next) => {
   next();
 };
 
-module.exports = rastreabilidadeMiddleware;
+module.exports = logMiddleware;
