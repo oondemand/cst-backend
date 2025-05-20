@@ -6,6 +6,11 @@ const {
 const { uploadExcel } = require("../config/multer");
 const router = express.Router();
 
+const {
+  registrarAcaoMiddleware,
+} = require("../middlewares/registrarAcaoMiddleware");
+const { ACOES, ENTIDADES, ORIGENS } = require("../constants/controleAlteracao");
+
 router.post("/", prestadorController.criarPrestador);
 
 router.get(
@@ -24,9 +29,25 @@ router.get("/pis/:pis", prestadorController.obterPrestadorPorPis);
 router.get("/", prestadorController.listarPrestadores);
 router.get("/:id", prestadorController.obterPrestador);
 
-router.patch("/:id", prestadorController.atualizarPrestador);
+router.patch(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.PRESTADOR,
+    origem: ORIGENS.FORM,
+  }),
+  prestadorController.atualizarPrestador
+);
 
-router.delete("/:id", prestadorController.excluirPrestador);
+router.delete(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.EXCLUIDO,
+    entidade: ENTIDADES.PRESTADOR,
+    origem: ORIGENS.FORM,
+  }),
+  prestadorController.excluirPrestador
+);
 router.post("/importar", uploadExcel.array("file"), importarPrestador);
 
 module.exports = router;

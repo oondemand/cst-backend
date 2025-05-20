@@ -1,47 +1,5 @@
 const mongoose = require("mongoose");
-
-const ENTIDADES = [
-  "prestador",
-  "servico",
-  "documento-fiscal",
-  "ticket",
-  "configuracao.usuario",
-  "configuracao.lista.nome-lista",
-  "configuracao.sistema.email",
-  "configuracao.sistema.omie",
-  "configuracao.sistema.app-prestador",
-  "configuracao.assistente",
-  "configuracao.etapa",
-];
-
-const ACOES = [
-  "adicionado",
-  "alterado",
-  "excluido",
-  "convite-enviado",
-  "aprovado",
-  "reprovado",
-  "arquivado",
-  "pago",
-  "pagamento-excluido",
-  "adicionar",
-  "alterar",
-  "excluir",
-  "envio-convite",
-  "recuperar-senha",
-];
-
-const ORIGENS = [
-  "form",
-  "datagrid",
-  "importacao",
-  "omie",
-  "app-prestador",
-  "aprovacao-documento",
-  "aprovacao-documento-fiscal",
-  "planejamento",
-  "esteira",
-];
+const { ACOES, ENTIDADES, ORIGENS } = require("../constants/controleAlteracao");
 
 const controleAlteracaoSchema = new mongoose.Schema({
   dataHora: {
@@ -56,7 +14,7 @@ const controleAlteracaoSchema = new mongoose.Schema({
   },
   entidade: {
     type: String,
-    enum: ENTIDADES,
+    enum: Object.values(ENTIDADES),
     required: true,
   },
   idRegistroAlterado: {
@@ -65,12 +23,12 @@ const controleAlteracaoSchema = new mongoose.Schema({
   },
   acao: {
     type: String,
-    enum: ACOES,
+    enum: Object.values(ACOES),
     required: true,
   },
   origem: {
     type: String,
-    enum: ORIGENS,
+    enum: Object.values(ORIGENS),
     required: true,
   },
   dadosAtualizados: {

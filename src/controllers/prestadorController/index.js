@@ -6,6 +6,12 @@ const {
 } = require("../../services/omie/sincronizarPrestador");
 const filtersUtils = require("../../utils/filter");
 const Usuario = require("../../models/Usuario");
+const { registrarAcao } = require("../../services/controleService");
+const {
+  ACOES,
+  ENTIDADES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
 
 // Método para obter prestador pelo idUsuario
 exports.obterPrestadorPorIdUsuario = async (req, res) => {
@@ -42,6 +48,15 @@ exports.criarPrestador = async (req, res) => {
 
     const prestador = new Prestador(data);
     await prestador.save();
+
+    registrarAcao({
+      acao: ACOES.ADICIONADO,
+      entidade: ENTIDADES.PRESTADOR,
+      origem: ORIGENS.FORM,
+      dadosAtualizados: prestador,
+      idRegistroAlterado: prestador._id,
+      usuario: req.usuario,
+    });
 
     res.status(201).json({
       message: "Prestador criado com sucesso!",
