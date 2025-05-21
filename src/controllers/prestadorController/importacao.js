@@ -12,6 +12,8 @@ const {
   ORIGENS,
 } = require("../../constants/controleAlteracao");
 
+const { sendErrorResponse, sendResponse } = require("../../utils/helpers");
+
 const criarNovoManager = async ({ manager, usuario }) => {
   const managers = await Lista.findOne({ codigo: "manager" });
   const managerExistente = managers.valores.some(
@@ -27,7 +29,7 @@ const criarNovoManager = async ({ manager, usuario }) => {
       entidade: ENTIDADES.CONFIGURACAO_LISTA_MANAGER,
       origem: ORIGENS.IMPORTACAO,
       dadosAtualizados: managers,
-      idRegistroAlterado: managers._id,
+      idRegistro: managers._id,
       usuario: usuario,
     });
   }
@@ -104,7 +106,7 @@ const criarNovoPrestador = async ({ prestador, usuario }) => {
     entidade: ENTIDADES.PRESTADOR,
     origem: ORIGENS.IMPORTACAO,
     dadosAtualizados: novoPrestador,
-    idRegistroAlterado: novoPrestador._id,
+    idRegistro: novoPrestador._id,
     usuario: usuario,
   });
 
@@ -164,7 +166,7 @@ const buscarPrestadorPorDocumentoEAtualizar = async ({
     entidade: ENTIDADES.PRESTADOR,
     origem: ORIGENS.IMPORTACAO,
     dadosAtualizados: prestadorAtualizado,
-    idRegistroAlterado: prestadorAtualizado._id,
+    idRegistro: prestadorAtualizado._id,
     usuario: usuario,
   });
 
@@ -228,7 +230,13 @@ exports.importarPrestador = async (req, res) => {
 
     await importacao.save();
 
-    if (arquivo && importacao) res.status(200).json(importacao);
+    if (arquivo && importacao) {
+      sendResponse({
+        res,
+        statusCode: 200,
+        importacao,
+      });
+    }
 
     const json = excelToJson({ arquivo });
 
@@ -243,8 +251,11 @@ exports.importarPrestador = async (req, res) => {
 
     await importacao.save();
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Ouve um erro ao importar arquivo" });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro ao importar arquivo",
+      error,
+    });
   }
 };

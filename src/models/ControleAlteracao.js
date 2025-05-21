@@ -26,9 +26,8 @@ const controleAlteracaoSchema = new mongoose.Schema({
     enum: Object.values(ORIGENS),
     required: true,
   },
-  idRegistroAlterado: {
+  idRegistro: {
     type: String,
-    required: true,
   },
   dadosAtualizados: {
     type: Object,

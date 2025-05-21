@@ -5,7 +5,7 @@ async function registrarAcao({
   acao,
   origem,
   usuario,
-  idRegistroAlterado,
+  idRegistro,
   dadosAtualizados,
 }) {
   try {
@@ -14,7 +14,7 @@ async function registrarAcao({
       acao,
       origem,
       usuario,
-      idRegistroAlterado,
+      idRegistro,
       dadosAtualizados,
     });
 

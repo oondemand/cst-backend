@@ -279,7 +279,7 @@ exports.atualizarStatus = async (req, res) => {
         entidade: ENTIDADES.SERVICO,
         origem: ORIGENS.PLANEJAMENTO,
         usuario: req.usuario,
-        idRegistroAlterado: servico._id,
+        idRegistro: servico._id,
         dadosAtualizados: servico,
       });
     }

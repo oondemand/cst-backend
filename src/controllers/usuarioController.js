@@ -1,5 +1,3 @@
-// backend/controllers/UsuarioController.js
-
 const Usuario = require("../models/Usuario");
 const Prestador = require("../models/Prestador");
 
@@ -8,6 +6,9 @@ const emailUtils = require("../utils/emailUtils");
 const jwt = require("jsonwebtoken");
 
 const filtersUtils = require("../utils/filter");
+const { sendErrorResponse, sendResponse } = require("../utils/helpers");
+const { registrarAcao } = require("../services/controleService");
+const { ACOES, ENTIDADES, ORIGENS } = require("../constants/controleAlteracao");
 
 exports.seedUsuario = async (req, res) => {
   const { nome, email, senha, status, permissoes } = req.body;
@@ -184,7 +185,6 @@ exports.atualizarUsuario = async (req, res) => {
     if (!usuario)
       return res.status(404).json({ error: "Usuário não encontrado" });
 
-  
     res.json(usuario);
   } catch (error) {
     res.status(400).json({ error: "Erro ao atualizar usuário" });
@@ -196,8 +196,6 @@ exports.excluirUsuario = async (req, res) => {
     const usuario = await Usuario.findByIdAndDelete(req.params.id);
     if (!usuario)
       return res.status(404).json({ error: "Usuário não encontrado" });
-
-   
 
     res.status(204).send();
   } catch (error) {
@@ -333,7 +331,11 @@ exports.enviarConvite = async (req, res) => {
     const prestador = await Prestador.findById(req.body.prestador);
 
     if (!prestador) {
-      return res.status(409).json({ message: "Prestador não encontrado!" });
+      return sendErrorResponse({
+        res,
+        message: "Prestador não encontrado!",
+        statusCode: 409,
+      });
     }
 
     let usuario;
@@ -370,8 +372,13 @@ exports.enviarConvite = async (req, res) => {
       });
     }
 
-    res.status(200).json({ message: "Ok" });
+    sendResponse({ res, statusCode: 200, _id: prestador._id });
   } catch (error) {
-    res.status(400).json({ message: "Ouve um erro ao enviar convite" });
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao enviar convite!",
+      statusCode: "400",
+    });
   }
 };

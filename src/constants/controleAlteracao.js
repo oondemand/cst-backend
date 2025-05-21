@@ -42,6 +42,7 @@ const ORIGENS = {
   PLANEJAMENTO: "planejamento",
   ESTEIRA: "esteira",
   API: "api",
+  ENVIO_CONVITE: "envio-convite",
 };
 
 module.exports = {

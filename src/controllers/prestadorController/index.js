@@ -485,7 +485,7 @@ exports.prestadorWebHook = async (req, res) => {
         entidade: ENTIDADES.PRESTADOR,
         origem: ORIGENS.OMIE,
         dadosAtualizados: prestadorAlterado,
-        idRegistroAlterado: prestadorAlterado._id,
+        idRegistro: prestadorAlterado._id,
       });
     }
 

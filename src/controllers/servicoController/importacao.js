@@ -16,6 +16,8 @@ const {
   excelToJson,
 } = require("../../utils/excel.js");
 
+const { sendErrorResponse } = require("../../utils/helpers");
+
 const converterLinhaEmServico = async ({ row }) => {
   const tipoPessoa =
     row[2] === "RPA" ? "pf" : row[3] === "invoice" ? "ext" : "pj";
@@ -73,7 +75,7 @@ const criarNovoPrestador = async ({ nome, tipo, documento, usuario }) => {
     entidade: ENTIDADES.PRESTADOR,
     origem: ORIGENS.IMPORTACAO,
     dadosAtualizados: prestador,
-    idRegistroAlterado: prestador._id,
+    idRegistro: prestador._id,
     usuario,
   });
 
@@ -93,7 +95,7 @@ const criarNovoServico = async (servico, usuario) => {
     entidade: ENTIDADES.SERVICO,
     origem: ORIGENS.IMPORTACAO,
     dadosAtualizados: novoServico,
-    idRegistroAlterado: novoServico._id,
+    idRegistro: novoServico._id,
     usuario,
   });
 };
@@ -177,7 +179,13 @@ exports.importarServico = async (req, res) => {
 
     await importacao.save();
 
-    if (arquivo && importacao) res.status(200).json(importacao);
+    if (arquivo && importacao) {
+      sendResponse({
+        res,
+        statusCode: 200,
+        importacao,
+      });
+    }
 
     const json = excelToJson({ arquivo });
 
@@ -192,8 +200,11 @@ exports.importarServico = async (req, res) => {
 
     await importacao.save();
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Ouve um erro ao importar arquivo" });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro ao importar arquivo",
+      error,
+    });
   }
 };

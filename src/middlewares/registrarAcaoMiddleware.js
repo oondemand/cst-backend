@@ -23,7 +23,7 @@ function registrarAcaoMiddleware({ entidade, acao }) {
           acao,
           origem,
           usuario: req?.usuario?.id,
-          idRegistroAlterado: registradoAlterado?._id,
+          idRegistro: registradoAlterado?._id,
           dadosAtualizados: registradoAlterado,
         });
       }
