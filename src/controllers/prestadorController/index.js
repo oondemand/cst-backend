@@ -341,7 +341,7 @@ exports.obterPrestadorPorEmail = async (req, res) => {
       res,
       statusCode: 500,
       message: "Ouve um erro inesperado ao obter prestador por email",
-      detalhes: error.message,
+      error,
     });
   }
 };
@@ -366,7 +366,7 @@ exports.obterPrestadorPorPis = async (req, res) => {
       res,
       statusCode: 500,
       message: "Ouve um erro inesperado ao obter prestador por pis",
-      detalhes: error.message,
+      error,
     });
   }
 };
@@ -500,7 +500,7 @@ exports.prestadorWebHook = async (req, res) => {
       res,
       statusCode: 500,
       message: "Ouve um erro inesperado ao processar o webhook.",
-      detalhes: error.message,
+      error,
     });
   }
 };

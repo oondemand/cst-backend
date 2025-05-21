@@ -1,8 +1,12 @@
-// src/controllers/servicoController.js
 const Servico = require("../../models/Servico");
 const Prestador = require("../../models/Prestador");
 const Ticket = require("../../models/Ticket");
 const filtersUtils = require("../../utils/filter");
+const {
+  sendErrorResponse,
+  sendResponse,
+  sendPaginatedResponse,
+} = require("../../utils/helpers");
 
 exports.getServicoById = async (req, res) => {
   const { id } = req.params;
@@ -11,15 +15,19 @@ exports.getServicoById = async (req, res) => {
     const servico = await Servico.findById(id);
 
     if (!servico) {
-      return res.status(404).json({
+      return sendErrorResponse({
+        res,
         message: "Serviço não encontrado",
+        statusCode: 404,
       });
     }
 
-    res.status(200).json(servico);
+    sendResponse({ res, statusCode: 200, servico });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao obter serviço",
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao obter o serviço",
       detalhes: error.message,
     });
   }
@@ -34,7 +42,12 @@ exports.createServico = async (req, res) => {
     });
 
     if (servicoExistente) {
-      return res.status(400).json({ message: "Serviço existente" });
+      return sendErrorResponse({
+        res,
+        message:
+          "Já existe um serviço com essa competência para este prestador",
+        statusCode: 400,
+      });
     }
 
     const filteredBody = Object.fromEntries(
@@ -44,14 +57,17 @@ exports.createServico = async (req, res) => {
     const novoServico = new Servico({ ...filteredBody, status: "aberto" });
     await novoServico.save();
 
-    res.status(201).json({
-      message: "Serviço criado com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 201,
       servico: novoServico,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao criar serviço",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao criar o serviço",
+      statusCode: 500,
     });
   }
 };
@@ -64,15 +80,19 @@ exports.updateServico = async (req, res) => {
     const servico = await Servico.findById(id);
 
     if (!servico) {
-      return res.status(404).json({
+      return sendErrorResponse({
+        res,
         message: "Serviço não encontrado",
+        statusCode: 404,
       });
     }
 
     if (["pago", "pago-externo", "processando"].includes(servico.status)) {
-      return res.status(400).json({
+      return sendErrorResponse({
+        res,
         message:
           "Não é possível atualizar um serviço pago ou em processamento.",
+        statusCode: 400,
       });
     }
 
@@ -80,14 +100,17 @@ exports.updateServico = async (req, res) => {
       new: true,
     });
 
-    res.status(200).json({
-      message: "Serviço atualizado com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 200,
       servico: servicoAtualizado,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao atualizar serviço",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao atualizar o serviço",
+      statusCode: 500,
     });
   }
 };
@@ -151,8 +174,10 @@ exports.listarServicos = async (req, res) => {
       Servico.countDocuments(queryResult),
     ]);
 
-    res.status(200).json({
-      servicos,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      results: servicos,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalDeServicos / limite),
@@ -161,7 +186,12 @@ exports.listarServicos = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar servicoes" });
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao listar os serviços",
+      statusCode: 500,
+    });
   }
 };
 
@@ -176,12 +206,19 @@ exports.listarServicoPorPrestador = async (req, res) => {
       ...(dataRegistro ? { dataRegistro: dataRegistro } : {}),
     }).populate("prestador", "nome documento");
 
-    res.status(200).json(servicos);
+    sendResponse({
+      res,
+      statusCode: 200,
+      servicos,
+    });
   } catch (error) {
     console.error("Erro na listagem:", error);
-    res
-      .status(400)
-      .json({ error: "Falha ao buscar serviços", details: error.message });
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao listar os serviços",
+      statusCode: 500,
+    });
   }
 };
 
@@ -197,11 +234,24 @@ exports.excluirServico = async (req, res) => {
     const servico = await Servico.findByIdAndDelete(servicoId);
 
     if (!servico)
-      return res.status(404).json({ error: "Servico não encontrado" });
+      return sendErrorResponse({
+        res,
+        message: "Serviço não encontrado",
+        statusCode: 404,
+      });
 
-    res.status(200).json({ data: servico });
+    sendResponse({
+      res,
+      statusCode: 200,
+      servico,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao excluir servico" });
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao excluir o serviço",
+      statusCode: 500,
+    });
   }
 };
 
@@ -214,14 +264,17 @@ exports.atualizarStatus = async (req, res) => {
       { $set: { status: status } }
     );
 
-    res.status(200).json({
-      message: "Serviço atualizado com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 200,
       servicos: result,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao atualizar serviço",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao atualizar o serviço",
+      statusCode: 500,
     });
   }
 };
