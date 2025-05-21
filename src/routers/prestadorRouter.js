@@ -39,15 +39,8 @@ router.patch(
   prestadorController.atualizarPrestador
 );
 
-router.delete(
-  "/:id",
-  registrarAcaoMiddleware({
-    acao: ACOES.EXCLUIDO,
-    entidade: ENTIDADES.PRESTADOR,
-    origem: ORIGENS.FORM,
-  }),
-  prestadorController.excluirPrestador
-);
+router.delete("/:id", prestadorController.excluirPrestador);
+
 router.post("/importar", uploadExcel.array("file"), importarPrestador);
 
 module.exports = router;

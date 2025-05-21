@@ -79,7 +79,8 @@ const listarTodosRegistros = async (req, res) => {
         .skip(skip)
         .limit(limite)
         .sort({ dataHora: -1 })
-        .populate("usuario"),
+        .select("-__v")
+        .populate("usuario", "-__v -senha -permissoes"),
       ControleAlteracao.countDocuments(queryResult),
     ]);
 

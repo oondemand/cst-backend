@@ -5,6 +5,12 @@ const Lista = require("../../models/Lista.js");
 const { parse } = require("date-fns");
 const { arrayToExcelBuffer, excelToJson } = require("../../utils/excel.js");
 const { LISTA_PAISES_OMIE } = require("../../utils/omie.js");
+const { registrarAcao } = require("../../services/controleService");
+const {
+  ACOES,
+  ENTIDADES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
 
 const criarNovoManager = async ({ manager }) => {
   const managers = await Lista.findOne({ codigo: "manager" });
@@ -66,7 +72,7 @@ const converterLinhaEmPrestador = async ({ row }) => {
   return prestador;
 };
 
-const criarNovoPrestador = async ({ prestador }) => {
+const criarNovoPrestador = async ({ prestador, usuario }) => {
   if (prestador?.email) {
     const prestadorExistente = await Prestador.findOne({
       email: prestador?.email,
@@ -84,6 +90,15 @@ const criarNovoPrestador = async ({ prestador }) => {
     status: "ativo",
   });
 
+  registrarAcao({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.PRESTADOR,
+    origem: ORIGENS.IMPORTACAO,
+    dadosAtualizados: novoPrestador,
+    idRegistroAlterado: novoPrestador._id,
+    usuario: usuario,
+  });
+
   await novoPrestador.save();
   return novoPrestador;
 };
@@ -91,6 +106,7 @@ const criarNovoPrestador = async ({ prestador }) => {
 const buscarPrestadorPorDocumentoEAtualizar = async ({
   documento,
   prestador,
+  usuario,
 }) => {
   if (!documento || !prestador) return null;
 
@@ -134,10 +150,19 @@ const buscarPrestadorPorDocumentoEAtualizar = async ({
     prestador
   );
 
+  registrarAcao({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.PRESTADOR,
+    origem: ORIGENS.IMPORTACAO,
+    dadosAtualizados: prestadorAtualizado,
+    idRegistroAlterado: prestadorAtualizado._id,
+    usuario: usuario,
+  });
+
   return prestadorAtualizado;
 };
 
-const processarJsonPrestadores = async ({ json }) => {
+const processarJsonPrestadores = async ({ json, usuario }) => {
   const detalhes = {
     totalDeLinhasLidas: json.length - 1,
     linhasLidasComErro: 0,
@@ -159,6 +184,7 @@ const processarJsonPrestadores = async ({ json }) => {
       let prestador = await buscarPrestadorPorDocumentoEAtualizar({
         documento: prestadorObj?.documento,
         prestador: prestadorObj,
+        usuario,
       });
 
       await criarNovoManager({ manager: prestadorObj?.manager });
@@ -166,6 +192,7 @@ const processarJsonPrestadores = async ({ json }) => {
       if (!prestador) {
         prestador = await criarNovoPrestador({
           prestador: prestadorObj,
+          usuario,
         });
 
         detalhes.novosPrestadores += 1;
@@ -198,6 +225,7 @@ exports.importarPrestador = async (req, res) => {
 
     const { detalhes, arquivoDeErro } = await processarJsonPrestadores({
       json,
+      usuario: req.usuario,
     });
 
     importacao.arquivoErro = arrayToExcelBuffer({ array: arquivoDeErro });

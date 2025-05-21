@@ -10,15 +10,10 @@ const controleAlteracaoSchema = new mongoose.Schema({
   usuario: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Usuario",
-    required: true,
   },
   entidade: {
     type: String,
     enum: Object.values(ENTIDADES),
-    required: true,
-  },
-  idRegistroAlterado: {
-    type: String,
     required: true,
   },
   acao: {
@@ -29,6 +24,10 @@ const controleAlteracaoSchema = new mongoose.Schema({
   origem: {
     type: String,
     enum: Object.values(ORIGENS),
+    required: true,
+  },
+  idRegistroAlterado: {
+    type: String,
     required: true,
   },
   dadosAtualizados: {

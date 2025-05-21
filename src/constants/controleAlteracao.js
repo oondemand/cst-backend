@@ -4,12 +4,18 @@ const ENTIDADES = {
   DOCUMENTO_FISCAL: "documento-fiscal",
   TICKET: "ticket",
   CONFIGURACAO_USUARIO: "configuracao.usuario",
-  CONFIGURACAO_LISTA_NOME_LISTA: "configuracao.lista.nome-lista",
   CONFIGURACAO_SISTEMA_EMAIL: "configuracao.sistema.email",
   CONFIGURACAO_SISTEMA_OMIE: "configuracao.sistema.omie",
   CONFIGURACAO_SISTEMA_APP_PRESTADOR: "configuracao.sistema.app-prestador",
   CONFIGURACAO_ASSISTENTE: "configuracao.assistente",
   CONFIGURACAO_ETAPA: "configuracao.etapa",
+  CONFIGURACAO_LISTA_CAMPANHA: "configuracao.lista.campanha",
+  CONFIGURACAO_LISTA_MANAGER: "configuracao.lista.manager",
+  CONFIGURACAO_LISTA_TIPO_DOCUMENTO: "configuracao.lista.tipo-documento",
+  CONFIGURACAO_LISTA_TIPO_DOCUMENTO_FISCAL:
+    "configuracao.lista.tipo-documento-fiscal",
+  CONFIGURACAO_LISTA_MOTIVO_RECUSA: "configuracao.lista.motivo-recusa",
+  CONFIGURACAO_LISTA_MOTIVO_OMIE: "configuracao.lista.omie",
 };
 
 const ACOES = {
@@ -27,7 +33,7 @@ const ACOES = {
 
 const ORIGENS = {
   FORM: "form",
-  // DATAGRID: "datagrid",
+  DATAGRID: "datagrid",
   IMPORTACAO: "importacao",
   OMIE: "omie",
   APP_PRESTADOR: "app-prestador",

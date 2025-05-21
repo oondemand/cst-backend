@@ -212,10 +212,10 @@ exports.atualizarPrestador = async (req, res) => {
       }
     );
 
-    sincronizarPrestador({
-      id: prestadorAtualizado._id,
-      prestador: prestadorAtualizado,
-    });
+    // sincronizarPrestador({
+    //   id: prestadorAtualizado._id,
+    //   prestador: prestadorAtualizado,
+    // });
 
     res.status(200).json({
       message: "Prestador atualizado com sucesso!",
@@ -236,6 +236,15 @@ exports.excluirPrestador = async (req, res) => {
     if (prestador?.usuario) {
       await Usuario.findByIdAndDelete(prestador?.usuario);
     }
+
+    registrarAcao({
+      acao: ACOES.EXCLUIDO,
+      entidade: ENTIDADES.PRESTADOR,
+      origem: ORIGENS.FORM,
+      dadosAtualizados: prestador,
+      idRegistroAlterado: prestador._id,
+      usuario: req.usuario,
+    });
 
     if (!prestador)
       return res.status(404).json({ error: "Prestador não encontrado" });
@@ -384,12 +393,20 @@ exports.prestadorWebHook = async (req, res) => {
         }
       }
 
-      await Prestador.findOneAndUpdate(
+      const prestadorAlterado = await Prestador.findOneAndUpdate(
         {
           $or: [{ documento }, { email: event.email }],
         },
         { ...prestadorOmie }
       );
+
+      registrarAcao({
+        acao: ACOES.ALTERADO,
+        entidade: ENTIDADES.PRESTADOR,
+        origem: ORIGENS.OMIE,
+        dadosAtualizados: prestadorAlterado,
+        idRegistroAlterado: prestadorAlterado._id,
+      });
     }
 
     res
