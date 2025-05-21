@@ -1,32 +1,32 @@
+const { ORIGENS } = require("../constants/controleAlteracao");
 const { registrarAcao } = require("../services/controleService");
 
-/**
- * Middleware para registrar ações (ex: após rota de update)
- */
-function registrarAcaoMiddleware({ entidade, acao, origem }) {
+function registrarAcaoMiddleware({ entidade, acao }) {
   return async (req, res, next) => {
+    const origem = req.headers["x-origem"] || ORIGENS.API;
     const originalJson = res.json;
     let responseBody;
 
+    // hack para interceptar o body da resposta
     res.json = function (body) {
       responseBody = body;
-      return originalJson.call(this, body); // Continua o fluxo normal
+      return originalJson.call(this, body);
     };
 
     res.on("finish", () => {
-      console.log("🟨 Response body ->", responseBody, originalJson);
+      const { message, ...rest } = responseBody || {};
+      const registradoAlterado = rest[Object.keys(rest)?.[0]];
 
-      // if (res.statusCode < 400) {
-      //   registrarAcao({
-      //     entidade,
-      //     acao,
-      //     origem,
-      //     usuario: req?.usuario?.id,
-      //     idRegistroAlterado: req?.params?.id,
-      //     dadosAtualizados: req?.body, // body da requisição
-      //     resposta: responseBody, // body da resposta
-      //   });
-      // }
+      if (res.statusCode < 400) {
+        registrarAcao({
+          entidade,
+          acao,
+          origem,
+          usuario: req?.usuario?.id,
+          idRegistroAlterado: registradoAlterado?._id,
+          dadosAtualizados: registradoAlterado,
+        });
+      }
     });
 
     next();

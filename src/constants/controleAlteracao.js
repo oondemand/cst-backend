@@ -37,10 +37,11 @@ const ORIGENS = {
   IMPORTACAO: "importacao",
   OMIE: "omie",
   APP_PRESTADOR: "app-prestador",
-  APROVACAO_DOCUMENTO: "aprovacao-documento",
+  APROVACAO_DOCUMENTO_CADASTRAL: "aprovacao-documento-cadastral",
   APROVACAO_DOCUMENTO_FISCAL: "aprovacao-documento-fiscal",
   PLANEJAMENTO: "planejamento",
   ESTEIRA: "esteira",
+  API: "api",
 };
 
 module.exports = {

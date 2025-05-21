@@ -1,4 +1,3 @@
-// src/controllers/prestadorController.js
 const Prestador = require("../../models/Prestador");
 const Ticket = require("../../models/Ticket");
 const {
@@ -13,19 +12,34 @@ const {
   ORIGENS,
 } = require("../../constants/controleAlteracao");
 
-// Método para obter prestador pelo idUsuario
+const {
+  sendPaginatedResponse,
+  sendSimpleResponse,
+  sendErrorResponse,
+} = require("../../utils/helpers");
+
 exports.obterPrestadorPorIdUsuario = async (req, res) => {
   try {
     const prestador = await Prestador.findOne({
       usuario: req.params.idUsuario,
     });
-    if (!prestador)
-      return res.status(404).json({ error: "Prestador não encontrado" });
-    res.status(200).json(prestador);
+
+    if (!prestador) {
+      return sendErrorResponse({
+        res,
+        message: "Prestador não encontrado!",
+        statusCode: 404,
+      });
+    }
+
+    sendSimpleResponse({ res, statusCode: 200, prestador });
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: "Erro ao obter prestador", detalhes: error.message });
+    sendErrorResponse({
+      res,
+      error,
+      message: "Um erro inesperado aconteceu ao obter prestador!",
+      statusCode: 400,
+    });
   }
 };
 
@@ -40,8 +54,10 @@ exports.criarPrestador = async (req, res) => {
       });
 
       if (prestador) {
-        return res.status(409).json({
-          message: "Já existe um prestador com esse documento registrado",
+        return sendErrorResponse({
+          res,
+          message: "Já existe um prestador com esse documento registrado!",
+          statusCode: 409,
         });
       }
     }
@@ -49,24 +65,17 @@ exports.criarPrestador = async (req, res) => {
     const prestador = new Prestador(data);
     await prestador.save();
 
-    registrarAcao({
-      acao: ACOES.ADICIONADO,
-      entidade: ENTIDADES.PRESTADOR,
-      origem: ORIGENS.FORM,
-      dadosAtualizados: prestador,
-      idRegistroAlterado: prestador._id,
-      usuario: req.usuario,
-    });
-
-    res.status(201).json({
-      message: "Prestador criado com sucesso!",
+    sendSimpleResponse({
+      res,
+      statusCode: 200,
       prestador,
     });
   } catch (error) {
-    console.error("Erro ao criar prestador:", error);
-    res.status(500).json({
-      message: "Erro ao criar prestador",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      error,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao criar prestador!",
     });
   }
 };
@@ -123,30 +132,47 @@ exports.listarPrestadores = async (req, res) => {
 
     const totalPages = Math.ceil(totalDePrestadores / limit);
 
-    const response = {
-      prestadores,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      message: "OK",
+      results: prestadores,
       pagination: {
         currentPage: page,
         totalPages,
         totalItems: totalDePrestadores,
         itemsPerPage: limit,
       },
-    };
-
-    res.status(200).json(response);
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar prestadores" });
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao listar prestadores.",
+      statusCode: 400,
+    });
   }
 };
 
 exports.obterPrestador = async (req, res) => {
   try {
     const prestador = await Prestador.findById(req.params.id);
-    if (!prestador)
-      return res.status(404).json({ error: "Prestador não encontrado" });
-    res.status(200).json(prestador);
+    if (!prestador) {
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Prestador não encontrado",
+      });
+    }
+
+    sendSimpleResponse({ res, statusCode: 200, prestador });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao obter prestador" });
+    sendErrorResponse({
+      res,
+      error,
+      message: "Ouve um erro inesperado ao obter prestador",
+      statusCode: 400,
+    });
   }
 };
 
@@ -155,7 +181,11 @@ exports.atualizarPrestador = async (req, res) => {
     const prestador = await Prestador.findById(req.params.id);
 
     if (!prestador) {
-      return res.status(404).json({ message: "Prestador não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Prestador não encontrado",
+      });
     }
 
     if (req.body.documento) {
@@ -167,7 +197,9 @@ exports.atualizarPrestador = async (req, res) => {
         prestadorDocumento &&
         prestador._id.toString() !== prestadorDocumento._id.toString()
       ) {
-        return res.status(409).json({
+        return sendErrorResponse({
+          res,
+          statusCode: 409,
           message: "Já existe um prestador com esse documento registrado",
         });
       }
@@ -182,7 +214,9 @@ exports.atualizarPrestador = async (req, res) => {
         prestadorEmail &&
         prestadorEmail?._id?.toString() !== prestador._id.toString()
       ) {
-        return res.status(409).json({
+        return sendErrorResponse({
+          res,
+          statusCode: 409,
           message: "Já existe um prestador com esse email registrado",
         });
       }
@@ -192,7 +226,9 @@ exports.atualizarPrestador = async (req, res) => {
 
         if (usuario) {
           if (usuario?._id?.toString() !== prestador.usuario.toString()) {
-            return res.status(409).json({
+            return sendErrorResponse({
+              res,
+              statusCode: 409,
               message:
                 "Já existe um usuário prestador com esse email registrado",
             });
@@ -217,14 +253,17 @@ exports.atualizarPrestador = async (req, res) => {
     //   prestador: prestadorAtualizado,
     // });
 
-    res.status(200).json({
-      message: "Prestador atualizado com sucesso!",
+    sendSimpleResponse({
+      res,
+      statusCode: 200,
       prestador: prestadorAtualizado,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao atualizar prestador",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      error,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao atualizar prestador!",
     });
   }
 };
@@ -237,20 +276,25 @@ exports.excluirPrestador = async (req, res) => {
       await Usuario.findByIdAndDelete(prestador?.usuario);
     }
 
-    registrarAcao({
-      acao: ACOES.EXCLUIDO,
-      entidade: ENTIDADES.PRESTADOR,
-      origem: ORIGENS.FORM,
-      dadosAtualizados: prestador,
-      idRegistroAlterado: prestador._id,
-      usuario: req.usuario,
-    });
-
     if (!prestador)
-      return res.status(404).json({ error: "Prestador não encontrado" });
-    res.status(204).send();
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Prestador não encontrado",
+      });
+
+    sendSimpleResponse({
+      res,
+      statusCode: 200,
+      prestador,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao excluir prestador" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      error,
+      message: "Ouve um erro ao inesperado ao excluir prestador",
+    });
   }
 };
 
@@ -259,13 +303,21 @@ exports.obterPrestadorPorDocumento = async (req, res) => {
     const prestador = await Prestador.findOne({
       documento: req.params.documento,
     });
-    if (!prestador)
-      return res.status(404).json({ error: "Prestador não encontrado" });
-    res.status(200).json(prestador);
+    if (!prestador) {
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Prestador não encontrado",
+      });
+    }
+
+    sendSimpleResponse({ res, statusCode: 200, prestador });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao obter prestador",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      error,
+      message: "Ouve um erro inesperado ao obter prestador",
     });
   }
 };
@@ -275,12 +327,20 @@ exports.obterPrestadorPorEmail = async (req, res) => {
     const prestador = await Prestador.findOne({
       email: req.params.email,
     });
-    if (!prestador)
-      return res.status(404).json({ error: "Prestador não encontrado" });
-    res.status(200).json(prestador);
+    if (!prestador) {
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Prestador não encontrado",
+      });
+    }
+
+    sendSimpleResponse({ res, statusCode: 200, prestador });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao obter prestador",
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao obter prestador por email",
       detalhes: error.message,
     });
   }
@@ -292,12 +352,20 @@ exports.obterPrestadorPorPis = async (req, res) => {
       "pessoaFisica.pis": req.params.pis,
     });
 
-    if (!prestador)
-      return res.status(404).json({ error: "Prestador não encontrado" });
-    res.status(200).json(prestador);
+    if (!prestador) {
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Prestador não encontrado",
+      });
+    }
+
+    sendSimpleResponse({ res, statusCode: 200, prestador });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao obter prestador",
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao obter prestador por pis",
       detalhes: error.message,
     });
   }
@@ -306,7 +374,13 @@ exports.obterPrestadorPorPis = async (req, res) => {
 exports.prestadorWebHook = async (req, res) => {
   try {
     const { event, ping, topic } = req.body;
-    if (ping === "omie") return res.status(200).json({ message: "pong" });
+    if (ping === "omie") {
+      return sendSimpleResponse({
+        res,
+        statusCode: 200,
+        message: "pong",
+      });
+    }
 
     if (topic === "ClienteFornecedor.Alterado") {
       console.log("🟩 Webhook recebido alterando prestador");
@@ -353,7 +427,9 @@ exports.prestadorWebHook = async (req, res) => {
           prestadorDocumento &&
           prestador._id.toString() !== prestadorDocumento._id.toString()
         ) {
-          return res.status(409).json({
+          return sendErrorResponse({
+            res,
+            statusCode: 409,
             message: "Já existe um prestador com esse documento registrado",
           });
         }
@@ -369,7 +445,9 @@ exports.prestadorWebHook = async (req, res) => {
           prestadorEmail?._id?.toString() !== prestador._id.toString()
         ) {
           console.log("Já existe um prestador com esse email registrado");
-          return res.status(409).json({
+          return sendErrorResponse({
+            res,
+            statusCode: 409,
             message: "Já existe um prestador com esse email registrado",
           });
         }
@@ -381,7 +459,9 @@ exports.prestadorWebHook = async (req, res) => {
 
           if (usuario) {
             if (usuario?._id?.toString() !== prestador.usuario.toString()) {
-              return res.status(409).json({
+              return sendErrorResponse({
+                res,
+                statusCode: 409,
                 message:
                   "Já existe um usuário prestador com esse email registrado",
               });
@@ -409,11 +489,18 @@ exports.prestadorWebHook = async (req, res) => {
       });
     }
 
-    res
-      .status(200)
-      .json({ message: "Webhook recebido. Dados sendo atualizados." });
+    sendSimpleResponse({
+      res,
+      statusCode: 200,
+      message: "Webhook recebido. Dados sendo atualizados.",
+    });
   } catch (error) {
     console.error("Erro ao processar o webhook:", error);
-    res.status(500).json({ error: "Erro ao processar o webhook." });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao processar o webhook.",
+      detalhes: error.message,
+    });
   }
 };

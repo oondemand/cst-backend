@@ -8,7 +8,6 @@ async function registrarAcao({
   idRegistroAlterado,
   dadosAtualizados,
 }) {
-  console.log("[RASTREABILIDADE] Registrando controle alteração...");
   try {
     const controleAlteracao = new ControleAlteracao({
       entidade,
@@ -21,7 +20,7 @@ async function registrarAcao({
 
     await controleAlteracao.save();
   } catch (e) {
-    console.log("[RASTREABILIDADE] Erro ao registrar controle alteração:", e);
+    // silent log
   }
 }
 

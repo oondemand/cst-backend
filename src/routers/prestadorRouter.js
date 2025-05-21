@@ -9,9 +9,16 @@ const router = express.Router();
 const {
   registrarAcaoMiddleware,
 } = require("../middlewares/registrarAcaoMiddleware");
-const { ACOES, ENTIDADES, ORIGENS } = require("../constants/controleAlteracao");
+const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
 
-router.post("/", prestadorController.criarPrestador);
+router.post(
+  "/",
+  registrarAcaoMiddleware({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.PRESTADOR,
+  }),
+  prestadorController.criarPrestador
+);
 
 router.get(
   "/usuario/:idUsuario",
@@ -34,12 +41,18 @@ router.patch(
   registrarAcaoMiddleware({
     acao: ACOES.ALTERADO,
     entidade: ENTIDADES.PRESTADOR,
-    origem: ORIGENS.FORM,
   }),
   prestadorController.atualizarPrestador
 );
 
-router.delete("/:id", prestadorController.excluirPrestador);
+router.delete(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.EXCLUIDO,
+    entidade: ENTIDADES.PRESTADOR,
+  }),
+  prestadorController.excluirPrestador
+);
 
 router.post("/importar", uploadExcel.array("file"), importarPrestador);
 
