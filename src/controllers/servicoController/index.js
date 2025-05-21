@@ -8,6 +8,13 @@ const {
   sendPaginatedResponse,
 } = require("../../utils/helpers");
 
+const { registrarAcao } = require("../../services/controleService");
+const {
+  ACOES,
+  ENTIDADES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
+
 exports.getServicoById = async (req, res) => {
   const { id } = req.params;
 
@@ -264,12 +271,26 @@ exports.atualizarStatus = async (req, res) => {
       { $set: { status: status } }
     );
 
+    const servicos = await Servico.find({ _id: { $in: ids } });
+
+    for (const servico of servicos) {
+      await registrarAcao({
+        acao: ACOES.ALTERADO,
+        entidade: ENTIDADES.SERVICO,
+        origem: ORIGENS.PLANEJAMENTO,
+        usuario: req.usuario,
+        idRegistroAlterado: servico._id,
+        dadosAtualizados: servico,
+      });
+    }
+
     sendResponse({
       res,
       statusCode: 200,
       servicos: result,
     });
   } catch (error) {
+    console.log("ERRO AO ATUALIZAR STATUS", error);
     sendErrorResponse({
       res,
       error,
