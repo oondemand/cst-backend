@@ -1,4 +1,4 @@
-exports.sendSimpleResponse = ({ res, statusCode, message = "OK", ...rest }) => {
+exports.sendResponse = ({ res, statusCode, message = "OK", ...rest }) => {
   res.status(statusCode).send({ message, ...rest });
 };
 

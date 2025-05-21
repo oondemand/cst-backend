@@ -14,7 +14,7 @@ const {
 
 const {
   sendPaginatedResponse,
-  sendSimpleResponse,
+  sendResponse,
   sendErrorResponse,
 } = require("../../utils/helpers");
 
@@ -32,7 +32,7 @@ exports.obterPrestadorPorIdUsuario = async (req, res) => {
       });
     }
 
-    sendSimpleResponse({ res, statusCode: 200, prestador });
+    sendResponse({ res, statusCode: 200, prestador });
   } catch (error) {
     sendErrorResponse({
       res,
@@ -65,7 +65,7 @@ exports.criarPrestador = async (req, res) => {
     const prestador = new Prestador(data);
     await prestador.save();
 
-    sendSimpleResponse({
+    sendResponse({
       res,
       statusCode: 200,
       prestador,
@@ -165,7 +165,7 @@ exports.obterPrestador = async (req, res) => {
       });
     }
 
-    sendSimpleResponse({ res, statusCode: 200, prestador });
+    sendResponse({ res, statusCode: 200, prestador });
   } catch (error) {
     sendErrorResponse({
       res,
@@ -248,12 +248,12 @@ exports.atualizarPrestador = async (req, res) => {
       }
     );
 
-    // sincronizarPrestador({
-    //   id: prestadorAtualizado._id,
-    //   prestador: prestadorAtualizado,
-    // });
+    sincronizarPrestador({
+      id: prestadorAtualizado._id,
+      prestador: prestadorAtualizado,
+    });
 
-    sendSimpleResponse({
+    sendResponse({
       res,
       statusCode: 200,
       prestador: prestadorAtualizado,
@@ -283,7 +283,7 @@ exports.excluirPrestador = async (req, res) => {
         message: "Prestador não encontrado",
       });
 
-    sendSimpleResponse({
+    sendResponse({
       res,
       statusCode: 200,
       prestador,
@@ -311,7 +311,7 @@ exports.obterPrestadorPorDocumento = async (req, res) => {
       });
     }
 
-    sendSimpleResponse({ res, statusCode: 200, prestador });
+    sendResponse({ res, statusCode: 200, prestador });
   } catch (error) {
     sendErrorResponse({
       res,
@@ -335,7 +335,7 @@ exports.obterPrestadorPorEmail = async (req, res) => {
       });
     }
 
-    sendSimpleResponse({ res, statusCode: 200, prestador });
+    sendResponse({ res, statusCode: 200, prestador });
   } catch (error) {
     sendErrorResponse({
       res,
@@ -360,7 +360,7 @@ exports.obterPrestadorPorPis = async (req, res) => {
       });
     }
 
-    sendSimpleResponse({ res, statusCode: 200, prestador });
+    sendResponse({ res, statusCode: 200, prestador });
   } catch (error) {
     sendErrorResponse({
       res,
@@ -375,7 +375,7 @@ exports.prestadorWebHook = async (req, res) => {
   try {
     const { event, ping, topic } = req.body;
     if (ping === "omie") {
-      return sendSimpleResponse({
+      return sendResponse({
         res,
         statusCode: 200,
         message: "pong",
@@ -489,7 +489,7 @@ exports.prestadorWebHook = async (req, res) => {
       });
     }
 
-    sendSimpleResponse({
+    sendResponse({
       res,
       statusCode: 200,
       message: "Webhook recebido. Dados sendo atualizados.",
