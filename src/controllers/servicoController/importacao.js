@@ -3,6 +3,13 @@ const Prestador = require("../../models/Prestador.js");
 const Usuario = require("../../models/Usuario.js");
 const Servico = require("../../models/Servico.js");
 
+const { registrarAcao } = require("../../services/controleService");
+const {
+  ACOES,
+  ENTIDADES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
+
 const {
   arrayToExcelBuffer,
   arredondarValor,
@@ -51,7 +58,7 @@ const buscarPrestadorPorDocumento = async ({ documento }) => {
   return await Prestador.findOne({ documento });
 };
 
-const criarNovoPrestador = async ({ nome, tipo, documento }) => {
+const criarNovoPrestador = async ({ nome, tipo, documento, usuario }) => {
   const prestador = new Prestador({
     nome,
     tipo,
@@ -60,19 +67,38 @@ const criarNovoPrestador = async ({ nome, tipo, documento }) => {
   });
 
   await prestador.save();
+
+  registrarAcao({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.PRESTADOR,
+    origem: ORIGENS.IMPORTACAO,
+    dadosAtualizados: prestador,
+    idRegistroAlterado: prestador._id,
+    usuario,
+  });
+
   return prestador;
 };
 
-const criarNovoServico = async (servico) => {
+const criarNovoServico = async (servico, usuario) => {
   const novoServico = new Servico({
     ...servico,
     status: "aberto",
   });
 
   await novoServico.save();
+
+  registrarAcao({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.SERVICO,
+    origem: ORIGENS.IMPORTACAO,
+    dadosAtualizados: novoServico,
+    idRegistroAlterado: novoServico._id,
+    usuario,
+  });
 };
 
-const processarJsonServicos = async ({ json }) => {
+const processarJsonServicos = async ({ json, usuario }) => {
   const detalhes = {
     totalDeLinhasLidas: json.length - 1,
     linhasLidasComErro: 0,
@@ -96,11 +122,14 @@ const processarJsonServicos = async ({ json }) => {
       });
 
       if (!prestador) {
-        prestador = await criarNovoPrestador({
-          documento: servico?.prestador?.documento,
-          nome: servico?.prestador?.nome,
-          tipo: servico?.prestador?.tipo,
-        });
+        prestador = await criarNovoPrestador(
+          {
+            documento: servico?.prestador?.documento,
+            nome: servico?.prestador?.nome,
+            tipo: servico?.prestador?.tipo,
+          },
+          usuario
+        );
 
         detalhes.novosPrestadores += 1;
         await prestador.save();
@@ -118,7 +147,13 @@ const processarJsonServicos = async ({ json }) => {
       }
 
       if (!servicoExistente) {
-        await criarNovoServico({ ...servico, prestador: prestador?._id });
+        await criarNovoServico(
+          {
+            ...servico,
+            prestador: prestador?._id,
+          },
+          usuario
+        );
         detalhes.novosServicos += 1;
       }
     } catch (error) {
@@ -146,7 +181,10 @@ exports.importarServico = async (req, res) => {
 
     const json = excelToJson({ arquivo });
 
-    const { detalhes, arquivoDeErro } = await processarJsonServicos({ json });
+    const { detalhes, arquivoDeErro } = await processarJsonServicos({
+      json,
+      usuario: req.usuario,
+    });
 
     importacao.arquivoErro = arrayToExcelBuffer({ array: arquivoDeErro });
     importacao.arquivoLog = Buffer.from(detalhes.errors);

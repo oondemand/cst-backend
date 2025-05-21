@@ -12,7 +12,7 @@ const {
   ORIGENS,
 } = require("../../constants/controleAlteracao");
 
-const criarNovoManager = async ({ manager }) => {
+const criarNovoManager = async ({ manager, usuario }) => {
   const managers = await Lista.findOne({ codigo: "manager" });
   const managerExistente = managers.valores.some(
     (e) => e?.valor?.trim() === manager?.trim()
@@ -21,6 +21,15 @@ const criarNovoManager = async ({ manager }) => {
   if (!managerExistente) {
     managers.valores.push({ valor: manager?.trim() });
     await managers.save();
+
+    registrarAcao({
+      acao: ACOES.ADICIONADO,
+      entidade: ENTIDADES.CONFIGURACAO_LISTA_MANAGER,
+      origem: ORIGENS.IMPORTACAO,
+      dadosAtualizados: managers,
+      idRegistroAlterado: managers._id,
+      usuario: usuario,
+    });
   }
 };
 
@@ -187,7 +196,7 @@ const processarJsonPrestadores = async ({ json, usuario }) => {
         usuario,
       });
 
-      await criarNovoManager({ manager: prestadorObj?.manager });
+      await criarNovoManager({ manager: prestadorObj?.manager, usuario });
 
       if (!prestador) {
         prestador = await criarNovoPrestador({

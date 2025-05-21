@@ -20,7 +20,7 @@ async function registrarAcao({
 
     await controleAlteracao.save();
   } catch (e) {
-    // silent log
+    console.log("ERRO AO REGISTRAR ACAO", e);
   }
 }
 
