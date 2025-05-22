@@ -9,6 +9,19 @@ const DocumentoFiscal = require("../../models/DocumentoFiscal");
 const filtersUtils = require("../../utils/filter");
 const { criarNomePersonalizado } = require("../../utils/formatters");
 
+const { registrarAcao } = require("../../services/controleService");
+const {
+  ACOES,
+  ENTIDADES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
+
+const {
+  sendPaginatedResponse,
+  sendResponse,
+  sendErrorResponse,
+} = require("../../utils/helpers");
+
 exports.createDocumentoFiscal = async (req, res) => {
   try {
     const filteredBody = Object.fromEntries(
@@ -22,15 +35,17 @@ exports.createDocumentoFiscal = async (req, res) => {
 
     await novoDocumentoFiscal.save();
 
-    res.status(201).json({
-      message: "Documento fiscal criado com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 201,
       documentoFiscal: novoDocumentoFiscal,
     });
   } catch (error) {
-    console.error("Erro ao criar documento fiscal:", error);
-    res.status(500).json({
-      message: "Erro ao criar documento fiscal",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao criar o documento fiscal",
+      error,
     });
   }
 };
@@ -41,9 +56,11 @@ exports.criarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
     const arquivo = req.file;
 
     if (!arquivo) {
-      return res
-        .status(400)
-        .json({ message: "Arquivo é um campo obrigatório" });
+      sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Arquivo é um campo obrigatório",
+      });
     }
 
     const prestador = await Prestador.findOne({
@@ -51,7 +68,11 @@ exports.criarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
     });
 
     if (!prestador) {
-      return res.status(400).json({ message: "Prestador não encontrado" });
+      sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Prestador não encontrado",
+      });
     }
 
     const filteredBody = Object.fromEntries(
@@ -85,12 +106,18 @@ exports.criarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
 
     await novoDocumentoFiscal.save();
 
-    return res.status(201).json({
-      message: "Documento fiscal criado com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 201,
       documentoFiscal: novoDocumentoFiscal,
     });
   } catch (error) {
-    return res.status(400).json({ message: "Erro ao criar documento fiscal" });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao criar o documento fiscal",
+      error,
+    });
   }
 };
 
@@ -102,13 +129,17 @@ exports.updateDocumentoFiscal = async (req, res) => {
     const documentoFiscal = await DocumentoFiscal.findById(id);
 
     if (!documentoFiscal) {
-      return res.status(404).json({
+      sendErrorResponse({
+        res,
+        statusCode: 404,
         message: "Documento fiscal não encontrado",
       });
     }
 
     if (["pago", "processando"].includes(documentoFiscal.status)) {
-      return res.status(400).json({
+      sendErrorResponse({
+        res,
+        statusCode: 400,
         message:
           "Não é possível atualizar um documento fiscal com status pago ou processando.",
       });
@@ -122,14 +153,17 @@ exports.updateDocumentoFiscal = async (req, res) => {
       }
     );
 
-    res.status(200).json({
-      message: "Documento fiscal atualizado com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 200,
       documentoFiscal: documentoFiscalAtualizado,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao atualizar documento fiscal",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      error,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao atualizar o documento fiscal",
     });
   }
 };
@@ -194,8 +228,10 @@ exports.listarDocumentoFiscal = async (req, res) => {
       DocumentoFiscal.countDocuments(queryResult),
     ]);
 
-    res.status(200).json({
-      documentosFiscais,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      results: documentosFiscais,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalDedocumentosFiscais / limite),
@@ -204,7 +240,12 @@ exports.listarDocumentoFiscal = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar documentos fiscais" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Ouve um erro inesperado ao listar os documentos fiscais",
+      error,
+    });
   }
 };
 
@@ -218,12 +259,18 @@ exports.listarDocumentoFiscalPorPrestador = async (req, res) => {
       status: { $nin: ["processando", "pago"] },
     }).populate("prestador", "sid nome documento");
 
-    res.status(200).json(documentosFiscais);
+    sendResponse({
+      res,
+      statusCode: 200,
+      documentosFiscais,
+    });
   } catch (error) {
-    console.error("Erro na listagem:", error);
-    res
-      .status(400)
-      .json({ error: "Falha ao buscar serviços", details: error.message });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Ouve um erro inesperado ao listar os documentos fiscais",
+      error,
+    });
   }
 };
 
@@ -237,11 +284,18 @@ exports.listarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
       prestador: prestador,
     }).populate("prestador", "sid nome documento");
 
-    res.status(200).json(documentosFiscais);
+    sendResponse({
+      res,
+      statusCode: 200,
+      documentosFiscais,
+    });
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: "Falha ao buscar serviços", details: error.message });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Ouve um erro inesperado ao listar os documentos fiscais",
+      error,
+    });
   }
 };
 
@@ -258,11 +312,24 @@ exports.excluirDocumentoFiscal = async (req, res) => {
       await DocumentoFiscal.findByIdAndDelete(documentoFiscalId);
 
     if (!documentoFiscal)
-      return res.status(404).json({ error: "Documento fiscal não encontrado" });
+      sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Documento fiscal não encontrado",
+      });
 
-    res.status(200).json({ data: documentoFiscal });
+    sendResponse({
+      res,
+      statusCode: 200,
+      data: documentoFiscal,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao excluir documento fiscal" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Ouve um erro inesperado ao excluir o documento fiscal",
+      error,
+    });
   }
 };
 
@@ -287,9 +354,19 @@ exports.anexarArquivo = async (req, res) => {
     documentoFiscal.arquivo = novoArquivo._id;
     await documentoFiscal.save();
 
-    return res.status(200).json(novoArquivo);
+    sendResponse({
+      res,
+      statusCode: 200,
+      arquivo: novoArquivo,
+    });
   } catch (error) {
-    res.status(400).json({ message: "Ouve um erro ao anexar o arquivo" });
+    console.log(error);
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Ouve um erro ao anexar o arquivo",
+      error: error?.message,
+    });
   }
 };
 
@@ -304,11 +381,17 @@ exports.excluirArquivo = async (req, res) => {
       { $unset: { arquivo: id } }
     );
 
-    res.status(200).json(arquivo);
+    sendResponse({
+      res,
+      statusCode: 200,
+      arquivo,
+    });
   } catch (error) {
-    res.status(500).json({
+    sendErrorResponse({
+      res,
+      statusCode: 500,
       message: "Erro ao deletar arquivo do ticket",
-      error: error.message,
+      error,
     });
   }
 };
@@ -319,13 +402,21 @@ exports.aprovarDocumento = async (req, res) => {
     const documentoFiscal = await DocumentoFiscal.findById(documentoFiscalId);
 
     if (!documentoFiscal) {
-      return res.status(404).json({ error: "Documento fiscal não encontrado" });
+      sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Documento fiscal não encontrado",
+      });
     }
 
     const prestador = await Prestador.findById(prestadorId);
 
     if (!prestador) {
-      return res.status(404).json({ error: "Prestador não encontrado" });
+      sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Prestador não encontrado",
+      });
     }
 
     const servicosEncontrados = await Servico.find({ _id: { $in: servicos } });
@@ -352,8 +443,53 @@ exports.aprovarDocumento = async (req, res) => {
       { $set: { status: "processando" } }
     );
 
-    return res.status(200).json(ticket);
+    sendResponse({
+      res,
+      statusCode: 200,
+      ticket,
+    });
   } catch (error) {
-    return res.status(400).json({ error: "Erro ao aprovar documento" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Ouve um erro ao aprovar o documento fiscal",
+      error,
+    });
+  }
+};
+
+exports.reprovarDocumento = async (req, res) => {
+  try {
+    console.log(req.params.id);
+
+    const { motivoRecusa, observacaoInterna, observacaoPrestador } = req.body;
+    const documentoFiscal = await DocumentoFiscal.findById(req.params.id);
+
+    if (!documentoFiscal) {
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Documento fiscal não encontrado",
+      });
+    }
+
+    documentoFiscal.statusValidacao = "recusado";
+    documentoFiscal.motivoRecusa = motivoRecusa;
+    documentoFiscal.observacaoInterna = observacaoInterna;
+    documentoFiscal.observacaoPrestador = observacaoPrestador;
+    await documentoFiscal.save();
+
+    sendResponse({
+      res,
+      statusCode: 200,
+      documentoFiscal,
+    });
+  } catch (error) {
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Ouve um erro ao reprovar o documento fiscal",
+      error,
+    });
   }
 };

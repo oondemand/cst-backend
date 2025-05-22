@@ -9,6 +9,19 @@ const DocumentoCadastral = require("../../models/DocumentoCadastral");
 const filtersUtils = require("../../utils/filter");
 const { criarNomePersonalizado } = require("../../utils/formatters");
 
+const { registrarAcao } = require("../../services/controleService");
+const {
+  ACOES,
+  ENTIDADES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
+
+const {
+  sendPaginatedResponse,
+  sendResponse,
+  sendErrorResponse,
+} = require("../../utils/helpers");
+
 exports.createDocumentoCadastral = async (req, res) => {
   try {
     const filteredBody = Object.fromEntries(
@@ -21,15 +34,19 @@ exports.createDocumentoCadastral = async (req, res) => {
 
     await novoDocumentoCadastral.save();
 
-    res.status(201).json({
+    sendResponse({
+      res,
+      statusCode: 201,
       message: "Documento cadastral criado com sucesso!",
       documentoCadastral: novoDocumentoCadastral,
     });
   } catch (error) {
     console.error("Erro ao criar documento cadastral:", error);
-    res.status(500).json({
+    sendErrorResponse({
+      res,
+      statusCode: 500,
       message: "Erro ao criar documento cadastral",
-      detalhes: error.message,
+      error: error?.message,
     });
   }
 };

@@ -8,6 +8,10 @@ const router = express.Router();
 const multer = require("multer");
 const { uploadExcel } = require("../config/multer");
 const path = require("node:path");
+const {
+  registrarAcaoMiddleware,
+} = require("../middlewares/registrarAcaoMiddleware");
+const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
 
 const storage = multer.memoryStorage({});
 
@@ -42,13 +46,31 @@ router.get(
   documentoFiscalController.listarDocumentoFiscalPorUsuarioPrestador
 );
 
-router.delete("/:id", documentoFiscalController.excluirDocumentoFiscal);
+router.delete(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.EXCLUIDO,
+    entidade: ENTIDADES.DOCUMENTO_FISCAL,
+  }),
+  documentoFiscalController.excluirDocumentoFiscal
+);
 
-router.post("/", documentoFiscalController.createDocumentoFiscal);
+router.post(
+  "/",
+  registrarAcaoMiddleware({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.DOCUMENTO_FISCAL,
+  }),
+  documentoFiscalController.createDocumentoFiscal
+);
 
 router.post(
   "/usuario-prestador",
   upload.single("file"),
+  registrarAcaoMiddleware({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.DOCUMENTO_FISCAL,
+  }),
   documentoFiscalController.criarDocumentoFiscalPorUsuarioPrestador
 );
 
@@ -63,8 +85,32 @@ router.delete(
   documentoFiscalController.excluirArquivo
 );
 
-router.patch("/:id", documentoFiscalController.updateDocumentoFiscal);
-router.post("/aprovar-documento", documentoFiscalController.aprovarDocumento);
+router.patch(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.DOCUMENTO_FISCAL,
+  }),
+  documentoFiscalController.updateDocumentoFiscal
+);
+
+router.post(
+  "/aprovar-documento",
+  registrarAcaoMiddleware({
+    acao: ACOES.APROVADO,
+    entidade: ENTIDADES.DOCUMENTO_FISCAL,
+  }),
+  documentoFiscalController.aprovarDocumento
+);
+
+router.post(
+  "/reprovar-documento/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.REPROVADO,
+    entidade: ENTIDADES.DOCUMENTO_FISCAL,
+  }),
+  documentoFiscalController.reprovarDocumento
+);
 
 router.post("/importar", uploadExcel.array("file"), importarDocumentoFiscal);
 
