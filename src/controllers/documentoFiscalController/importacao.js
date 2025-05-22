@@ -9,42 +9,49 @@ const {
   excelToJson,
 } = require("../../utils/excel.js");
 
+const { registrarAcao } = require("../../services/controleService");
+const {
+  ACOES,
+  ENTIDADES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
+
+const { sendErrorResponse, sendResponse } = require("../../utils/helpers");
+
 const converterLinhaEmDocumentoFiscal = async ({ row }) => {
-  const competencia = row[5];
+  const competencia = row[4];
 
   const documentoFiscal = {
     prestador: {
       nome: row[0],
-      sid: row[1],
-      documento: row[2],
+      documento: row[1],
     },
-    tipoDocumentoFiscal: row[3],
-    numero: row[4],
+    tipoDocumentoFiscal: row[2],
+    numero: row[3],
     competencia: {
       mes: competencia && competencia.getMonth() + 1,
       ano: competencia && competencia.getFullYear(),
     },
 
-    valor: arredondarValor(row[6]),
-    imposto: arredondarValor(row[7]),
-    classificacaoFiscal: row[8],
-    descricao: row[9],
-    motivoRecusa: row[10],
-    observacaoPrestador: row[11],
-    observacao: row[12],
+    valor: arredondarValor(row[5]),
+    imposto: arredondarValor(row[6]),
+    classificacaoFiscal: row[7],
+    descricao: row[8],
+    motivoRecusa: row[9],
+    observacaoPrestador: row[10],
+    observacao: row[11],
   };
 
   return documentoFiscal;
 };
 
-const buscarPrestadorPorSid = async ({ sid }) => {
-  if (!sid) return null;
-  return await Prestador.findOne({ sid });
+const buscarPrestadorPorDocumento = async ({ documento }) => {
+  if (!documento) return null;
+  return await Prestador.findOne({ documento });
 };
 
-const criarNovoPrestador = async ({ sid, nome, tipo, documento }) => {
+const criarNovoPrestador = async ({ nome, tipo, documento, usuario }) => {
   const prestador = new Prestador({
-    sid,
     nome,
     tipo: tipo ? tipo : "",
     documento,
@@ -52,25 +59,44 @@ const criarNovoPrestador = async ({ sid, nome, tipo, documento }) => {
   });
 
   await prestador.save();
+
+  registrarAcao({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.PRESTADOR,
+    origem: ORIGENS.IMPORTACAO,
+    dadosAtualizados: prestador,
+    idRegistro: prestador?._id,
+    usuario,
+  });
+
   return prestador;
 };
 
-const criarNovoDocumentoFiscal = async (documentoFiscal) => {
+const criarNovoDocumentoFiscal = async (documentoFiscal, usuario) => {
   const novoDocumentoFiscal = new DocumentoFiscal({
     ...documentoFiscal,
     status: "aberto",
   });
 
   await novoDocumentoFiscal.save();
+
+  registrarAcao({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.DOCUMENTO_FISCAL,
+    origem: ORIGENS.IMPORTACAO,
+    dadosAtualizados: novoDocumentoFiscal,
+    idRegistro: novoDocumentoFiscal?._id,
+    usuario,
+  });
 };
 
-const criarNovoMotivoRecusa = async ({ motivoRecusa }) => {
+const criarNovoMotivoRecusa = async ({ motivoRecusa, usuario }) => {
   if (!motivoRecusa || motivoRecusa.trim() === "") return;
 
   const trimmedMotivoRecusa = motivoRecusa.trim();
 
   try {
-    await Lista.findOneAndUpdate(
+    const updatedMotivoRecusa = await Lista.findOneAndUpdate(
       {
         codigo: "motivo-recusa",
         "valores.valor": { $ne: trimmedMotivoRecusa },
@@ -80,12 +106,21 @@ const criarNovoMotivoRecusa = async ({ motivoRecusa }) => {
       },
       { upsert: true, new: true }
     );
+
+    registrarAcao({
+      acao: ACOES.ADICIONADO,
+      entidade: ENTIDADES.CONFIGURACAO_LISTA_MOTIVO_RECUSA,
+      origem: ORIGENS.IMPORTACAO,
+      dadosAtualizados: updatedMotivoRecusa,
+      idRegistro: updatedMotivoRecusa?._id,
+      usuario,
+    });
   } catch (error) {
     console.error("Erro ao adicionar nova motivo recusa:", error);
   }
 };
 
-const processarJsonDocumentosFiscais = async ({ json }) => {
+const processarJsonDocumentosFiscais = async ({ json, usuario }) => {
   const detalhes = {
     totalDeLinhasLidas: json.length - 1,
     linhasLidasComErro: 0,
@@ -105,16 +140,16 @@ const processarJsonDocumentosFiscais = async ({ json }) => {
 
       const documentoFiscal = await converterLinhaEmDocumentoFiscal({ row });
 
-      let prestador = await buscarPrestadorPorSid({
-        sid: documentoFiscal?.prestador?.sid,
+      let prestador = await buscarPrestadorPorDocumento({
+        documento: documentoFiscal?.prestador?.documento,
       });
 
       if (!prestador) {
         prestador = await criarNovoPrestador({
-          sid: documentoFiscal?.prestador?.sid,
           documento: documentoFiscal?.prestador?.documento,
           nome: documentoFiscal?.prestador?.nome,
           tipo: documentoFiscal?.prestador?.tipo,
+          usuario,
         });
 
         detalhes.novosPrestadores += 1;
@@ -122,12 +157,17 @@ const processarJsonDocumentosFiscais = async ({ json }) => {
 
       await criarNovoMotivoRecusa({
         motivoRecusa: documentoFiscal?.motivoRecusa,
+        usuario,
       });
 
-      await criarNovoDocumentoFiscal({
-        ...documentoFiscal,
-        prestador: prestador?._id,
-      });
+      await criarNovoDocumentoFiscal(
+        {
+          ...documentoFiscal,
+          prestador: prestador?._id,
+        },
+        usuario
+      );
+
       detalhes.novosDocumentosFiscais += 1;
     } catch (error) {
       arquivoDeErro.push(row);
@@ -156,6 +196,7 @@ exports.importarDocumentoFiscal = async (req, res) => {
 
     const { detalhes, arquivoDeErro } = await processarJsonDocumentosFiscais({
       json,
+      usuario: req.usuario,
     });
 
     importacao.arquivoErro = arrayToExcelBuffer({ array: arquivoDeErro });
