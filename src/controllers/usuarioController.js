@@ -6,7 +6,11 @@ const emailUtils = require("../utils/emailUtils");
 const jwt = require("jsonwebtoken");
 
 const filtersUtils = require("../utils/filter");
-const { sendErrorResponse, sendResponse } = require("../utils/helpers");
+const {
+  sendErrorResponse,
+  sendResponse,
+  sendPaginatedResponse,
+} = require("../utils/helpers");
 const { registrarAcao } = require("../services/controleService");
 const { ACOES, ENTIDADES, ORIGENS } = require("../constants/controleAlteracao");
 
@@ -16,16 +20,24 @@ exports.seedUsuario = async (req, res) => {
     const usuarioAtivo = await Usuario.findOne({ status: "ativo" });
 
     if (usuarioAtivo) {
-      return res
-        .status(400)
-        .json({ error: "Já existe um usuário ativo no sistema" });
+      return sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Já existe um usuário ativo no sistema",
+      });
     }
 
-    const novoUsuario = new Usuario({ nome, email, senha, status, permissoes });
-    await novoUsuario.save();
-    res.status(201).json(novoUsuario);
+    const usuario = new Usuario({ nome, email, senha, status, permissoes });
+    await usuario.save();
+
+    sendResponse({ res, statusCode: 201, usuario });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao registrar usuário" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao registrar usuário",
+      error: error.message,
+    });
   }
 };
 
@@ -50,9 +62,14 @@ exports.registrarUsuario = async (req, res) => {
     }
 
     await novoUsuario.save();
-    res.status(201).json(novoUsuario);
+    sendResponse({ res, statusCode: 201, usuario: novoUsuario });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao registrar usuário" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao registrar usuário",
+      error: error.message,
+    });
   }
 };
 
@@ -61,17 +78,31 @@ exports.loginUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findOne({ email });
     if (!usuario)
-      return res.status(404).json({ mensagem: "Usuário não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Usuário não encontrado",
+      });
 
     if (usuario.status === "arquivado")
-      return res.status(404).json({ mensagem: "Usuário não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Usuário não encontrado",
+      });
 
     if (!(await bcrypt.compare(senha, usuario.senha)))
-      return res.status(401).json({ mensagem: "Credenciais inválidas" });
+      return sendErrorResponse({
+        res,
+        statusCode: 401,
+        message: "Credenciais inválidas",
+      });
 
     if (usuario.status === "ativo") {
       const token = usuario.gerarToken();
-      res.json({
+      sendResponse({
+        res,
+        statusCode: 200,
         token,
         usuario: {
           _id: usuario._id,
@@ -81,20 +112,30 @@ exports.loginUsuario = async (req, res) => {
         },
       });
     } else if (usuario.status === "email-nao-confirmado") {
-      res
-        .status(401)
-        .json({ mensagem: "E-mail não confirmado", status: usuario.status });
+      sendErrorResponse({
+        res,
+        statusCode: 401,
+        message: "E-mail não confirmado",
+        status: usuario.status,
+      });
     } else {
       const msg = {
         mensagem: "O usuário não está ativo",
         status: usuario.status,
       };
-      res.status(401).json(msg);
+      sendErrorResponse({
+        res,
+        statusCode: 401,
+        message: msg,
+      });
     }
   } catch (error) {
-    res
-      .status(400)
-      .json({ mensagem: "Erro ao fazer login", detalhes: error.message });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao fazer login",
+      error: error.message,
+    });
   }
 };
 
@@ -149,8 +190,10 @@ exports.listarUsuarios = async (req, res) => {
       Usuario.countDocuments(queryResult),
     ]);
 
-    res.status(200).json({
-      usuarios,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      results: usuarios,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalDeUsuarios / limite),
@@ -159,7 +202,12 @@ exports.listarUsuarios = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar usuários" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao listar usuários",
+      error: error.message,
+    });
   }
 };
 
@@ -167,10 +215,20 @@ exports.obterUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findById(req.params.id);
     if (!usuario)
-      return res.status(404).json({ error: "Usuário não encontrado" });
-    res.json(usuario);
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Usuário não encontrado",
+      });
+
+    sendResponse({ res, statusCode: 200, usuario });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao obter usuário" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao obter usuário",
+      error: error.message,
+    });
   }
 };
 
@@ -183,11 +241,20 @@ exports.atualizarUsuario = async (req, res) => {
       { new: true }
     );
     if (!usuario)
-      return res.status(404).json({ error: "Usuário não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Usuário não encontrado",
+      });
 
-    res.json(usuario);
+    sendResponse({ res, statusCode: 200, usuario });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao atualizar usuário" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao atualizar usuário",
+      error: error.message,
+    });
   }
 };
 
@@ -195,20 +262,34 @@ exports.excluirUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findByIdAndDelete(req.params.id);
     if (!usuario)
-      return res.status(404).json({ error: "Usuário não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Usuário não encontrado",
+      });
 
-    res.status(204).send();
+    sendResponse({ res, statusCode: 204, usuario });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao excluir usuário" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao excluir usuário",
+      error: error.message,
+    });
   }
 };
 
 exports.validarToken = async (req, res) => {
   try {
     // Se passou pelo middleware, `req.usuario` já está preenchido
-    res.json(req.usuario);
+    sendResponse({ res, statusCode: 200, usuario: req.usuario });
   } catch (error) {
-    res.status(401).json({ error: "Token inválido ou expirado" });
+    sendErrorResponse({
+      res,
+      statusCode: 401,
+      message: "Token inválido ou expirado",
+      error: error.message,
+    });
   }
 };
 
@@ -216,19 +297,29 @@ exports.esqueciMinhaSenha = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    return res
-      .status(404)
-      .json({ error: "Não foi encontrado um usuário com esse email" });
+    return sendErrorResponse({
+      res,
+      statusCode: 404,
+      message: "Não foi encontrado um usuário com esse email",
+    });
   }
 
   try {
     const usuario = await Usuario.findOne({ email });
 
     if (!usuario)
-      return res.status(404).json({ message: "Usuário não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Usuário não encontrado",
+      });
 
     if (usuario.status === "arquivado")
-      return res.status(404).json({ message: "Usuário não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Usuário não encontrado",
+      });
 
     if (usuario.status === "ativo") {
       const token = usuario.gerarToken();
@@ -250,10 +341,15 @@ exports.esqueciMinhaSenha = async (req, res) => {
         url: url.toString(),
       });
 
-      res.status(200).json({ message: "Email enviado" });
+      sendResponse({ res, statusCode: 200, usuario, message: "Email enviado" });
     }
   } catch (error) {
-    res.status(404).json({ error: "Usuário não encontrado" });
+    sendErrorResponse({
+      res,
+      statusCode: 404,
+      message: "Usuário não encontrado",
+      error: error.message,
+    });
   }
 };
 
@@ -262,23 +358,35 @@ exports.alterarSenha = async (req, res) => {
   const { senhaAtual, novaSenha, confirmacao, code } = req.body;
 
   if (!token && !code) {
-    return res.status(401).json();
+    return sendErrorResponse({
+      res,
+      statusCode: 401,
+      message: "Token inválido ou expirado",
+    });
   }
 
   if (!novaSenha) {
-    return res.status(404).json({ error: "Nova senha é um campo obrigatório" });
+    return sendErrorResponse({
+      res,
+      statusCode: 404,
+      message: "Nova senha é um campo obrigatório",
+    });
   }
 
   if (!confirmacao) {
-    return res
-      .status(404)
-      .json({ error: "Confirmação é um compo obrigatório" });
+    return sendErrorResponse({
+      res,
+      statusCode: 404,
+      message: "Confirmação é um compo obrigatório",
+    });
   }
 
   if (novaSenha !== confirmacao) {
-    return res
-      .status(400)
-      .json({ error: "A confirmação precisa ser igual a senha." });
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "A confirmação precisa ser igual a senha.",
+    });
   }
 
   if (code) {
@@ -287,7 +395,9 @@ exports.alterarSenha = async (req, res) => {
       const usuario = await Usuario.findById(decoded.id);
       usuario.senha = novaSenha;
       await usuario.save();
-      return res.status(200).json({
+      return sendResponse({
+        res,
+        statusCode: 200,
         token: code,
         usuario: {
           _id: usuario._id,
@@ -296,7 +406,11 @@ exports.alterarSenha = async (req, res) => {
         },
       });
     } catch (error) {
-      return res.status(401).json({ error: "Token inválido." });
+      return sendErrorResponse({
+        res,
+        statusCode: 401,
+        message: "Token inválido.",
+      });
     }
   }
 
@@ -306,11 +420,17 @@ exports.alterarSenha = async (req, res) => {
       const usuario = await Usuario.findById(decoded.id);
 
       if (!(await bcrypt.compare(senhaAtual, usuario.senha)))
-        return res.status(401).json({ mensagem: "Credenciais inválidas" });
+        return sendErrorResponse({
+          res,
+          statusCode: 401,
+          message: "Credenciais inválidas",
+        });
 
       usuario.senha = novaSenha;
       await usuario.save();
-      return res.status(200).json({
+      return sendResponse({
+        res,
+        statusCode: 200,
         token,
         usuario: {
           _id: usuario._id,
@@ -319,11 +439,19 @@ exports.alterarSenha = async (req, res) => {
         },
       });
     } catch (error) {
-      return res.status(401).json({ error: "Token inválido." });
+      return sendErrorResponse({
+        res,
+        statusCode: 401,
+        message: "Token inválido.",
+      });
     }
   }
 
-  return res.status(404);
+  return sendErrorResponse({
+    res,
+    statusCode: 404,
+    message: "Token inválido.",
+  });
 };
 
 exports.enviarConvite = async (req, res) => {

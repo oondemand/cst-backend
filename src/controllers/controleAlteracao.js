@@ -56,7 +56,7 @@ const listarTodosRegistros = async (req, res) => {
             ...(searchTerm !== "" && Object.keys(searchTermCondition).length > 0
               ? searchTermCondition
               : []),
-            ...usuariosConditions,
+            ...(usuarioNome ? usuariosConditions : []),
           ],
         },
       ],

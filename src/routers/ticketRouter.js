@@ -3,6 +3,11 @@ const router = express.Router();
 const ticketController = require("../controllers/ticketController");
 const multer = require("multer");
 
+const {
+  registrarAcaoMiddleware,
+} = require("../middlewares/registrarAcaoMiddleware");
+const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
+
 const storage = multer.memoryStorage({});
 
 const fileFilter = (req, file, cb) => {
@@ -25,7 +30,14 @@ router.get("/:id/arquivos", ticketController.listFilesFromTicket);
 router.delete("/arquivo/:ticketId/:id", ticketController.deleteFileFromTicket);
 router.get("/arquivo/:id", ticketController.getArquivoPorId);
 
-router.post("/", ticketController.createTicket);
+router.post(
+  "/",
+  registrarAcaoMiddleware({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.TICKET,
+  }),
+  ticketController.createTicket
+);
 
 router.get("/", ticketController.getAllTickets);
 router.get("/arquivados", ticketController.getArchivedTickets);
@@ -37,8 +49,32 @@ router.get(
 );
 router.get("/:id", ticketController.getTicketById);
 
-router.patch("/:id", ticketController.updateTicket);
-router.delete("/:id", ticketController.deleteTicket);
+router.post(
+  "/arquivar/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.ARQUIVADO,
+    entidade: ENTIDADES.TICKET,
+  }),
+  ticketController.arquivarTicket
+);
+
+router.patch(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.TICKET,
+  }),
+  ticketController.updateTicket
+);
+
+router.delete(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.DELETADO,
+    entidade: ENTIDADES.TICKET,
+  }),
+  ticketController.deleteTicket
+);
 
 router.post(
   "/adicionar-servico/:ticketId/:servicoId/",

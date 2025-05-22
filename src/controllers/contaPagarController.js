@@ -2,6 +2,8 @@ const Ticket = require("../models/Ticket");
 const Servico = require("../models/Servico");
 const DocumentoFiscal = require("../models/DocumentoFiscal");
 const ContaPagar = require("../models/ContaPagar");
+const { registrarAcao } = require("../services/controleService");
+const { ACOES, ORIGENS } = require("../constants/controleAlteracao");
 
 const contaPagarWebHook = async (req, res) => {
   try {
@@ -58,6 +60,14 @@ const contaPagarWebHook = async (req, res) => {
           { status: "pago" }
         );
       }
+
+      registrarAcao({
+        acao: ACOES.PAGO,
+        entidade: ENTIDADES.TICKET,
+        origem: ORIGENS.OMIE,
+        idRegistro: ticket?._id,
+        dadosAtualizados: ticket,
+      });
     }
 
     if (topic === "Financas.ContaPagar.BaixaCancelada") {
@@ -96,6 +106,14 @@ const contaPagarWebHook = async (req, res) => {
           { status: "processando" }
         );
       }
+
+      registrarAcao({
+        acao: ACOES.PAGAMENTO_EXCLUIDO,
+        entidade: ENTIDADES.TICKET,
+        origem: ORIGENS.OMIE,
+        idRegistro: ticket?._id,
+        dadosAtualizados: ticket,
+      });
     }
 
     if (topic === "Financas.ContaPagar.Excluido") {
@@ -131,11 +149,28 @@ const contaPagarWebHook = async (req, res) => {
           { status: "processando" }
         );
       }
+
+      registrarAcao({
+        acao: ACOES.ALTERADO,
+        entidade: ENTIDADES.TICKET,
+        origem: ORIGENS.OMIE,
+        idRegistro: ticket?._id,
+        dadosAtualizados: ticket,
+      });
     }
 
-    res.status(200).json({ message: "Webhook recebido. Fatura sendo gerada." });
+    sendResponse({
+      res,
+      statusCode: 200,
+      message: "Webhook recebido. Fatura sendo gerada.",
+    });
   } catch (error) {
-    res.status(500).json({ error: "Erro ao processar o webhook." });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Erro ao processar o webhook.",
+      error: error.message,
+    });
   }
 };
 

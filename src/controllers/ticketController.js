@@ -7,6 +7,11 @@ const Sistema = require("../models/Sistema");
 const { isEqual } = require("date-fns");
 const filterUtils = require("../utils/filter");
 const DocumentoFiscal = require("../models/DocumentoFiscal");
+const {
+  sendResponse,
+  sendErrorResponse,
+  sendPaginatedResponse,
+} = require("../utils/helpers");
 
 exports.createTicket = async (req, res) => {
   const { baseOmieId, titulo, observacao, servicosIds, prestadorId } = req.body;
@@ -29,16 +34,17 @@ exports.createTicket = async (req, res) => {
       .populate("servicos")
       .populate("prestador");
 
-   
-
-    res.status(201).json({
-      message: "Ticket criado com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 201,
       ticket: ticketPopulado,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao criar ticket",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao criar o ticket",
+      error: error.message,
     });
   }
 };
@@ -52,7 +58,11 @@ exports.updateTicket = async (req, res) => {
     );
 
     if (!ticket) {
-      return res.status(404).json({ message: "Ticket não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Ticket não encontrado",
+      });
     }
 
     const ticketPopulado = await Ticket.findById(ticket._id)
@@ -60,16 +70,18 @@ exports.updateTicket = async (req, res) => {
       .populate("servicos")
       .populate("prestador");
 
-
-    res.status(200).json({
-      message: "Ticket atualizado com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 200,
       ticket: ticketPopulado,
     });
   } catch (error) {
     console.error("Erro ao atualizar ticket:", error);
-    res.status(500).json({
-      message: "Erro ao atualizar ticket",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao atualizar o ticket",
+      error: error.message,
     });
   }
 };
@@ -87,11 +99,17 @@ exports.getAllTickets = async (req, res) => {
       .populate("arquivos", "nomeOriginal size mimetype tipo")
       .populate("contaPagarOmie");
 
-    res.status(200).json(tickets);
+    sendResponse({
+      res,
+      statusCode: 200,
+      tickets,
+    });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao buscar tickets",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao buscar os tickets",
+      error: error.message,
     });
   }
 };
@@ -104,9 +122,11 @@ exports.getTicketsByUsuarioPrestador = async (req, res) => {
     const config = await Sistema.findOne();
 
     if (!prestador) {
-      return res
-        .status(404)
-        .json({ message: "Não foi encontrado um prestador com id fornecido." });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Não foi encontrado um prestador com id fornecido.",
+      });
     }
 
     const tickets = await Ticket.find({
@@ -220,9 +240,13 @@ exports.getTicketsByUsuarioPrestador = async (req, res) => {
     let valorTotalPendente = 0;
 
     if (allTickets.length === 0) {
-      return res
-        .status(200)
-        .json({ valorTotalRecebido, valorTotalPendente, tickets: [] });
+      return sendResponse({
+        res,
+        statusCode: 200,
+        valorTotalRecebido,
+        valorTotalPendente,
+        tickets: [],
+      });
     }
 
     for (const ticket of allTickets) {
@@ -236,14 +260,19 @@ exports.getTicketsByUsuarioPrestador = async (req, res) => {
       }
     }
 
-    res
-      .status(200)
-      .json({ valorTotalRecebido, valorTotalPendente, tickets: allTickets });
+    sendResponse({
+      res,
+      statusCode: 200,
+      valorTotalRecebido,
+      valorTotalPendente,
+      tickets: allTickets,
+    });
   } catch (error) {
-    console.error("Erro ao buscar tickets:", error);
-    res.status(500).json({
-      message: "Erro ao buscar tickets",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao buscar os tickets",
+      error: error.message,
     });
   }
 };
@@ -258,14 +287,25 @@ exports.getTicketById = async (req, res) => {
       .populate("servicos");
 
     if (!ticket) {
-      return res.status(404).json({ message: "Ticket não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Ticket não encontrado",
+      });
     }
 
-    res.status(200).json(ticket);
+    sendResponse({
+      res,
+      statusCode: 200,
+      ticket,
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erro ao buscar ticket", detalhes: error.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao buscar o ticket",
+      error: error.message,
+    });
   }
 };
 
@@ -274,18 +314,24 @@ exports.deleteTicket = async (req, res) => {
     const ticket = await Ticket.findByIdAndDelete(req.params.id);
 
     if (!ticket) {
-      return res.status(404).json({ message: "Ticket não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Ticket não encontrado",
+      });
     }
 
-
-    res.status(200).json({
-      message: "Ticket removido com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 200,
       ticket,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao remover ticket",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao remover o ticket",
+      error: error.message,
     });
   }
 };
@@ -294,10 +340,16 @@ exports.listFilesFromTicket = async (req, res) => {
   try {
     const { id } = req.params;
     const arquivos = await Arquivo.find({ ticket: id });
-    res.status(200).json(arquivos);
+    sendResponse({
+      res,
+      statusCode: 200,
+      arquivos,
+    });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao listar arquivos do ticket",
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao listar os arquivos do ticket",
       error: error.message,
     });
   }
@@ -312,10 +364,15 @@ exports.deleteFileFromTicket = async (req, res) => {
       $pull: { arquivos: id },
     });
 
- 
-    res.status(200).json(arquivo);
+    sendResponse({
+      res,
+      statusCode: 200,
+      arquivo,
+    });
   } catch (error) {
-    res.status(500).json({
+    sendErrorResponse({
+      res,
+      statusCode: 500,
       message: "Erro ao deletar arquivo do ticket",
       error: error.message,
     });
@@ -327,11 +384,19 @@ exports.uploadFiles = async (req, res) => {
   try {
     const ticket = await Ticket.findById(ticketId);
     if (!ticket) {
-      return res.status(404).json({ message: "Ticket não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Ticket não encontrado",
+      });
     }
 
     if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ message: "Nenhum arquivo enviado." });
+      return sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Nenhum arquivo enviado.",
+      });
     }
 
     const arquivosSalvos = await Promise.all(
@@ -354,16 +419,17 @@ exports.uploadFiles = async (req, res) => {
     ticket.arquivos.push(...arquivosSalvos.map((a) => a._id));
     await ticket.save();
 
-
-
-    res.status(201).json({
-      message: "Arquivos carregados e associados ao ticket com sucesso!",
+    sendResponse({
+      res,
+      statusCode: 201,
       arquivos: arquivosSalvos,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao fazer upload de arquivos.",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao fazer upload de arquivos.",
+      error: error.message,
     });
   }
 };
@@ -463,8 +529,10 @@ exports.getArchivedTickets = async (req, res) => {
       Ticket.countDocuments(queryResult),
     ]);
 
-    res.status(200).json({
-      tickets,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      results: tickets,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalDeTickets / limite),
@@ -473,9 +541,11 @@ exports.getArchivedTickets = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao buscar tickets arquivados",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao buscar os tickets arquivados",
+      error: error.message,
     });
   }
 };
@@ -566,8 +636,10 @@ exports.getTicketsPago = async (req, res) => {
       Ticket.countDocuments(queryResult),
     ]);
 
-    res.status(200).json({
-      tickets,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      results: tickets,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalDeTickets / limite),
@@ -576,8 +648,10 @@ exports.getTicketsPago = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao buscar tickets arquivados",
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao buscar os tickets arquivados",
       detalhes: error.message,
     });
   }
@@ -586,11 +660,17 @@ exports.getTicketsPago = async (req, res) => {
 exports.getArquivoPorId = async (req, res) => {
   try {
     const arquivo = await Arquivo.findById(req.params.id);
-    res.status(200).json(arquivo);
+    sendResponse({
+      res,
+      statusCode: 200,
+      arquivo,
+    });
   } catch (error) {
-    res.status(500).json({
-      message: "Erro ao buscar arquivo!",
-      detalhes: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao buscar o arquivo",
+      error: error.message,
     });
   }
 };
@@ -605,7 +685,11 @@ exports.addServico = async (req, res) => {
       ticket?.dataRegistro &&
       !isEqual(servico?.dataRegistro, ticket?.dataRegistro)
     ) {
-      return res.status(400).json({ message: "Data registro conflitante." });
+      return sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Data registro conflitante.",
+      });
     }
 
     ticket.dataRegistro = servico?.dataRegistro;
@@ -619,9 +703,18 @@ exports.addServico = async (req, res) => {
       "servicos"
     );
 
-    return res.status(200).json(populatedTicket);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      ticket: populatedTicket,
+    });
   } catch (error) {
-    return res.status(500).json();
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao adicionar o serviço ao ticket",
+      error: error.message,
+    });
   }
 };
 
@@ -645,9 +738,18 @@ exports.removeServico = async (req, res) => {
       await ticket.save();
     }
 
-    return res.status(200).json(ticket);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      ticket,
+    });
   } catch (error) {
-    return res.status(500).json();
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao remover o serviço do ticket",
+      error: error.message,
+    });
   }
 };
 
@@ -671,9 +773,19 @@ exports.addDocumentoFiscal = async (req, res) => {
       "documentosFiscais"
     );
 
-    return res.status(200).json(populatedTicket);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      ticket: populatedTicket,
+    });
   } catch (error) {
-    return res.status(500).json();
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message:
+        "Ouve um erro inesperado ao adicionar o documento fiscal ao ticket",
+      error: error.message,
+    });
   }
 };
 
@@ -692,8 +804,49 @@ exports.removeDocumentoFiscal = async (req, res) => {
       { new: true }
     ).populate("documentosFiscais");
 
-    return res.status(200).json(ticket);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      ticket,
+    });
   } catch (error) {
-    return res.status(500).json();
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message:
+        "Ouve um erro inesperado ao remover o documento fiscal do ticket",
+      error: error.message,
+    });
+  }
+};
+
+exports.arquivarTicket = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ticket = await Ticket.findById(id);
+
+    if (!ticket) {
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Ticket não encontrado",
+      });
+    }
+
+    ticket.status = "arquivado";
+    await ticket.save();
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      ticket,
+    });
+  } catch (error) {
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao arquivar o ticket",
+      error: error.message,
+    });
   }
 };
