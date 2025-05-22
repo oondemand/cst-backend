@@ -190,7 +190,13 @@ exports.importarDocumentoFiscal = async (req, res) => {
 
     await importacao.save();
 
-    if (arquivo && importacao) res.status(200).json(importacao);
+    if (arquivo && importacao) {
+      return sendResponse({
+        res,
+        statusCode: 200,
+        importacao,
+      });
+    }
 
     const json = excelToJson({ arquivo });
 
@@ -205,8 +211,11 @@ exports.importarDocumentoFiscal = async (req, res) => {
 
     await importacao.save();
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Ouve um erro ao importar arquivo" });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro ao importar arquivo",
+      error: error.message,
+    });
   }
 };

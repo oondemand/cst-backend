@@ -45,7 +45,7 @@ exports.createDocumentoFiscal = async (req, res) => {
       res,
       statusCode: 500,
       message: "Ouve um erro inesperado ao criar o documento fiscal",
-      error,
+      error: error.message,
     });
   }
 };
@@ -116,7 +116,7 @@ exports.criarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
       res,
       statusCode: 500,
       message: "Ouve um erro inesperado ao criar o documento fiscal",
-      error,
+      error: error.message,
     });
   }
 };
@@ -161,7 +161,7 @@ exports.updateDocumentoFiscal = async (req, res) => {
   } catch (error) {
     sendErrorResponse({
       res,
-      error,
+      error: error.message,
       statusCode: 500,
       message: "Ouve um erro inesperado ao atualizar o documento fiscal",
     });
@@ -244,7 +244,7 @@ exports.listarDocumentoFiscal = async (req, res) => {
       res,
       statusCode: 400,
       message: "Ouve um erro inesperado ao listar os documentos fiscais",
-      error,
+      error: error.message,
     });
   }
 };
@@ -269,7 +269,7 @@ exports.listarDocumentoFiscalPorPrestador = async (req, res) => {
       res,
       statusCode: 400,
       message: "Ouve um erro inesperado ao listar os documentos fiscais",
-      error,
+      error: error.message,
     });
   }
 };
@@ -294,7 +294,7 @@ exports.listarDocumentoFiscalPorUsuarioPrestador = async (req, res) => {
       res,
       statusCode: 400,
       message: "Ouve um erro inesperado ao listar os documentos fiscais",
-      error,
+      error: error.message,
     });
   }
 };
@@ -328,7 +328,7 @@ exports.excluirDocumentoFiscal = async (req, res) => {
       res,
       statusCode: 400,
       message: "Ouve um erro inesperado ao excluir o documento fiscal",
-      error,
+      error: error.message,
     });
   }
 };
@@ -453,7 +453,7 @@ exports.aprovarDocumento = async (req, res) => {
       res,
       statusCode: 400,
       message: "Ouve um erro ao aprovar o documento fiscal",
-      error,
+      error: error.message,
     });
   }
 };
@@ -489,7 +489,7 @@ exports.reprovarDocumento = async (req, res) => {
       res,
       statusCode: 400,
       message: "Ouve um erro ao reprovar o documento fiscal",
-      error,
+      error: error.message,
     });
   }
 };

@@ -33,9 +33,9 @@ exports.getServicoById = async (req, res) => {
   } catch (error) {
     sendErrorResponse({
       res,
-      error,
+      error: error.message,
       message: "Ouve um erro inesperado ao obter o serviço",
-      detalhes: error.message,
+      statusCode: 500,
     });
   }
 };
@@ -72,7 +72,7 @@ exports.createServico = async (req, res) => {
   } catch (error) {
     sendErrorResponse({
       res,
-      error,
+      error: error.message,
       message: "Ouve um erro inesperado ao criar o serviço",
       statusCode: 500,
     });
@@ -115,7 +115,7 @@ exports.updateServico = async (req, res) => {
   } catch (error) {
     sendErrorResponse({
       res,
-      error,
+      error: error.message,
       message: "Ouve um erro inesperado ao atualizar o serviço",
       statusCode: 500,
     });
@@ -195,7 +195,7 @@ exports.listarServicos = async (req, res) => {
   } catch (error) {
     sendErrorResponse({
       res,
-      error,
+      error: error.message,
       message: "Ouve um erro inesperado ao listar os serviços",
       statusCode: 500,
     });
@@ -222,7 +222,7 @@ exports.listarServicoPorPrestador = async (req, res) => {
     console.error("Erro na listagem:", error);
     sendErrorResponse({
       res,
-      error,
+      error: error.message,
       message: "Ouve um erro inesperado ao listar os serviços",
       statusCode: 500,
     });
@@ -255,7 +255,7 @@ exports.excluirServico = async (req, res) => {
   } catch (error) {
     sendErrorResponse({
       res,
-      error,
+      error: error.message,
       message: "Ouve um erro inesperado ao excluir o serviço",
       statusCode: 500,
     });
@@ -290,10 +290,9 @@ exports.atualizarStatus = async (req, res) => {
       servicos: result,
     });
   } catch (error) {
-    console.log("ERRO AO ATUALIZAR STATUS", error);
     sendErrorResponse({
       res,
-      error,
+      error: error.message,
       message: "Ouve um erro inesperado ao atualizar o serviço",
       statusCode: 500,
     });
