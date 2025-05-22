@@ -432,6 +432,15 @@ exports.aprovarDocumento = async (req, res) => {
       etapa: etapa?.[0]?.codigo,
     });
 
+    registrarAcao({
+      entidade: ENTIDADES.TICKET,
+      acao: ACOES.ADICIONADO,
+      origem: ORIGENS.API,
+      dadosAtualizados: ticket,
+      idRegistro: ticket._id,
+      usuario: req.usuario,
+    });
+
     await ticket.save();
 
     documentoFiscal.status = "processando";
@@ -460,8 +469,6 @@ exports.aprovarDocumento = async (req, res) => {
 
 exports.reprovarDocumento = async (req, res) => {
   try {
-    console.log(req.params.id);
-
     const { motivoRecusa, observacaoInterna, observacaoPrestador } = req.body;
     const documentoFiscal = await DocumentoFiscal.findById(req.params.id);
 

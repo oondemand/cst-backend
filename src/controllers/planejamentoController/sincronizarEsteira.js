@@ -1,6 +1,13 @@
 const Servico = require("../../models/Servico");
 const Ticket = require("../../models/Ticket");
 const { startOfDay, endOfDay } = require("date-fns");
+const { sendResponse, sendErrorResponse } = require("../../utils/helpers");
+const { registrarAcao } = require("../../services/controleService");
+const {
+  ENTIDADES,
+  ACOES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
 
 exports.sincronizarEsteira = async (req, res) => {
   try {
@@ -49,6 +56,17 @@ exports.sincronizarEsteira = async (req, res) => {
         );
       }
 
+      if (ticket) {
+        registrarAcao({
+          entidade: ENTIDADES.TICKET,
+          acao: ACOES.ALTERADO,
+          origem: ORIGENS.PLANEJAMENTO,
+          dadosAtualizados: ticket,
+          idRegistro: ticket._id,
+          usuario: req.usuario,
+        });
+      }
+
       if (!ticket) {
         ticket = new Ticket({
           prestador: servico.prestador._id,
@@ -57,6 +75,15 @@ exports.sincronizarEsteira = async (req, res) => {
           etapa: "requisicao",
           dataRegistro: servico?.dataRegistro,
         });
+
+        registrarAcao({
+          entidade: ENTIDADES.TICKET,
+          acao: ACOES.ADICIONADO,
+          origem: ORIGENS.PLANEJAMENTO,
+          dadosAtualizados: ticket,
+          idRegistro: ticket._id,
+          usuario: req.usuario,
+        });
       }
 
       await ticket.save();
@@ -64,8 +91,17 @@ exports.sincronizarEsteira = async (req, res) => {
       await servico.save();
     }
 
-    return res.status(200).json({ message: "Esteira sincronizada" });
+    return sendResponse({
+      res,
+      statusCode: 200,
+      message: "Esteira sincronizada",
+    });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro ao sincronizar a esteira",
+      error: error.message,
+    });
   }
 };

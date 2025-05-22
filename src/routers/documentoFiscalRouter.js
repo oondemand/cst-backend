@@ -67,10 +67,6 @@ router.post(
 router.post(
   "/usuario-prestador",
   upload.single("file"),
-  registrarAcaoMiddleware({
-    acao: ACOES.ADICIONADO,
-    entidade: ENTIDADES.DOCUMENTO_FISCAL,
-  }),
   documentoFiscalController.criarDocumentoFiscalPorUsuarioPrestador
 );
 

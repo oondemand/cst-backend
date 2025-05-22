@@ -2,6 +2,7 @@ const ENTIDADES = {
   PRESTADOR: "prestador",
   SERVICO: "servico",
   DOCUMENTO_FISCAL: "documento-fiscal",
+  DOCUMENTO_CADASTRAL: "documento-cadastral",
   TICKET: "ticket",
   CONFIGURACAO_USUARIO: "configuracao.usuario",
   CONFIGURACAO_SISTEMA_EMAIL: "configuracao.sistema.email",

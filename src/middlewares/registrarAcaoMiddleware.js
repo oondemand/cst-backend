@@ -3,7 +3,10 @@ const { registrarAcao } = require("../services/controleService");
 
 function registrarAcaoMiddleware({ entidade, acao }) {
   return async (req, res, next) => {
-    const origem = req.headers["x-origem"] || ORIGENS.API;
+    const origem = req.headers["x-origem"] ?? ORIGENS.API;
+
+    console.log("origem", req.headers["x-origem"]);
+
     const originalJson = res.json;
     let responseBody;
 

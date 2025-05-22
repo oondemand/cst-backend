@@ -37,7 +37,6 @@ exports.createDocumentoCadastral = async (req, res) => {
     sendResponse({
       res,
       statusCode: 201,
-      message: "Documento cadastral criado com sucesso!",
       documentoCadastral: novoDocumentoCadastral,
     });
   } catch (error) {
@@ -57,9 +56,11 @@ exports.criarDocumentoCadastralPorUsuarioPrestador = async (req, res) => {
     const arquivo = req.file;
 
     if (!arquivo) {
-      return res
-        .status(400)
-        .json({ message: "Arquivo é um campo obrigatório" });
+      return sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Arquivo é um campo obrigatório",
+      });
     }
 
     const prestador = await Prestador.findOne({
@@ -67,7 +68,11 @@ exports.criarDocumentoCadastralPorUsuarioPrestador = async (req, res) => {
     });
 
     if (!prestador) {
-      return res.status(400).json({ message: "Prestador não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Prestador não encontrado",
+      });
     }
 
     const filteredBody = Object.fromEntries(
@@ -93,14 +98,18 @@ exports.criarDocumentoCadastralPorUsuarioPrestador = async (req, res) => {
 
     await novoDocumentoCadastral.save();
 
-    return res.status(201).json({
-      message: "Documento Cadastral criado com sucesso!",
+    return sendResponse({
+      res,
+      statusCode: 201,
       documentoCadastral: novoDocumentoCadastral,
     });
   } catch (e) {
-    return res
-      .status(400)
-      .json({ message: "Erro ao criar documento cadastral" });
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao criar documento cadastral",
+      error: error.message,
+    });
   }
 };
 
@@ -112,7 +121,9 @@ exports.updateDocumentoCadastral = async (req, res) => {
     const documentoCadastral = await DocumentoCadastral.findById(id);
 
     if (!documentoCadastral) {
-      return res.status(404).json({
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
         message: "Documento Cadastral não encontrado",
       });
     }
@@ -122,14 +133,17 @@ exports.updateDocumentoCadastral = async (req, res) => {
         new: true,
       });
 
-    res.status(200).json({
-      message: "Documento Cadastral atualizado com sucesso!",
+    return sendResponse({
+      res,
+      statusCode: 200,
       documentoCadastral: documentoCadastralAtualizado,
     });
   } catch (error) {
-    res.status(500).json({
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
       message: "Erro ao atualizar documento cadastral",
-      detalhes: error.message,
+      error: error.message,
     });
   }
 };
@@ -192,8 +206,10 @@ exports.listarDocumentoCadastral = async (req, res) => {
         DocumentoCadastral.countDocuments(queryResult),
       ]);
 
-    res.status(200).json({
-      documentosCadastrais,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      results: documentosCadastrais,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalDedocumentosCadastrais / limite),
@@ -202,7 +218,12 @@ exports.listarDocumentoCadastral = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar documentos fiscais" });
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao listar documentos cadastrais",
+      error: error.message,
+    });
   }
 };
 
@@ -215,11 +236,18 @@ exports.listarDocumentoCadastralPorPrestador = async (req, res) => {
       statusValidacao: "aprovado",
     }).populate("arquivo");
 
-    res.status(200).json(documentosCadastrais);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      documentosCadastrais,
+    });
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: "Falha ao buscar serviços", details: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao buscar documentos cadastrais",
+      error: error.message,
+    });
   }
 };
 
@@ -233,11 +261,18 @@ exports.listarDocumentoCadastralPorUsuarioPrestador = async (req, res) => {
       prestador: prestador,
     }).populate("prestador", "sid nome documento");
 
-    res.status(200).json(documentosCadastrais);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      documentosCadastrais,
+    });
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: "Falha ao buscar serviços", details: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao buscar documentos cadastrais",
+      error: error.message,
+    });
   }
 };
 
@@ -253,14 +288,26 @@ exports.excluirDocumentoCadastral = async (req, res) => {
     const documentoCadastral =
       await DocumentoCadastral.findByIdAndDelete(documentoCadastralId);
 
-    if (!documentoCadastral)
-      return res
-        .status(404)
-        .json({ error: "Documento Cadastral não encontrado" });
+    if (!documentoCadastral) {
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Documento Cadastral não encontrado",
+      });
+    }
 
-    res.status(200).json({ data: documentoCadastral });
+    return sendResponse({
+      res,
+      statusCode: 200,
+      data: documentoCadastral,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao excluir documento cadastral" });
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao excluir documento cadastral",
+      error: error.message,
+    });
   }
 };
 
@@ -286,9 +333,18 @@ exports.anexarArquivo = async (req, res) => {
     documentoCadastral.arquivo = novoArquivo._id;
     await documentoCadastral.save();
 
-    return res.status(200).json(novoArquivo);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      arquivo: novoArquivo,
+    });
   } catch (error) {
-    res.status(400).json({ message: "Ouve um erro ao anexar o arquivo" });
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Ouve um erro ao anexar o arquivo",
+      error: error.message,
+    });
   }
 };
 
@@ -302,9 +358,15 @@ exports.excluirArquivo = async (req, res) => {
       $unset: { arquivo: id },
     });
 
-    res.status(200).json(arquivo);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      arquivo,
+    });
   } catch (error) {
-    res.status(500).json({
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
       message: "Erro ao deletar arquivo do ticket",
       error: error.message,
     });
@@ -313,48 +375,64 @@ exports.excluirArquivo = async (req, res) => {
 
 exports.aprovarDocumento = async (req, res) => {
   try {
-    const { documentoCadastralId, servicos, prestadorId } = req.body;
-    const documentoCadastral =
-      await DocumentoCadastral.findById(documentoCadastralId);
+    const documentoCadastral = await DocumentoCadastral.findById(req.params.id);
 
     if (!documentoCadastral) {
-      return res
-        .status(404)
-        .json({ error: "Documento Cadastral não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Documento Cadastral não encontrado",
+      });
     }
 
-    const prestador = await Prestador.findById(prestadorId);
-
-    if (!prestador) {
-      return res.status(404).json({ error: "Prestador não encontrado" });
-    }
-
-    const servicosEncontrados = await Servico.find({ _id: { $in: servicos } });
-
-    const etapa = await Etapa.find({ status: "ativo" }).sort({ posicao: 1 });
-
-    const ticket = new Ticket({
-      servicos: servicosEncontrados.map((e) => e._id),
-      titulo: `Comissão ${prestador?.nome} - ${prestador?.documento}`,
-      status: "aguardando-inicio",
-      documentosCadastrais: documentoCadastral?._id,
-      prestador: prestador?._id,
-      etapa: etapa?.[0]?.codigo,
-    });
-
-    await ticket.save();
-
-    documentoCadastral.status = "processando";
     documentoCadastral.statusValidacao = "aprovado";
     await documentoCadastral.save();
 
-    await Servico.updateMany(
-      { _id: { $in: servicos } },
-      { $set: { status: "processando" } }
-    );
-
-    return res.status(200).json(ticket);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      data: documentoCadastral,
+    });
   } catch (error) {
-    return res.status(400).json({ error: "Erro ao aprovar documento" });
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao aprovar documento",
+      error: error.message,
+    });
+  }
+};
+
+exports.reprovarDocumento = async (req, res) => {
+  try {
+    const { motivoRecusa, observacaoInterna, observacaoPrestador } = req.body;
+    const documentoCadastral = await DocumentoCadastral.findById(req.params.id);
+
+    if (!documentoCadastral) {
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Documento Cadastral não encontrado",
+      });
+    }
+
+    documentoCadastral.statusValidacao = "recusado";
+    documentoCadastral.motivoRecusa = motivoRecusa;
+    documentoCadastral.observacaoInterna = observacaoInterna;
+    documentoCadastral.observacaoPrestador = observacaoPrestador;
+    await documentoCadastral.save();
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      data: documentoCadastral,
+    });
+  } catch (error) {
+    return sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao reprovar documento",
+      error: error.message,
+    });
   }
 };

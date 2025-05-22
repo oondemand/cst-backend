@@ -9,6 +9,10 @@ const router = express.Router();
 const multer = require("multer");
 const { uploadExcel } = require("../config/multer");
 const path = require("node:path");
+const {
+  registrarAcaoMiddleware,
+} = require("../middlewares/registrarAcaoMiddleware");
+const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
 
 const storage = multer.memoryStorage({});
 
@@ -43,8 +47,23 @@ router.get(
   documentoCadastralController.listarDocumentoCadastralPorUsuarioPrestador
 );
 
-router.delete("/:id", documentoCadastralController.excluirDocumentoCadastral);
-router.post("/", documentoCadastralController.createDocumentoCadastral);
+router.delete(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.EXCLUIDO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
+  documentoCadastralController.excluirDocumentoCadastral
+);
+
+router.post(
+  "/",
+  registrarAcaoMiddleware({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
+  documentoCadastralController.createDocumentoCadastral
+);
 
 router.post(
   "/usuario-prestador",
@@ -63,11 +82,31 @@ router.delete(
   documentoCadastralController.excluirArquivo
 );
 
-router.patch("/:id", documentoCadastralController.updateDocumentoCadastral);
+router.patch(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
+  documentoCadastralController.updateDocumentoCadastral
+);
 
 router.post(
-  "/aprovar-documento",
+  "/aprovar-documento/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.APROVADO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
   documentoCadastralController.aprovarDocumento
+);
+
+router.post(
+  "/reprovar-documento/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.REPROVADO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
+  documentoCadastralController.reprovarDocumento
 );
 
 router.post("/importar", uploadExcel.array("file"), importarDocumentoCadastral);
