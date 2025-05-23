@@ -14,6 +14,12 @@ const { add, format } = require("date-fns");
 const ContaPagar = require("../models/ContaPagar");
 const Sistema = require("../models/Sistema");
 
+const {
+  sendErrorResponse,
+  sendResponse,
+  sendPaginatedResponse,
+} = require("../utils/helpers");
+
 const aprovar = async (req, res) => {
   try {
     const { ticketId } = req.params;
@@ -24,9 +30,11 @@ const aprovar = async (req, res) => {
       .populate("prestador");
 
     if (!ticket) {
-      return res
-        .status(404)
-        .send({ success: false, message: "Ticket não encontrado." });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Ticket não encontrado.",
+      });
     }
 
     // Carregar as etapas do banco de dados, ordenadas pela posição
@@ -36,9 +44,11 @@ const aprovar = async (req, res) => {
     );
 
     if (currentEtapaIndex < 0) {
-      return res
-        .status(400)
-        .send({ success: false, message: "Etapa inválida." });
+      return sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Etapa inválida.",
+      });
     }
 
     // Se estiver na última etapa antes de "conta-pagar", mover para "conta-pagar" e gerar a conta
@@ -49,9 +59,10 @@ const aprovar = async (req, res) => {
 
       await gerarContaPagar({ ticket, usuario: req.usuario });
 
-      return res.send({
-        success: true,
-        message: `Ticket movido para a etapa "conta-pagar" e conta gerada.`,
+      return sendResponse({
+        res,
+        statusCode: 200,
+        ticket,
       });
     }
 
@@ -60,15 +71,17 @@ const aprovar = async (req, res) => {
     ticket.status = "aguardando-inicio";
     await ticket.save();
 
-    res.send({
-      success: true,
-      message: `Ticket aprovado e movido para a etapa: ${ticket.etapa}`,
+    return sendResponse({
+      res,
+      statusCode: 200,
+      ticket,
     });
   } catch (error) {
-    res.status(500).send({
-      success: false,
-      message: "Erro ao aprovar ticket",
-      detalhes: error,
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao aprovar ticket",
+      error: error.message,
     });
   }
 };
@@ -80,9 +93,11 @@ const recusar = async (req, res) => {
     // Buscar o ticket pelo ID
     const ticket = await Ticket.findById(ticketId);
     if (!ticket) {
-      return res
-        .status(404)
-        .send({ success: false, message: "Ticket não encontrado." });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Ticket não encontrado.",
+      });
     }
 
     // Carregar as etapas do banco de dados, ordenadas pela posição
@@ -92,9 +107,11 @@ const recusar = async (req, res) => {
     );
 
     if (currentEtapaIndex < 0) {
-      return res
-        .status(400)
-        .send({ success: false, message: "Etapa inválida." });
+      return sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Etapa inválida.",
+      });
     }
 
     if (currentEtapaIndex > 0)
@@ -103,13 +120,19 @@ const recusar = async (req, res) => {
     ticket.status = "revisao";
 
     await ticket.save();
-  
-    res.send({
-      success: true,
-      message: `Ticket recusado e movido para a etapa: ${ticket.etapa}`,
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      ticket,
     });
   } catch (error) {
-    res.status(500).send({ success: false, error: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      error: error.message,
+      message: "Ouve um erro inesperado ao recusar ticket",
+    });
   }
 };
 
@@ -174,14 +197,11 @@ const gerarContaPagar = async ({ ticket, usuario }) => {
 
     ticket.status = "concluido";
     await ticket.save();
-
-    
   } catch (error) {
     ticket.observacao += `\n ${error} - ${format(new Date(), "dd/MM/yyyy")}`;
     ticket.etapa = "aprovacao-fiscal";
     ticket.status = "revisao";
     await ticket.save();
-
 
     await emailUtils.emailErroIntegracaoOmie({
       error: error,
