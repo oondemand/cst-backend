@@ -4,6 +4,10 @@ const BaseOmie = require("../../models/BaseOmie");
 const { emailTeste } = require("../../utils/emailUtils");
 const CategoriasService = require("../../services/omie/categoriasService");
 const ContaCorrenteService = require("../../services/omie/contaCorrenteService");
+const {
+  sendErrorResponse,
+  sendResponse,
+} = require("../../utils/helpers");
 
 exports.listarSistemaConfig = async (req, res) => {
   try {
@@ -34,14 +38,24 @@ exports.atualizarSistemaConfig = async (req, res) => {
     );
 
     if (!sistemaAtualizado) {
-      return res.status(404).json({ mensagem: "Configuração não encontrada." });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        mensagem: "Configuração não encontrada.",
+      });
     }
 
-    res.status(200).json(sistemaAtualizado);
+    sendResponse({
+      res,
+      statusCode: 200,
+      config: sistemaAtualizado,
+    });
   } catch (error) {
-    res.status(500).json({
-      mensagem: "Erro ao atualizar configuração",
-      erro: error.message,
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      mensagem: "Ouve um erro ao atualizar configuração",
+      error: error.message,
     });
   }
 };
@@ -49,11 +63,17 @@ exports.atualizarSistemaConfig = async (req, res) => {
 exports.testeEmail = async (req, res) => {
   try {
     await emailTeste({ email: req.body.email });
-    res.status(200).json();
+    sendResponse({
+      res,
+      statusCode: 200,
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ mensagem: "Erro enviar email", erro: error.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      mensagem: "Ouve um erro ao enviar email",
+      error: error.message,
+    });
   }
 };
 
@@ -62,12 +82,18 @@ exports.listarCategoriasOmie = async (req, res) => {
     const baseOmie = await BaseOmie.findOne();
     const data = await CategoriasService.listarCategorias({ baseOmie });
 
-    return res
-      .status(200)
-      .json(data?.categoria_cadastro.filter((e) => e.nao_exibir != "S"));
+    sendResponse({
+      res,
+      statusCode: 200,
+      categorias: data?.categoria_cadastro.filter((e) => e.nao_exibir != "S"),
+    });
   } catch (error) {
-    console.error("Erro ao listar categorias:", error.message);
-    res.status(500).json({ error: error.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      mensagem: "Ouve um erro ao listar categorias",
+      error: error.message,
+    });
   }
 };
 
@@ -78,9 +104,17 @@ exports.listarContaCorrente = async (req, res) => {
       baseOmie,
     });
 
-    return res.status(200).json(data?.ListarContasCorrentes);
+    sendResponse({
+      res,
+      statusCode: 200,
+      contas: data?.ListarContasCorrentes,
+    });
   } catch (error) {
-    console.error("Erro ao listar categorias:", error.message);
-    res.status(500).json({ error: error.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      mensagem: "Ouve um erro ao listar contas correntes",
+      error: error.message,
+    });
   }
 };

@@ -1,13 +1,21 @@
 const Lista = require("../models/Lista");
+const { sendResponse, sendErrorResponse } = require("../utils/helpers");
+const { registrarAcao } = require("../services/controleService");
+const { ENTIDADES, ACOES, ORIGENS } = require("../constants/controleAlteracao");
 
 const createLista = async (req, res) => {
   const { codigo } = req.body;
   try {
     const novaLista = new Lista({ codigo, valores: [] });
     await novaLista.save();
-    res.status(201).json(novaLista);
+    sendResponse({ res, statusCode: 201, lista: novaLista });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao criar lista",
+      error: err.message,
+    });
   }
 };
 
@@ -15,13 +23,39 @@ const addItem = async (req, res) => {
   const { id } = req.params;
   const { valor } = req.body;
   try {
-    const lista = await Lista.findById(id);
-    if (!lista) return res.status(404).json({ error: "Lista não encontrada" });
+    const lista = await Lista.findById(id).populate("valores");
+
+    if (!lista)
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Lista não encontrada",
+      });
+
+    const entidade = Object.entries(ENTIDADES).find(([key, value]) =>
+      value.includes(lista.codigo)
+    )?.[1];
+
+    registrarAcao({
+      acao: ACOES.ADICIONADO,
+      entidade: entidade ?? ENTIDADES.CONFIGURACAO_LISTA,
+      usuario: req.usuario,
+      idRegistro: lista._id,
+      dadosAtualizados: lista,
+      origem: req.headers["x-origem"] ?? ORIGENS.API,
+    });
+
     lista.valores.push({ valor });
     await lista.save();
-    res.json(lista);
+    sendResponse({ res, statusCode: 200, lista });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.log("err", err);
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao adicionar item à lista",
+      error: err.message,
+    });
   }
 };
 
@@ -29,13 +63,39 @@ const removeItem = async (req, res) => {
   const { id, itemId } = req.params;
 
   try {
-    const lista = await Lista.findById(id);
-    if (!lista) return res.status(404).json({ error: "Lista não encontrada" });
+    const lista = await Lista.findById(id).populate("valores");
+
+    if (!lista)
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Lista não encontrada",
+      });
+
     lista.valores = lista.valores.filter((item) => item._id != itemId);
     await lista.save();
-    res.json(lista);
+
+    const entidade = Object.entries(ENTIDADES).find(([key, value]) =>
+      value.includes(lista.codigo)
+    )?.[1];
+
+    registrarAcao({
+      acao: ACOES.EXCLUIDO,
+      entidade: entidade ?? ENTIDADES.CONFIGURACAO_LISTA,
+      usuario: req.usuario,
+      idRegistro: lista._id,
+      dadosAtualizados: lista,
+      origem: req.headers["x-origem"] ?? ORIGENS.API,
+    });
+
+    sendResponse({ res, statusCode: 200, lista });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao remover item da lista",
+      error: err.message,
+    });
   }
 };
 
@@ -48,9 +108,14 @@ const getListas = async (req, res) => {
         },
       },
     ]);
-    res.json(listas);
+    sendResponse({ res, statusCode: 200, listas });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao listar listas",
+      error: err.message,
+    });
   }
 };
 
@@ -59,13 +124,23 @@ const updateItem = async (req, res) => {
   const { itemId, valor } = req.body;
 
   try {
-    const lista = await Lista.findById(id);
-    if (!lista) return res.status(404).json({ error: "Lista não encontrada" });
+    const lista = await Lista.findById(id).populate("valores");
+
+    if (!lista)
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Lista não encontrada",
+      });
 
     const index = lista.valores.findIndex((item) => item._id == itemId);
 
     if (index === -1)
-      return res.status(404).json({ error: "Item não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Item não encontrado",
+      });
 
     const trimmedValor = valor.trim();
 
@@ -74,15 +149,37 @@ const updateItem = async (req, res) => {
     );
 
     if (valorExistente) {
-      return res.status(400).json({ error: "Este valor já existe na lista" });
+      return sendErrorResponse({
+        res,
+        statusCode: 400,
+        message: "Este valor já existe na lista",
+      });
     }
 
     if (valor) lista.valores[index].valor = valor;
-
     await lista.save();
-    res.json(lista);
+
+    const entidade = Object.entries(ENTIDADES).find(([key, value]) =>
+      value.includes(lista.codigo)
+    )?.[1];
+
+    registrarAcao({
+      acao: ACOES.ALTERADO,
+      entidade: entidade ?? ENTIDADES.CONFIGURACAO_LISTA,
+      usuario: req.usuario,
+      idRegistro: lista._id,
+      dadosAtualizados: lista,
+      origem: req.headers["x-origem"] ?? ORIGENS.API,
+    });
+
+    sendResponse({ res, statusCode: 200, lista });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao atualizar item da lista",
+      error: err.message,
+    });
   }
 };
 
@@ -92,13 +189,22 @@ const getListaPorCodigo = async (req, res) => {
     const lista = await Lista.findOne({ codigo });
 
     if (!lista) {
-      return res.status(404).json({ mensagem: "Lista não encontrada" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Lista não encontrada",
+      });
     }
 
     lista.valores = lista.valores.filter((item) => item.valor);
-    res.json(lista);
+    sendResponse({ res, statusCode: 200, lista });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendErrorResponse({
+      res,
+      statusCode: 500,
+      message: "Ouve um erro inesperado ao buscar lista por código",
+      error: err.message,
+    });
   }
 };
 
