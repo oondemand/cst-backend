@@ -1,0 +1,5445 @@
+[{
+  "codigo": "001",
+  "nome": "Banco do Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "002",
+  "nome": "Spark Pay",
+  "tipo": "CV"
+},
+{
+  "codigo": "003",
+  "nome": "Banco da Amazônia",
+  "tipo": "CB"
+},
+{
+  "codigo": "004",
+  "nome": "Banco do Nordeste",
+  "tipo": "CB"
+},
+{
+  "codigo": "005",
+  "nome": "FS Tatuí",
+  "tipo": "CB"
+},
+{
+  "codigo": "006",
+  "nome": "Modobank",
+  "tipo": "CV"
+},
+{
+  "codigo": "007",
+  "nome": "BNDES",
+  "tipo": "CB"
+},
+{
+  "codigo": "011",
+  "nome": "C. Suisse Hedging-Griffo CV S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "012",
+  "nome": "Banco Inbursa S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "017",
+  "nome": "BNY Mellon Banco S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "018",
+  "nome": "Tricury",
+  "tipo": "CB"
+},
+{
+  "codigo": "021",
+  "nome": "Banestes",
+  "tipo": "CB"
+},
+{
+  "codigo": "025",
+  "nome": "Alfa",
+  "tipo": "CB"
+},
+{
+  "codigo": "029",
+  "nome": "Banerj",
+  "tipo": "CB"
+},
+{
+  "codigo": "032",
+  "nome": "Zoop",
+  "tipo": "CB"
+},
+{
+  "codigo": "033",
+  "nome": "Santander",
+  "tipo": "CB"
+},
+{
+  "codigo": "037",
+  "nome": "Banpará",
+  "tipo": "CB"
+},
+{
+  "codigo": "041",
+  "nome": "Banrisul",
+  "tipo": "CB"
+},
+{
+  "codigo": "047",
+  "nome": "Banese",
+  "tipo": "CB"
+},
+{
+  "codigo": "060",
+  "nome": "Confidence CC S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "064",
+  "nome": "Goldman Sachs",
+  "tipo": "CB"
+},
+{
+  "codigo": "065",
+  "nome": "Andbank",
+  "tipo": "CB"
+},
+{
+  "codigo": "069",
+  "nome": "Banco Crefisa S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "070",
+  "nome": "BRB - Banco de Brasília",
+  "tipo": "CB"
+},
+{
+  "codigo": "077",
+  "nome": "Banco Inter",
+  "tipo": "CB"
+},
+{
+  "codigo": "079",
+  "nome": "Banco Original do Agronegócio S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "080",
+  "nome": "BeT Corretora de Câmbio",
+  "tipo": "CB"
+},
+{
+  "codigo": "082",
+  "nome": "Banco Topázio",
+  "tipo": "CB"
+},
+{
+  "codigo": "083",
+  "nome": "China Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "084",
+  "nome": "Sisprime do Brasil Cooperativa Crédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "085",
+  "nome": "Ailos (Cecred)",
+  "tipo": "CB"
+},
+{
+  "codigo": "088",
+  "nome": "Banco Randon S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "089",
+  "nome": "Credisan",
+  "tipo": "CB"
+},
+{
+  "codigo": "090",
+  "nome": "Unicred",
+  "tipo": "CB"
+},
+{
+  "codigo": "091",
+  "nome": "Unicred Central do Rio Grande do Sul",
+  "tipo": "CB"
+},
+{
+  "codigo": "092",
+  "nome": "BRK Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "093",
+  "nome": "PoloCred",
+  "tipo": "CB"
+},
+{
+  "codigo": "094",
+  "nome": "Finaxis",
+  "tipo": "CB"
+},
+{
+  "codigo": "095",
+  "nome": "Travelex Banco de Câmbio S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "096",
+  "nome": "Banco BMeF Bovespa",
+  "tipo": "CB"
+},
+{
+  "codigo": "097",
+  "nome": "CrediSIS",
+  "tipo": "CB"
+},
+{
+  "codigo": "099",
+  "nome": "Uniprime",
+  "tipo": "CB"
+},
+{
+  "codigo": "100",
+  "nome": "Planner",
+  "tipo": "CB"
+},
+{
+  "codigo": "101",
+  "nome": "Renascenca DTVM",
+  "tipo": "CB"
+},
+{
+  "codigo": "102",
+  "nome": "XP Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "104",
+  "nome": "Caixa Econômica Federal",
+  "tipo": "CB"
+},
+{
+  "codigo": "105",
+  "nome": "Lecca Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "107",
+  "nome": "BOCOM BBM S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "110",
+  "nome": "SLW - Corretora de Valores e Câmbio",
+  "tipo": "CB"
+},
+{
+  "codigo": "111",
+  "nome": "Oliveira Trust",
+  "tipo": "CB"
+},
+{
+  "codigo": "121",
+  "nome": "Agiplan",
+  "tipo": "CB"
+},
+{
+  "codigo": "124",
+  "nome": "Woori Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "125",
+  "nome": "Brasil Plural",
+  "tipo": "CB"
+},
+{
+  "codigo": "126",
+  "nome": "BR Partners",
+  "tipo": "CB"
+},
+{
+  "codigo": "128",
+  "nome": "MS Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "132",
+  "nome": "ICBC do Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "133",
+  "nome": "Cresol",
+  "tipo": "CB"
+},
+{
+  "codigo": "136",
+  "nome": "Centrais Unicreds",
+  "tipo": "CB"
+},
+{
+  "codigo": "140",
+  "nome": "Easynvest",
+  "tipo": "CB"
+},
+{
+  "codigo": "142",
+  "nome": "Broker Brasil Corretora de Valores",
+  "tipo": "CB"
+},
+{
+  "codigo": "143",
+  "nome": "Treviso Câmbio",
+  "tipo": "CB"
+},
+{
+  "codigo": "144",
+  "nome": "Bexs Banco de Câmbio",
+  "tipo": "CB"
+},
+{
+  "codigo": "146",
+  "nome": "Guitta Corretora de Câmbio",
+  "tipo": "CB"
+},
+{
+  "codigo": "147",
+  "nome": "Rico",
+  "tipo": "CB"
+},
+{
+  "codigo": "151",
+  "nome": "Nossa Caixa",
+  "tipo": "CB"
+},
+{
+  "codigo": "159",
+  "nome": "Casa do Crédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "160",
+  "nome": "Banpar",
+  "tipo": "CB"
+},
+{
+  "codigo": "161",
+  "nome": "Conexpay",
+  "tipo": "CB"
+},
+{
+  "codigo": "162",
+  "nome": "Investor",
+  "tipo": "CB"
+},
+{
+  "codigo": "163",
+  "nome": "New Progress",
+  "tipo": "CB"
+},
+{
+  "codigo": "164",
+  "nome": "Cvpar Investimentos Ltda",
+  "tipo": "CB"
+},
+{
+  "codigo": "165",
+  "nome": "Infoar",
+  "tipo": "CV"
+},
+{
+  "codigo": "166",
+  "nome": "Cobasi",
+  "tipo": "CV"
+},
+{
+  "codigo": "167",
+  "nome": "HDLG Fundo de Investimento",
+  "tipo": "CV"
+},
+{
+  "codigo": "168",
+  "nome": "Opera Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "169",
+  "nome": "Zet Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "170",
+  "nome": "Dinari Pay",
+  "tipo": "CV"
+},
+{
+  "codigo": "171",
+  "nome": "Fácil Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "172",
+  "nome": "Fives Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "173",
+  "nome": "Prospect Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "174",
+  "nome": "Pefisa S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "175",
+  "nome": "Shopify",
+  "tipo": "CV"
+},
+{
+  "codigo": "176",
+  "nome": "DelBank",
+  "tipo": "CB"
+},
+{
+  "codigo": "177",
+  "nome": "SC Guide",
+  "tipo": "CB"
+},
+{
+  "codigo": "178",
+  "nome": "Ecx Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "179",
+  "nome": "Limine DTVM",
+  "tipo": "CB"
+},
+{
+  "codigo": "180",
+  "nome": "CM Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "181",
+  "nome": "Tray",
+  "tipo": "CB"
+},
+{
+  "codigo": "182",
+  "nome": "Amazon",
+  "tipo": "CB"
+},
+{
+  "codigo": "183",
+  "nome": "Americanas",
+  "tipo": "CB"
+},
+{
+  "codigo": "184",
+  "nome": "Itaú BBA",
+  "tipo": "CB"
+},
+{
+  "codigo": "185",
+  "nome": "Riachuelo",
+  "tipo": "CV"
+},
+{
+  "codigo": "186",
+  "nome": "BRI Tech",
+  "tipo": "CB"
+},
+{
+  "codigo": "187",
+  "nome": "Americanas",
+  "tipo": "CV"
+},
+{
+  "codigo": "188",
+  "nome": "Ativa Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "189",
+  "nome": "Tray",
+  "tipo": "CV"
+},
+{
+  "codigo": "190",
+  "nome": "Wavepay",
+  "tipo": "CV"
+},
+{
+  "codigo": "191",
+  "nome": "PagBrasil",
+  "tipo": "AC"
+},
+{
+  "codigo": "192",
+  "nome": "Meep",
+  "tipo": "CV"
+},
+{
+  "codigo": "193",
+  "nome": "Wise",
+  "tipo": "CB"
+},
+{
+  "codigo": "194",
+  "nome": "Onfly",
+  "tipo": "AC"
+},
+{
+  "codigo": "195",
+  "nome": "Provi",
+  "tipo": "CV"
+},
+{
+  "codigo": "196",
+  "nome": "Citizens Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "197",
+  "nome": "Stone",
+  "tipo": "CB"
+},
+{
+  "codigo": "198",
+  "nome": "Davivienda",
+  "tipo": "CB"
+},
+{
+  "codigo": "199",
+  "nome": "Gali Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "200",
+  "nome": "Edmond Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "201",
+  "nome": "Jeeves",
+  "tipo": "CR"
+},
+{
+  "codigo": "202",
+  "nome": "Doppus",
+  "tipo": "CV"
+},
+{
+  "codigo": "203",
+  "nome": "Edan Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "204",
+  "nome": "ConectCar",
+  "tipo": "CV"
+},
+{
+  "codigo": "205",
+  "nome": "Redeflex",
+  "tipo": "AC"
+},
+{
+  "codigo": "206",
+  "nome": "Recargapay",
+  "tipo": "CV"
+},
+{
+  "codigo": "207",
+  "nome": "BK Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "208",
+  "nome": "BTG Pactual",
+  "tipo": "CB"
+},
+{
+  "codigo": "209",
+  "nome": "e-Dinheiro Saquarema",
+  "tipo": "AC"
+},
+{
+  "codigo": "210",
+  "nome": "Auttar",
+  "tipo": "AC"
+},
+{
+  "codigo": "211",
+  "nome": "Ágora Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "212",
+  "nome": "Original",
+  "tipo": "CB"
+},
+{
+  "codigo": "213",
+  "nome": "ARBI",
+  "tipo": "CB"
+},
+{
+  "codigo": "214",
+  "nome": "Facily",
+  "tipo": "CV"
+},
+{
+  "codigo": "215",
+  "nome": "Swap Meios de Pagamentos",
+  "tipo": "CV"
+},
+{
+  "codigo": "216",
+  "nome": "Acesso Soluções de Pagamentos",
+  "tipo": "CV"
+},
+{
+  "codigo": "217",
+  "nome": "Grananet",
+  "tipo": "CV"
+},
+{
+  "codigo": "218",
+  "nome": "BS2",
+  "tipo": "CB"
+},
+{
+  "codigo": "219",
+  "nome": "Caju Benefícios",
+  "tipo": "AC"
+},
+{
+  "codigo": "220",
+  "nome": "ChampsPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "221",
+  "nome": "Vuon Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "222",
+  "nome": "Crédit Agricole",
+  "tipo": "CB"
+},
+{
+  "codigo": "223",
+  "nome": "EntrePay",
+  "tipo": "CV"
+},
+{
+  "codigo": "224",
+  "nome": "Fibra",
+  "tipo": "CB"
+},
+{
+  "codigo": "225",
+  "nome": "Swile",
+  "tipo": "AC"
+},
+{
+  "codigo": "226",
+  "nome": "Pagali",
+  "tipo": "CV"
+},
+{
+  "codigo": "227",
+  "nome": "PagPós",
+  "tipo": "AC"
+},
+{
+  "codigo": "228",
+  "nome": "Supcard",
+  "tipo": "AC"
+},
+{
+  "codigo": "229",
+  "nome": "Banco Cruzeiro do Sul S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "230",
+  "nome": "Giro.Tech",
+  "tipo": "CV"
+},
+{
+  "codigo": "231",
+  "nome": "MoneyPlus",
+  "tipo": "CV"
+},
+{
+  "codigo": "232",
+  "nome": "Grupo Otimiza",
+  "tipo": "AC"
+},
+{
+  "codigo": "233",
+  "nome": "Banco Cifra",
+  "tipo": "CB"
+},
+{
+  "codigo": "234",
+  "nome": "Bee Vale",
+  "tipo": "AC"
+},
+{
+  "codigo": "235",
+  "nome": "Docgx",
+  "tipo": "CV"
+},
+{
+  "codigo": "236",
+  "nome": "Credpay",
+  "tipo": "AC"
+},
+{
+  "codigo": "237",
+  "nome": "Bradesco",
+  "tipo": "CB"
+},
+{
+  "codigo": "238",
+  "nome": "WTM Finance",
+  "tipo": "CB"
+},
+{
+  "codigo": "239",
+  "nome": "Banco Bancred S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "240",
+  "nome": "Noodle Tecnologia",
+  "tipo": "CB"
+},
+{
+  "codigo": "241",
+  "nome": "Bees Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "242",
+  "nome": "Monetizze",
+  "tipo": "CV"
+},
+{
+  "codigo": "243",
+  "nome": "Banco Master S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "244",
+  "nome": "CTM Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "245",
+  "nome": "DocgPay",
+  "tipo": "CB"
+},
+{
+  "codigo": "246",
+  "nome": "Banco ABC Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "247",
+  "nome": "C6 Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "248",
+  "nome": "CEFIS Pay",
+  "tipo": "CB"
+},
+{
+  "codigo": "249",
+  "nome": "Litus Fidic",
+  "tipo": "CB"
+},
+{
+  "codigo": "250",
+  "nome": "BCV - Banco de Crédito e Varejo",
+  "tipo": "CB"
+},
+{
+  "codigo": "251",
+  "nome": "MK Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "252",
+  "nome": "Key Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "253",
+  "nome": "Vuon",
+  "tipo": "CV"
+},
+{
+  "codigo": "254",
+  "nome": "ParanáBanco",
+  "tipo": "CB"
+},
+{
+  "codigo": "255",
+  "nome": "Appmax",
+  "tipo": "CV"
+},
+{
+  "codigo": "256",
+  "nome": "Hinova Pay",
+  "tipo": "CV"
+},
+{
+  "codigo": "257",
+  "nome": "Sunstate Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "258",
+  "nome": "Kredit Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "259",
+  "nome": "Moneycorp",
+  "tipo": "CB"
+},
+{
+  "codigo": "260",
+  "nome": "Nubank",
+  "tipo": "CB"
+},
+{
+  "codigo": "261",
+  "nome": "InfinitePay",
+  "tipo": "CV"
+},
+{
+  "codigo": "262",
+  "nome": "Vero",
+  "tipo": "AC"
+},
+{
+  "codigo": "263",
+  "nome": "Pronto",
+  "tipo": "AC"
+},
+{
+  "codigo": "264",
+  "nome": "Metrocard",
+  "tipo": "AC"
+},
+{
+  "codigo": "265",
+  "nome": "99 Food",
+  "tipo": "AC"
+},
+{
+  "codigo": "266",
+  "nome": "Singulare",
+  "tipo": "CB"
+},
+{
+  "codigo": "267",
+  "nome": "Hurst Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "268",
+  "nome": "Gerar Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "269",
+  "nome": "HSBC",
+  "tipo": "CB"
+},
+{
+  "codigo": "270",
+  "nome": "FaciCredi",
+  "tipo": "CB"
+},
+{
+  "codigo": "271",
+  "nome": "IB CCTVM S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "272",
+  "nome": "PerfectPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "273",
+  "nome": "Coop. Créd. Rural São Miguel do Oeste",
+  "tipo": "CB"
+},
+{
+  "codigo": "274",
+  "nome": "BMP Money Plus",
+  "tipo": "CB"
+},
+{
+  "codigo": "275",
+  "nome": "MapiPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "276",
+  "nome": "MapiPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "277",
+  "nome": "BankLabs",
+  "tipo": "AC"
+},
+{
+  "codigo": "278",
+  "nome": "Genial Investimentos CVM S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "279",
+  "nome": "Primacredi",
+  "tipo": "CB"
+},
+{
+  "codigo": "280",
+  "nome": "LiftBank",
+  "tipo": "CB"
+},
+{
+  "codigo": "281",
+  "nome": "Meta Pay",
+  "tipo": "CV"
+},
+{
+  "codigo": "282",
+  "nome": "Mentore Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "283",
+  "nome": "RB Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "284",
+  "nome": "Totalfor",
+  "tipo": "CB"
+},
+{
+  "codigo": "285",
+  "nome": "Cooper Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "286",
+  "nome": "Modo Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "287",
+  "nome": "MetaMask",
+  "tipo": "CV"
+},
+{
+  "codigo": "288",
+  "nome": "Onbank",
+  "tipo": "CB"
+},
+{
+  "codigo": "289",
+  "nome": "BigShop Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "290",
+  "nome": "PagBank (PagSeguro)",
+  "tipo": "CB"
+},
+{
+  "codigo": "291",
+  "nome": "Cobre Fácil",
+  "tipo": "CB"
+},
+{
+  "codigo": "292",
+  "nome": "BS2",
+  "tipo": "CB"
+},
+{
+  "codigo": "293",
+  "nome": "Tecnofit",
+  "tipo": "CB"
+},
+{
+  "codigo": "294",
+  "nome": "Maxifrota",
+  "tipo": "CV"
+},
+{
+  "codigo": "295",
+  "nome": "Factum Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "296",
+  "nome": "PayT",
+  "tipo": "CV"
+},
+{
+  "codigo": "297",
+  "nome": "Ticketlog",
+  "tipo": "AC"
+},
+{
+  "codigo": "298",
+  "nome": "Deep Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "299",
+  "nome": "Banco Afinz S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "300",
+  "nome": "Magazine Luiza",
+  "tipo": "AC"
+},
+{
+  "codigo": "301",
+  "nome": "Dock Instituição de Pagamento",
+  "tipo": "CB"
+},
+{
+  "codigo": "307",
+  "nome": "Terra Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "310",
+  "nome": "Vortx",
+  "tipo": "CB"
+},
+{
+  "codigo": "318",
+  "nome": "Banco BMG",
+  "tipo": "CB"
+},
+{
+  "codigo": "320",
+  "nome": "BIC Banco Industrial e Comercial",
+  "tipo": "CB"
+},
+{
+  "codigo": "322",
+  "nome": "Sulcredi",
+  "tipo": "CB"
+},
+{
+  "codigo": "323",
+  "nome": "Mercado Pago",
+  "tipo": "CB"
+},
+{
+  "codigo": "324",
+  "nome": "Cartos Sociedade de Crédito Direto",
+  "tipo": "CB"
+},
+{
+  "codigo": "325",
+  "nome": "Órama Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "329",
+  "nome": "QI Tech",
+  "tipo": "CB"
+},
+{
+  "codigo": "330",
+  "nome": "Banco Bari",
+  "tipo": "CB"
+},
+{
+  "codigo": "331",
+  "nome": "Fram Capital DTVM S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "332",
+  "nome": "Acesso Soluções de Pagamento",
+  "tipo": "CB"
+},
+{
+  "codigo": "335",
+  "nome": "Digio",
+  "tipo": "CB"
+},
+{
+  "codigo": "336",
+  "nome": "C6 Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "340",
+  "nome": "Superdigital",
+  "tipo": "CB"
+},
+{
+  "codigo": "341",
+  "nome": "Itaú Unibanco",
+  "tipo": "CB"
+},
+{
+  "codigo": "343",
+  "nome": "Vipe Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "348",
+  "nome": "Banco XP S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "350",
+  "nome": "Crehnor",
+  "tipo": "CB"
+},
+{
+  "codigo": "352",
+  "nome": "Toro Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "354",
+  "nome": "Necton",
+  "tipo": "CB"
+},
+{
+  "codigo": "355",
+  "nome": "Ótimo SCD",
+  "tipo": "AC"
+},
+{
+  "codigo": "358",
+  "nome": "Midway",
+  "tipo": "CB"
+},
+{
+  "codigo": "362",
+  "nome": "Cielo S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "363",
+  "nome": "Socapa SC Paulista",
+  "tipo": "CB"
+},
+{
+  "codigo": "364",
+  "nome": "Gerencianet",
+  "tipo": "CB"
+},
+{
+  "codigo": "367",
+  "nome": "Vitreo",
+  "tipo": "CB"
+},
+{
+  "codigo": "370",
+  "nome": "Mizuho",
+  "tipo": "CB"
+},
+{
+  "codigo": "371",
+  "nome": "Warren",
+  "tipo": "CB"
+},
+{
+  "codigo": "373",
+  "nome": "UP.P",
+  "tipo": "CB"
+},
+{
+  "codigo": "374",
+  "nome": "Realize Crédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "376",
+  "nome": "J. P. Morgan",
+  "tipo": "CB"
+},
+{
+  "codigo": "378",
+  "nome": "BBC Digital",
+  "tipo": "CB"
+},
+{
+  "codigo": "380",
+  "nome": "PicPay",
+  "tipo": "CB"
+},
+{
+  "codigo": "382",
+  "nome": "Fidúcia Sociedade de Crédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "383",
+  "nome": "Juno",
+  "tipo": "CB"
+},
+{
+  "codigo": "385",
+  "nome": "Credestiva",
+  "tipo": "CB"
+},
+{
+  "codigo": "389",
+  "nome": "Banco Mercantil do Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "396",
+  "nome": "Hub Pagamentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "397",
+  "nome": "Listo Sociedade de Crédito Direto",
+  "tipo": "CB"
+},
+{
+  "codigo": "398",
+  "nome": "Dank Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "399",
+  "nome": "HSBC Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "400",
+  "nome": "Inove Banco",
+  "tipo": "CV"
+},
+{
+  "codigo": "401",
+  "nome": "Iugu Instituição de Pagamento S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "402",
+  "nome": "Unic Fundo de Investimento",
+  "tipo": "CB"
+},
+{
+  "codigo": "403",
+  "nome": "Cora",
+  "tipo": "CB"
+},
+{
+  "codigo": "404",
+  "nome": "Sumup SCD",
+  "tipo": "CB"
+},
+{
+  "codigo": "405",
+  "nome": "Alterbank",
+  "tipo": "CB"
+},
+{
+  "codigo": "406",
+  "nome": "Crescer Crédito e Serviços",
+  "tipo": "CB"
+},
+{
+  "codigo": "407",
+  "nome": "Indigo Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "408",
+  "nome": "Capital Annex",
+  "tipo": "CB"
+},
+{
+  "codigo": "409",
+  "nome": "Aticca Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "410",
+  "nome": "Addi",
+  "tipo": "CV"
+},
+{
+  "codigo": "411",
+  "nome": "Wow Solution",
+  "tipo": "CB"
+},
+{
+  "codigo": "412",
+  "nome": "Banco Capital S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "413",
+  "nome": "Banco BV S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "414",
+  "nome": "Gestão Inteligente FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "415",
+  "nome": "Caruana Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "416",
+  "nome": "Truckpad",
+  "tipo": "AC"
+},
+{
+  "codigo": "417",
+  "nome": "OrgCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "418",
+  "nome": "Receba Fácil",
+  "tipo": "CV"
+},
+{
+  "codigo": "419",
+  "nome": "Donus",
+  "tipo": "CB"
+},
+{
+  "codigo": "420",
+  "nome": "DM Card",
+  "tipo": "CR"
+},
+{
+  "codigo": "421",
+  "nome": "Trela",
+  "tipo": "AC"
+},
+{
+  "codigo": "422",
+  "nome": "Safra",
+  "tipo": "CB"
+},
+{
+  "codigo": "423",
+  "nome": "Gurmit",
+  "tipo": "AC"
+},
+{
+  "codigo": "424",
+  "nome": "Creditt",
+  "tipo": "AC"
+},
+{
+  "codigo": "425",
+  "nome": "Iti Itaú",
+  "tipo": "CV"
+},
+{
+  "codigo": "426",
+  "nome": "Nexoos",
+  "tipo": "CB"
+},
+{
+  "codigo": "427",
+  "nome": "Katch Investment Group",
+  "tipo": "CB"
+},
+{
+  "codigo": "428",
+  "nome": "Camicado",
+  "tipo": "CV"
+},
+{
+  "codigo": "429",
+  "nome": "Clara",
+  "tipo": "CR"
+},
+{
+  "codigo": "430",
+  "nome": "Alymente",
+  "tipo": "CV"
+},
+{
+  "codigo": "431",
+  "nome": "355 Ótimo Sociedade de Crédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "432",
+  "nome": "Apple Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "433",
+  "nome": "Samsung Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "434",
+  "nome": "GPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "435",
+  "nome": "Delcred SCD",
+  "tipo": "CB"
+},
+{
+  "codigo": "436",
+  "nome": "Sodexo Multi",
+  "tipo": "CR"
+},
+{
+  "codigo": "437",
+  "nome": "Bank 3",
+  "tipo": "CB"
+},
+{
+  "codigo": "438",
+  "nome": "Commerzbank AG",
+  "tipo": "CB"
+},
+{
+  "codigo": "439",
+  "nome": "ID CTVM",
+  "tipo": "CB"
+},
+{
+  "codigo": "440",
+  "nome": "DSX Securitizdora FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "441",
+  "nome": "Multiplike Soluções Financeiras",
+  "tipo": "CB"
+},
+{
+  "codigo": "442",
+  "nome": "Hub Fintech",
+  "tipo": "AC"
+},
+{
+  "codigo": "443",
+  "nome": "Apollo FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "444",
+  "nome": "Negocial Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "445",
+  "nome": "Alpes Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "446",
+  "nome": "2Safe",
+  "tipo": "CV"
+},
+{
+  "codigo": "447",
+  "nome": "Flip",
+  "tipo": "CB"
+},
+{
+  "codigo": "448",
+  "nome": "Hemera DTVM LTDA",
+  "tipo": "CB"
+},
+{
+  "codigo": "449",
+  "nome": "Pride Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "450",
+  "nome": "FitBank",
+  "tipo": "CB"
+},
+{
+  "codigo": "451",
+  "nome": "Winterbotham Trust Company",
+  "tipo": "CB"
+},
+{
+  "codigo": "452",
+  "nome": "Credifit",
+  "tipo": "CB"
+},
+{
+  "codigo": "453",
+  "nome": "Banco Rural S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "454",
+  "nome": "Bidfood Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "455",
+  "nome": "Mapa Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "456",
+  "nome": "Banco de Tokyo",
+  "tipo": "CB"
+},
+{
+  "codigo": "457",
+  "nome": "UY3 Sociedade de Crédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "458",
+  "nome": "Singulare Invest",
+  "tipo": "CB"
+},
+{
+  "codigo": "459",
+  "nome": "Peak Invest",
+  "tipo": "CB"
+},
+{
+  "codigo": "460",
+  "nome": "AgeRio",
+  "tipo": "CB"
+},
+{
+  "codigo": "461",
+  "nome": "ASAAS IP S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "462",
+  "nome": "Stark Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "463",
+  "nome": "S3 Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "464",
+  "nome": "Banco Sumitomo Mitsui Brasileiro",
+  "tipo": "CB"
+},
+{
+  "codigo": "465",
+  "nome": "Capital Consig",
+  "tipo": "CB"
+},
+{
+  "codigo": "466",
+  "nome": "Credpag",
+  "tipo": "AC"
+},
+{
+  "codigo": "467",
+  "nome": "Galax Pay",
+  "tipo": "CB"
+},
+{
+  "codigo": "468",
+  "nome": "XP Investimentos",
+  "tipo": "AC"
+},
+{
+  "codigo": "469",
+  "nome": "OnePay",
+  "tipo": "AC"
+},
+{
+  "codigo": "470",
+  "nome": "CDC Sociedade de Crédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "471",
+  "nome": "Banco Master S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "472",
+  "nome": "Real BNK",
+  "tipo": "CB"
+},
+{
+  "codigo": "473",
+  "nome": "Caixa Geral",
+  "tipo": "CB"
+},
+{
+  "codigo": "474",
+  "nome": "Euro Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "475",
+  "nome": "Senff",
+  "tipo": "AC"
+},
+{
+  "codigo": "476",
+  "nome": "Asia Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "477",
+  "nome": "Pagtodos",
+  "tipo": "AC"
+},
+{
+  "codigo": "478",
+  "nome": "GazinCred S.A. Sociedade Crédito Dir.",
+  "tipo": "CB"
+},
+{
+  "codigo": "479",
+  "nome": "Banco ItauBank S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "480",
+  "nome": "Epix Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "481",
+  "nome": "Superlógica",
+  "tipo": "CB"
+},
+{
+  "codigo": "482",
+  "nome": "SBCash SCD",
+  "tipo": "CB"
+},
+{
+  "codigo": "483",
+  "nome": "Losango",
+  "tipo": "CB"
+},
+{
+  "codigo": "484",
+  "nome": "MAF - Modal Asset Management",
+  "tipo": "CB"
+},
+{
+  "codigo": "485",
+  "nome": "L&apos;arca Capital",
+  "tipo": "CV"
+},
+{
+  "codigo": "486",
+  "nome": "Ewally",
+  "tipo": "CV"
+},
+{
+  "codigo": "487",
+  "nome": "Deutsche Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "488",
+  "nome": "Chase Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "489",
+  "nome": "Conpay",
+  "tipo": "CV"
+},
+{
+  "codigo": "490",
+  "nome": "Propig",
+  "tipo": "AC"
+},
+{
+  "codigo": "491",
+  "nome": "Shanghai Pudong Development Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "492",
+  "nome": "Bank of Communications",
+  "tipo": "CB"
+},
+{
+  "codigo": "493",
+  "nome": "China Guangfa Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "494",
+  "nome": "Industrial and Commercial Bank of China",
+  "tipo": "CB"
+},
+{
+  "codigo": "495",
+  "nome": "Bank of Taiwan",
+  "tipo": "CB"
+},
+{
+  "codigo": "496",
+  "nome": "Taipei Fubon Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "497",
+  "nome": "Bank of China",
+  "tipo": "CB"
+},
+{
+  "codigo": "498",
+  "nome": "SRM - Capital em Movimento",
+  "tipo": "CB"
+},
+{
+  "codigo": "499",
+  "nome": "Sympla",
+  "tipo": "CV"
+},
+{
+  "codigo": "500",
+  "nome": "Dock",
+  "tipo": "CB"
+},
+{
+  "codigo": "501",
+  "nome": "Icatu Seguros",
+  "tipo": "CB"
+},
+{
+  "codigo": "502",
+  "nome": "YaPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "503",
+  "nome": "Pagar.me",
+  "tipo": "AC"
+},
+{
+  "codigo": "504",
+  "nome": "Shopee",
+  "tipo": "CB"
+},
+{
+  "codigo": "505",
+  "nome": "Credit Suisse",
+  "tipo": "CB"
+},
+{
+  "codigo": "506",
+  "nome": "Celcoin",
+  "tipo": "CV"
+},
+{
+  "codigo": "507",
+  "nome": "Sindplus Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "508",
+  "nome": "d-local",
+  "tipo": "CB"
+},
+{
+  "codigo": "509",
+  "nome": "Celcoin",
+  "tipo": "CB"
+},
+{
+  "codigo": "510",
+  "nome": "Bay Fomento",
+  "tipo": "CB"
+},
+{
+  "codigo": "511",
+  "nome": "Banco Finantia",
+  "tipo": "CB"
+},
+{
+  "codigo": "512",
+  "nome": "NovaPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "513",
+  "nome": "ATF Credit",
+  "tipo": "CB"
+},
+{
+  "codigo": "514",
+  "nome": "Farfetch",
+  "tipo": "CV"
+},
+{
+  "codigo": "515",
+  "nome": "Ton",
+  "tipo": "AC"
+},
+{
+  "codigo": "516",
+  "nome": "Stripe",
+  "tipo": "AC"
+},
+{
+  "codigo": "517",
+  "nome": "Frogpay",
+  "tipo": "AC"
+},
+{
+  "codigo": "518",
+  "nome": "ASAAS",
+  "tipo": "AC"
+},
+{
+  "codigo": "519",
+  "nome": "LionsTrust",
+  "tipo": "CB"
+},
+{
+  "codigo": "520",
+  "nome": "Somapay SCD S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "521",
+  "nome": "Trackmob",
+  "tipo": "CV"
+},
+{
+  "codigo": "522",
+  "nome": "Transfeera",
+  "tipo": "CV"
+},
+{
+  "codigo": "523",
+  "nome": "Stark Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "524",
+  "nome": "Sem Parar",
+  "tipo": "CV"
+},
+{
+  "codigo": "525",
+  "nome": "Shopee",
+  "tipo": "CV"
+},
+{
+  "codigo": "526",
+  "nome": "Cloudwalk",
+  "tipo": "CV"
+},
+{
+  "codigo": "527",
+  "nome": "Eurobank",
+  "tipo": "CB"
+},
+{
+  "codigo": "528",
+  "nome": "REAG Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "529",
+  "nome": "Pinbank",
+  "tipo": "CB"
+},
+{
+  "codigo": "530",
+  "nome": "Apple Store",
+  "tipo": "CV"
+},
+{
+  "codigo": "531",
+  "nome": "Cabal",
+  "tipo": "CR"
+},
+{
+  "codigo": "532",
+  "nome": "CredBanks",
+  "tipo": "CB"
+},
+{
+  "codigo": "533",
+  "nome": "Log Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "534",
+  "nome": "Ewally",
+  "tipo": "CB"
+},
+{
+  "codigo": "535",
+  "nome": "Impact Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "536",
+  "nome": "Neon Pagamentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "537",
+  "nome": "Águia Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "538",
+  "nome": "PayMee",
+  "tipo": "CB"
+},
+{
+  "codigo": "539",
+  "nome": "Heloo",
+  "tipo": "CB"
+},
+{
+  "codigo": "540",
+  "nome": "Coinext",
+  "tipo": "CB"
+},
+{
+  "codigo": "541",
+  "nome": "Cross Pay",
+  "tipo": "CV"
+},
+{
+  "codigo": "542",
+  "nome": "Cloudwalk IP LTDA",
+  "tipo": "CB"
+},
+{
+  "codigo": "543",
+  "nome": "Coopcrece",
+  "tipo": "CB"
+},
+{
+  "codigo": "544",
+  "nome": "Pinarello Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "545",
+  "nome": "G3 Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "546",
+  "nome": "U4C",
+  "tipo": "CV"
+},
+{
+  "codigo": "547",
+  "nome": "BNK Digital",
+  "tipo": "CB"
+},
+{
+  "codigo": "548",
+  "nome": "Olam Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "549",
+  "nome": "Harpia Fidic",
+  "tipo": "CB"
+},
+{
+  "codigo": "550",
+  "nome": "Beeteller",
+  "tipo": "CB"
+},
+{
+  "codigo": "551",
+  "nome": "Cliente Fiel",
+  "tipo": "AC"
+},
+{
+  "codigo": "552",
+  "nome": "Grupo Prix Empresarial",
+  "tipo": "CB"
+},
+{
+  "codigo": "553",
+  "nome": "SmartFactor",
+  "tipo": "CB"
+},
+{
+  "codigo": "554",
+  "nome": "StoneX Banco de Câmbio",
+  "tipo": "CB"
+},
+{
+  "codigo": "555",
+  "nome": "Use.fit",
+  "tipo": "CV"
+},
+{
+  "codigo": "556",
+  "nome": "Fitpag",
+  "tipo": "AC"
+},
+{
+  "codigo": "557",
+  "nome": "Social Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "558",
+  "nome": "Evolve Bank e Trust",
+  "tipo": "CB"
+},
+{
+  "codigo": "559",
+  "nome": "Pagolivre",
+  "tipo": "AC"
+},
+{
+  "codigo": "560",
+  "nome": "Tera Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "561",
+  "nome": "Fundo Iguatemi",
+  "tipo": "CB"
+},
+{
+  "codigo": "562",
+  "nome": "Perfil Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "563",
+  "nome": "Binance",
+  "tipo": "CV"
+},
+{
+  "codigo": "564",
+  "nome": "BDMG",
+  "tipo": "CB"
+},
+{
+  "codigo": "565",
+  "nome": "Grupo Maturity",
+  "tipo": "CV"
+},
+{
+  "codigo": "566",
+  "nome": "Flagship",
+  "tipo": "CB"
+},
+{
+  "codigo": "567",
+  "nome": "Pinbank",
+  "tipo": "AC"
+},
+{
+  "codigo": "569",
+  "nome": "Daniele Banco",
+  "tipo": "CB"
+},
+{
+  "codigo": "570",
+  "nome": "SB Crédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "571",
+  "nome": "Inter Granito",
+  "tipo": "AC"
+},
+{
+  "codigo": "572",
+  "nome": "AR3 Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "573",
+  "nome": "Creditise",
+  "tipo": "CB"
+},
+{
+  "codigo": "574",
+  "nome": "Pamcard",
+  "tipo": "CB"
+},
+{
+  "codigo": "575",
+  "nome": "SkyHub",
+  "tipo": "CV"
+},
+{
+  "codigo": "576",
+  "nome": "Banco Internacional SVB",
+  "tipo": "CB"
+},
+{
+  "codigo": "577",
+  "nome": "Nova Futura Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "578",
+  "nome": "Leono Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "579",
+  "nome": "Quadra SCD",
+  "tipo": "CB"
+},
+{
+  "codigo": "580",
+  "nome": "Soma Asset",
+  "tipo": "CB"
+},
+{
+  "codigo": "581",
+  "nome": "IB Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "582",
+  "nome": "Adyen",
+  "tipo": "AC"
+},
+{
+  "codigo": "583",
+  "nome": "BancoUtil",
+  "tipo": "CV"
+},
+{
+  "codigo": "584",
+  "nome": "d-local",
+  "tipo": "CV"
+},
+{
+  "codigo": "585",
+  "nome": "Leroy Merlin",
+  "tipo": "CV"
+},
+{
+  "codigo": "586",
+  "nome": "Z1 Instituição de Pagamento LTDA",
+  "tipo": "CB"
+},
+{
+  "codigo": "587",
+  "nome": "Dafiti",
+  "tipo": "CV"
+},
+{
+  "codigo": "588",
+  "nome": "Prover IP",
+  "tipo": "CB"
+},
+{
+  "codigo": "589",
+  "nome": "Adyen",
+  "tipo": "CV"
+},
+{
+  "codigo": "590",
+  "nome": "Adyen",
+  "tipo": "CB"
+},
+{
+  "codigo": "591",
+  "nome": "Cappta",
+  "tipo": "CV"
+},
+{
+  "codigo": "592",
+  "nome": "Geld Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "593",
+  "nome": "Transfeera",
+  "tipo": "CB"
+},
+{
+  "codigo": "594",
+  "nome": "ASA Sociedade de Crédito Direto S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "595",
+  "nome": "Escrow",
+  "tipo": "CV"
+},
+{
+  "codigo": "596",
+  "nome": "Credz",
+  "tipo": "AC"
+},
+{
+  "codigo": "597",
+  "nome": "FreteBank",
+  "tipo": "CV"
+},
+{
+  "codigo": "598",
+  "nome": "Webcontinental",
+  "tipo": "AC"
+},
+{
+  "codigo": "599",
+  "nome": "Iugu",
+  "tipo": "AC"
+},
+{
+  "codigo": "600",
+  "nome": "Banco Luso Brasileiro",
+  "tipo": "CB"
+},
+{
+  "codigo": "601",
+  "nome": "Bolt",
+  "tipo": "AC"
+},
+{
+  "codigo": "604",
+  "nome": "Banco Industrial do Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "608",
+  "nome": "Japan Post Bank Co.",
+  "tipo": "CB"
+},
+{
+  "codigo": "609",
+  "nome": "Crebit",
+  "tipo": "AC"
+},
+{
+  "codigo": "610",
+  "nome": "Lucree",
+  "tipo": "AC"
+},
+{
+  "codigo": "611",
+  "nome": "Banco Paulista",
+  "tipo": "CB"
+},
+{
+  "codigo": "612",
+  "nome": "Banco Guanabara",
+  "tipo": "CB"
+},
+{
+  "codigo": "613",
+  "nome": "Omni Soluções Financeiras",
+  "tipo": "CB"
+},
+{
+  "codigo": "614",
+  "nome": "Cora",
+  "tipo": "CV"
+},
+{
+  "codigo": "615",
+  "nome": "Mercury Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "616",
+  "nome": "PagCorp",
+  "tipo": "AC"
+},
+{
+  "codigo": "617",
+  "nome": "Red Asset",
+  "tipo": "CB"
+},
+{
+  "codigo": "618",
+  "nome": "Débito Direto",
+  "tipo": "CV"
+},
+{
+  "codigo": "619",
+  "nome": "Trio IP LTDA",
+  "tipo": "CB"
+},
+{
+  "codigo": "620",
+  "nome": "Revolut",
+  "tipo": "CB"
+},
+{
+  "codigo": "621",
+  "nome": "Fatori",
+  "tipo": "CB"
+},
+{
+  "codigo": "622",
+  "nome": "Eduzz",
+  "tipo": "CV"
+},
+{
+  "codigo": "623",
+  "nome": "Banco Panamericano S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "624",
+  "nome": "Saúde Cred",
+  "tipo": "CB"
+},
+{
+  "codigo": "625",
+  "nome": "Barcelona Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "626",
+  "nome": "MSN  Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "627",
+  "nome": "Ophir Capital Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "628",
+  "nome": "Payscout",
+  "tipo": "AC"
+},
+{
+  "codigo": "629",
+  "nome": "Rede Celer",
+  "tipo": "AC"
+},
+{
+  "codigo": "630",
+  "nome": "Letsbank",
+  "tipo": "CB"
+},
+{
+  "codigo": "631",
+  "nome": "Ebanx",
+  "tipo": "CV"
+},
+{
+  "codigo": "632",
+  "nome": "Pague Veloz",
+  "tipo": "AC"
+},
+{
+  "codigo": "633",
+  "nome": "Rendimento",
+  "tipo": "CB"
+},
+{
+  "codigo": "634",
+  "nome": "Banco Triângulo S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "635",
+  "nome": "2Taps",
+  "tipo": "AC"
+},
+{
+  "codigo": "636",
+  "nome": "PicPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "637",
+  "nome": "Sofisa",
+  "tipo": "CB"
+},
+{
+  "codigo": "638",
+  "nome": "Vakinha",
+  "tipo": "CV"
+},
+{
+  "codigo": "639",
+  "nome": "Linx Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "640",
+  "nome": "Ame Digital",
+  "tipo": "CV"
+},
+{
+  "codigo": "641",
+  "nome": "Madeira Madeira",
+  "tipo": "CV"
+},
+{
+  "codigo": "642",
+  "nome": "James",
+  "tipo": "AC"
+},
+{
+  "codigo": "643",
+  "nome": "Pine",
+  "tipo": "CB"
+},
+{
+  "codigo": "644",
+  "nome": "Wall Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "646",
+  "nome": "Wirecard",
+  "tipo": "AC"
+},
+{
+  "codigo": "647",
+  "nome": "B-Link Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "648",
+  "nome": "Servicoop",
+  "tipo": "CB"
+},
+{
+  "codigo": "649",
+  "nome": "Select Administradora de Bens",
+  "tipo": "CB"
+},
+{
+  "codigo": "650",
+  "nome": "SuperGet",
+  "tipo": "AC"
+},
+{
+  "codigo": "652",
+  "nome": "Itaú Unibanco Holding",
+  "tipo": "CB"
+},
+{
+  "codigo": "653",
+  "nome": "Banco Voiter S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "654",
+  "nome": "Banco Renner",
+  "tipo": "CB"
+},
+{
+  "codigo": "655",
+  "nome": "Votorantim",
+  "tipo": "CB"
+},
+{
+  "codigo": "656",
+  "nome": "DLM Invista",
+  "tipo": "CB"
+},
+{
+  "codigo": "657",
+  "nome": "UnionPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "658",
+  "nome": "Zoop",
+  "tipo": "CV"
+},
+{
+  "codigo": "659",
+  "nome": "Flash Benefícios",
+  "tipo": "AC"
+},
+{
+  "codigo": "660",
+  "nome": "Pagme IP LTDA",
+  "tipo": "CB"
+},
+{
+  "codigo": "661",
+  "nome": "AvecPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "662",
+  "nome": "WabiPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "663",
+  "nome": "WabiPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "664",
+  "nome": "Credit Partners",
+  "tipo": "CB"
+},
+{
+  "codigo": "665",
+  "nome": "Stark Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "666",
+  "nome": "Porto Seguro",
+  "tipo": "CB"
+},
+{
+  "codigo": "667",
+  "nome": "Fidussia",
+  "tipo": "CB"
+},
+{
+  "codigo": "668",
+  "nome": "Silicon Valley Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "669",
+  "nome": "ArgosBank",
+  "tipo": "CB"
+},
+{
+  "codigo": "670",
+  "nome": "Brasil Cash",
+  "tipo": "AC"
+},
+{
+  "codigo": "671",
+  "nome": "Zero Instituição de Pagamento S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "672",
+  "nome": "FacilitaPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "673",
+  "nome": "Ceape",
+  "tipo": "CB"
+},
+{
+  "codigo": "674",
+  "nome": "CBH - Compagnie Bancaire Helvetique",
+  "tipo": "CB"
+},
+{
+  "codigo": "675",
+  "nome": "One7",
+  "tipo": "CB"
+},
+{
+  "codigo": "676",
+  "nome": "Griffin Capital S/A",
+  "tipo": "CB"
+},
+{
+  "codigo": "677",
+  "nome": "Midas Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "678",
+  "nome": "PeixePay",
+  "tipo": "AC"
+},
+{
+  "codigo": "679",
+  "nome": "InfinitePay",
+  "tipo": "AC"
+},
+{
+  "codigo": "680",
+  "nome": "Lado Serviços de Cobrança",
+  "tipo": "CB"
+},
+{
+  "codigo": "681",
+  "nome": "Rodolfo Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "682",
+  "nome": "CR Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "683",
+  "nome": "Ben Benefícios",
+  "tipo": "AC"
+},
+{
+  "codigo": "684",
+  "nome": "Loggi",
+  "tipo": "AC"
+},
+{
+  "codigo": "685",
+  "nome": "BRDE",
+  "tipo": "CB"
+},
+{
+  "codigo": "686",
+  "nome": "Cotação",
+  "tipo": "CB"
+},
+{
+  "codigo": "687",
+  "nome": "Olist",
+  "tipo": "CV"
+},
+{
+  "codigo": "688",
+  "nome": "Amazon",
+  "tipo": "CV"
+},
+{
+  "codigo": "689",
+  "nome": "Investcamp",
+  "tipo": "CB"
+},
+{
+  "codigo": "690",
+  "nome": "SulBrasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "691",
+  "nome": "Seven Investimentos",
+  "tipo": "CB"
+},
+{
+  "codigo": "692",
+  "nome": "Lotus",
+  "tipo": "CB"
+},
+{
+  "codigo": "693",
+  "nome": "Grupo Multiplica",
+  "tipo": "CB"
+},
+{
+  "codigo": "694",
+  "nome": "Trevys Fidic",
+  "tipo": "CB"
+},
+{
+  "codigo": "696",
+  "nome": "Valori Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "697",
+  "nome": "Evo Pagamentos",
+  "tipo": "AC"
+},
+{
+  "codigo": "698",
+  "nome": "Direct Cred",
+  "tipo": "CB"
+},
+{
+  "codigo": "699",
+  "nome": "EngagED",
+  "tipo": "CV"
+},
+{
+  "codigo": "700",
+  "nome": "Finpet",
+  "tipo": "AC"
+},
+{
+  "codigo": "701",
+  "nome": "Comprocard",
+  "tipo": "AC"
+},
+{
+  "codigo": "702",
+  "nome": "Valley National Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "703",
+  "nome": "Além",
+  "tipo": "CV"
+},
+{
+  "codigo": "704",
+  "nome": "Nuvem Pago",
+  "tipo": "CV"
+},
+{
+  "codigo": "705",
+  "nome": "DieselBank",
+  "tipo": "CV"
+},
+{
+  "codigo": "706",
+  "nome": "Nova Sumaré Ass. e Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "707",
+  "nome": "Banco Daycoval",
+  "tipo": "CB"
+},
+{
+  "codigo": "708",
+  "nome": "Asset Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "709",
+  "nome": "Optacred",
+  "tipo": "CB"
+},
+{
+  "codigo": "710",
+  "nome": "Ebury",
+  "tipo": "CB"
+},
+{
+  "codigo": "711",
+  "nome": "Rendimento",
+  "tipo": "AC"
+},
+{
+  "codigo": "712",
+  "nome": "Ourinvest",
+  "tipo": "CB"
+},
+{
+  "codigo": "713",
+  "nome": "Diesel Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "714",
+  "nome": "Caju Benefícios",
+  "tipo": "CV"
+},
+{
+  "codigo": "715",
+  "nome": "Payfy",
+  "tipo": "AC"
+},
+{
+  "codigo": "716",
+  "nome": "BitcoinToYou",
+  "tipo": "CV"
+},
+{
+  "codigo": "717",
+  "nome": "BitcoinTrade",
+  "tipo": "CV"
+},
+{
+  "codigo": "718",
+  "nome": "BitFinex",
+  "tipo": "CV"
+},
+{
+  "codigo": "719",
+  "nome": "Banif",
+  "tipo": "CB"
+},
+{
+  "codigo": "720",
+  "nome": "Banco RNX",
+  "tipo": "CB"
+},
+{
+  "codigo": "721",
+  "nome": "BitPreço",
+  "tipo": "CV"
+},
+{
+  "codigo": "722",
+  "nome": "BrasilBitcoin",
+  "tipo": "CV"
+},
+{
+  "codigo": "723",
+  "nome": "FTX",
+  "tipo": "CV"
+},
+{
+  "codigo": "724",
+  "nome": "MercadoBitcoin",
+  "tipo": "CV"
+},
+{
+  "codigo": "725",
+  "nome": "Nexo",
+  "tipo": "CV"
+},
+{
+  "codigo": "726",
+  "nome": "Nova Dax",
+  "tipo": "CV"
+},
+{
+  "codigo": "727",
+  "nome": "Finan Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "728",
+  "nome": "Audax Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "729",
+  "nome": "Finanza Prime Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "730",
+  "nome": "Melhor Envio",
+  "tipo": "CV"
+},
+{
+  "codigo": "731",
+  "nome": "Kiwfy",
+  "tipo": "CV"
+},
+{
+  "codigo": "732",
+  "nome": "TMB",
+  "tipo": "CV"
+},
+{
+  "codigo": "733",
+  "nome": "Justa",
+  "tipo": "AC"
+},
+{
+  "codigo": "734",
+  "nome": "Food to Save",
+  "tipo": "AC"
+},
+{
+  "codigo": "735",
+  "nome": "Pottencial",
+  "tipo": "CB"
+},
+{
+  "codigo": "736",
+  "nome": "Benevity Causes",
+  "tipo": "CV"
+},
+{
+  "codigo": "737",
+  "nome": "RBC Royal Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "738",
+  "nome": "BMP Money Plus",
+  "tipo": "AC"
+},
+{
+  "codigo": "739",
+  "nome": "Quero 2 Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "740",
+  "nome": "Ecx Card",
+  "tipo": "CR"
+},
+{
+  "codigo": "741",
+  "nome": "Banco Ribeirão Preto",
+  "tipo": "CB"
+},
+{
+  "codigo": "742",
+  "nome": "Toyohashi Shinkin Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "743",
+  "nome": "Banco Semear",
+  "tipo": "CB"
+},
+{
+  "codigo": "744",
+  "nome": "Gamagori Shinkin Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "745",
+  "nome": "Citibank S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "746",
+  "nome": "Banco Modal",
+  "tipo": "CB"
+},
+{
+  "codigo": "747",
+  "nome": "Rabobank International Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "748",
+  "nome": "Sicredi",
+  "tipo": "CB"
+},
+{
+  "codigo": "749",
+  "nome": "Banco Simples S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "750",
+  "nome": "Fractal",
+  "tipo": "CB"
+},
+{
+  "codigo": "752",
+  "nome": "BNP Paribas",
+  "tipo": "CB"
+},
+{
+  "codigo": "753",
+  "nome": "NBC Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "755",
+  "nome": "Bank of America Merrill Lynch",
+  "tipo": "CB"
+},
+{
+  "codigo": "756",
+  "nome": "Sicoob",
+  "tipo": "CB"
+},
+{
+  "codigo": "757",
+  "nome": "KEB Hana do Brasil S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "758",
+  "nome": "Rino Digital",
+  "tipo": "CB"
+},
+{
+  "codigo": "759",
+  "nome": "Safe2pay",
+  "tipo": "CV"
+},
+{
+  "codigo": "760",
+  "nome": "BigCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "761",
+  "nome": "ACG",
+  "tipo": "CV"
+},
+{
+  "codigo": "762",
+  "nome": "Summit Bank",
+  "tipo": "AC"
+},
+{
+  "codigo": "763",
+  "nome": "Mais",
+  "tipo": "AC"
+},
+{
+  "codigo": "764",
+  "nome": "PayMee",
+  "tipo": "CV"
+},
+{
+  "codigo": "765",
+  "nome": "WidePay",
+  "tipo": "CB"
+},
+{
+  "codigo": "766",
+  "nome": "TD Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "767",
+  "nome": "Adiantesa",
+  "tipo": "CV"
+},
+{
+  "codigo": "768",
+  "nome": "Broadfactor",
+  "tipo": "CV"
+},
+{
+  "codigo": "769",
+  "nome": "Conta Simples",
+  "tipo": "CV"
+},
+{
+  "codigo": "770",
+  "nome": "Brex",
+  "tipo": "CB"
+},
+{
+  "codigo": "772",
+  "nome": "Gol Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "773",
+  "nome": "Centerin Fomento",
+  "tipo": "CB"
+},
+{
+  "codigo": "774",
+  "nome": "Sals-Fac Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "775",
+  "nome": "Social Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "776",
+  "nome": "Conta Simples",
+  "tipo": "CB"
+},
+{
+  "codigo": "777",
+  "nome": "Credicard",
+  "tipo": "AC"
+},
+{
+  "codigo": "778",
+  "nome": "Credicard",
+  "tipo": "CR"
+},
+{
+  "codigo": "779",
+  "nome": "Banricard",
+  "tipo": "CR"
+},
+{
+  "codigo": "780",
+  "nome": "Akirede",
+  "tipo": "AC"
+},
+{
+  "codigo": "781",
+  "nome": "Adiq",
+  "tipo": "CV"
+},
+{
+  "codigo": "782",
+  "nome": "A55",
+  "tipo": "CB"
+},
+{
+  "codigo": "783",
+  "nome": "Calcard",
+  "tipo": "CR"
+},
+{
+  "codigo": "784",
+  "nome": "BrasilCard",
+  "tipo": "CR"
+},
+{
+  "codigo": "785",
+  "nome": "Calcard",
+  "tipo": "AC"
+},
+{
+  "codigo": "786",
+  "nome": "BrasilCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "787",
+  "nome": "PinPag",
+  "tipo": "AC"
+},
+{
+  "codigo": "788",
+  "nome": "BRA Fundo de Investimento",
+  "tipo": "CB"
+},
+{
+  "codigo": "789",
+  "nome": "Vale Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "790",
+  "nome": "Cielo",
+  "tipo": "CV"
+},
+{
+  "codigo": "791",
+  "nome": "InvistaFIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "792",
+  "nome": "Losango",
+  "tipo": "AC"
+},
+{
+  "codigo": "793",
+  "nome": "Aplhatrade",
+  "tipo": "CB"
+},
+{
+  "codigo": "794",
+  "nome": "BZ Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "795",
+  "nome": "Soma Soluções Financeiras",
+  "tipo": "CB"
+},
+{
+  "codigo": "796",
+  "nome": "Credex",
+  "tipo": "CB"
+},
+{
+  "codigo": "797",
+  "nome": "Hercules Fundo de Investimento",
+  "tipo": "CB"
+},
+{
+  "codigo": "798",
+  "nome": "Multiplike Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "799",
+  "nome": "StarPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "800",
+  "nome": "Granito",
+  "tipo": "CR"
+},
+{
+  "codigo": "801",
+  "nome": "SP1 Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "802",
+  "nome": "Grancred SP Fundo de Investimento",
+  "tipo": "CB"
+},
+{
+  "codigo": "803",
+  "nome": "Raízes Fundo de Investimento",
+  "tipo": "CB"
+},
+{
+  "codigo": "804",
+  "nome": "J.N. Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "805",
+  "nome": "GFM Fundo de Investimento",
+  "tipo": "CB"
+},
+{
+  "codigo": "806",
+  "nome": "Credvale Securitizadora FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "807",
+  "nome": "Bancredi RS Fomento Comercial",
+  "tipo": "CB"
+},
+{
+  "codigo": "808",
+  "nome": "Nutricash",
+  "tipo": "AC"
+},
+{
+  "codigo": "809",
+  "nome": "Libra Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "810",
+  "nome": "Paytime",
+  "tipo": "CV"
+},
+{
+  "codigo": "811",
+  "nome": "Pagcom",
+  "tipo": "AC"
+},
+{
+  "codigo": "812",
+  "nome": "Listo",
+  "tipo": "AC"
+},
+{
+  "codigo": "813",
+  "nome": "Ágilli",
+  "tipo": "AC"
+},
+{
+  "codigo": "814",
+  "nome": "Tradaq",
+  "tipo": "CV"
+},
+{
+  "codigo": "815",
+  "nome": "Permute",
+  "tipo": "CV"
+},
+{
+  "codigo": "816",
+  "nome": "Rappi",
+  "tipo": "AC"
+},
+{
+  "codigo": "817",
+  "nome": "Delivery Center",
+  "tipo": "AC"
+},
+{
+  "codigo": "818",
+  "nome": "Credishop",
+  "tipo": "AC"
+},
+{
+  "codigo": "820",
+  "nome": "Paypaxx",
+  "tipo": "CV"
+},
+{
+  "codigo": "821",
+  "nome": "Super Digital",
+  "tipo": "CB"
+},
+{
+  "codigo": "822",
+  "nome": "Fomento Paraná",
+  "tipo": "CB"
+},
+{
+  "codigo": "823",
+  "nome": "TKS Soluções Pagamentos",
+  "tipo": "AC"
+},
+{
+  "codigo": "824",
+  "nome": "Blu Pagamentos",
+  "tipo": "AC"
+},
+{
+  "codigo": "825",
+  "nome": "Mirae Asset",
+  "tipo": "CB"
+},
+{
+  "codigo": "826",
+  "nome": "Unica Cartões",
+  "tipo": "AC"
+},
+{
+  "codigo": "827",
+  "nome": "YesPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "828",
+  "nome": "YesPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "829",
+  "nome": "Signature Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "830",
+  "nome": "Magalu Pagamentos",
+  "tipo": "CV"
+},
+{
+  "codigo": "831",
+  "nome": "Juno (BoletoBancario.com)",
+  "tipo": "CB"
+},
+{
+  "codigo": "832",
+  "nome": "Acreditar Banco",
+  "tipo": "CB"
+},
+{
+  "codigo": "833",
+  "nome": "Seja Crédito e Soluções",
+  "tipo": "CB"
+},
+{
+  "codigo": "834",
+  "nome": "RNX FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "835",
+  "nome": "BAC Florida Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "836",
+  "nome": "HR Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "837",
+  "nome": "Vob Cred",
+  "tipo": "CB"
+},
+{
+  "codigo": "838",
+  "nome": "Good Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "839",
+  "nome": "BMG Granito",
+  "tipo": "AC"
+},
+{
+  "codigo": "840",
+  "nome": "Agibank",
+  "tipo": "AC"
+},
+{
+  "codigo": "841",
+  "nome": "JCB Cartoes",
+  "tipo": "AC"
+},
+{
+  "codigo": "842",
+  "nome": "YaPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "843",
+  "nome": "BuyCred",
+  "tipo": "CB"
+},
+{
+  "codigo": "844",
+  "nome": "GPR Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "845",
+  "nome": "Nobel Banco",
+  "tipo": "CB"
+},
+{
+  "codigo": "846",
+  "nome": "Federal Invest",
+  "tipo": "CB"
+},
+{
+  "codigo": "847",
+  "nome": "DN Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "848",
+  "nome": "Sicredi / FirstData",
+  "tipo": "AC"
+},
+{
+  "codigo": "849",
+  "nome": "Acqio",
+  "tipo": "AC"
+},
+{
+  "codigo": "850",
+  "nome": "FIDC - RNX",
+  "tipo": "CB"
+},
+{
+  "codigo": "851",
+  "nome": "Piracenter Formento Mercantil LTDA",
+  "tipo": "CB"
+},
+{
+  "codigo": "852",
+  "nome": "Valorem",
+  "tipo": "CB"
+},
+{
+  "codigo": "853",
+  "nome": "Valecred",
+  "tipo": "CB"
+},
+{
+  "codigo": "854",
+  "nome": "Ponte Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "855",
+  "nome": "Onix",
+  "tipo": "CB"
+},
+{
+  "codigo": "856",
+  "nome": "Hope",
+  "tipo": "CB"
+},
+{
+  "codigo": "857",
+  "nome": "Garson",
+  "tipo": "CB"
+},
+{
+  "codigo": "858",
+  "nome": "Del Monte",
+  "tipo": "CB"
+},
+{
+  "codigo": "859",
+  "nome": "BCR Global Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "860",
+  "nome": "Mercado Pago",
+  "tipo": "AC"
+},
+{
+  "codigo": "861",
+  "nome": "WLM Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "862",
+  "nome": "Vertigo",
+  "tipo": "CB"
+},
+{
+  "codigo": "863",
+  "nome": "Moka Invest",
+  "tipo": "CB"
+},
+{
+  "codigo": "864",
+  "nome": "UberEats",
+  "tipo": "AC"
+},
+{
+  "codigo": "865",
+  "nome": "RM3",
+  "tipo": "CB"
+},
+{
+  "codigo": "866",
+  "nome": "Max Investor",
+  "tipo": "CB"
+},
+{
+  "codigo": "867",
+  "nome": "Saude Service",
+  "tipo": "AC"
+},
+{
+  "codigo": "868",
+  "nome": "Ciano Soluções em Pagamento",
+  "tipo": "CV"
+},
+{
+  "codigo": "869",
+  "nome": "Banese Card",
+  "tipo": "CR"
+},
+{
+  "codigo": "870",
+  "nome": "Stelo",
+  "tipo": "AC"
+},
+{
+  "codigo": "871",
+  "nome": "Elo",
+  "tipo": "AC"
+},
+{
+  "codigo": "872",
+  "nome": "Diners Club",
+  "tipo": "AC"
+},
+{
+  "codigo": "873",
+  "nome": "MasterCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "874",
+  "nome": "Projeção FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "875",
+  "nome": "RDG Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "876",
+  "nome": "RF Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "877",
+  "nome": "PagHiper",
+  "tipo": "CV"
+},
+{
+  "codigo": "878",
+  "nome": "PagHiper",
+  "tipo": "CB"
+},
+{
+  "codigo": "879",
+  "nome": "Mobi",
+  "tipo": "CB"
+},
+{
+  "codigo": "880",
+  "nome": "PJBank",
+  "tipo": "CB"
+},
+{
+  "codigo": "881",
+  "nome": "MD Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "882",
+  "nome": "OS Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "883",
+  "nome": "PicPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "884",
+  "nome": "ERG Risk Analysis",
+  "tipo": "CB"
+},
+{
+  "codigo": "885",
+  "nome": "Agillitas",
+  "tipo": "AC"
+},
+{
+  "codigo": "886",
+  "nome": "SafraPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "887",
+  "nome": "Serveloja",
+  "tipo": "CV"
+},
+{
+  "codigo": "888",
+  "nome": "MundiPagg",
+  "tipo": "CV"
+},
+{
+  "codigo": "889",
+  "nome": "ABC Asset",
+  "tipo": "CB"
+},
+{
+  "codigo": "890",
+  "nome": "Banese Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "891",
+  "nome": "Porto Seguro",
+  "tipo": "AC"
+},
+{
+  "codigo": "892",
+  "nome": "iFood",
+  "tipo": "AC"
+},
+{
+  "codigo": "893",
+  "nome": "Beblue",
+  "tipo": "AC"
+},
+{
+  "codigo": "894",
+  "nome": "AZ Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "895",
+  "nome": "Pagar.me",
+  "tipo": "CV"
+},
+{
+  "codigo": "896",
+  "nome": "Dot Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "897",
+  "nome": "Mercado Pago",
+  "tipo": "CV"
+},
+{
+  "codigo": "898",
+  "nome": "Linker",
+  "tipo": "CB"
+},
+{
+  "codigo": "899",
+  "nome": "Fortumno",
+  "tipo": "CV"
+},
+{
+  "codigo": "900",
+  "nome": "PayZen",
+  "tipo": "CV"
+},
+{
+  "codigo": "901",
+  "nome": "Vindi",
+  "tipo": "CV"
+},
+{
+  "codigo": "902",
+  "nome": "TrayCheckout",
+  "tipo": "CV"
+},
+{
+  "codigo": "903",
+  "nome": "ICAP Brasil",
+  "tipo": "CB"
+},
+{
+  "codigo": "904",
+  "nome": "UBS Ag",
+  "tipo": "CB"
+},
+{
+  "codigo": "905",
+  "nome": "Axis Soluções Financeiras",
+  "tipo": "CB"
+},
+{
+  "codigo": "906",
+  "nome": "Dacasa Financeira",
+  "tipo": "AC"
+},
+{
+  "codigo": "907",
+  "nome": "Capital Ativo",
+  "tipo": "CB"
+},
+{
+  "codigo": "908",
+  "nome": "Sigma Credit",
+  "tipo": "CB"
+},
+{
+  "codigo": "909",
+  "nome": "Sumup",
+  "tipo": "AC"
+},
+{
+  "codigo": "910",
+  "nome": "Credifisco",
+  "tipo": "CB"
+},
+{
+  "codigo": "911",
+  "nome": "JCF Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "912",
+  "nome": "Araguaya",
+  "tipo": "CB"
+},
+{
+  "codigo": "913",
+  "nome": "Pague Veloz",
+  "tipo": "CV"
+},
+{
+  "codigo": "914",
+  "nome": "CRR Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "915",
+  "nome": "London Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "916",
+  "nome": "Globalcash",
+  "tipo": "CB"
+},
+{
+  "codigo": "917",
+  "nome": "Target Fomento",
+  "tipo": "CB"
+},
+{
+  "codigo": "918",
+  "nome": "Santa Cristina Fomento",
+  "tipo": "CB"
+},
+{
+  "codigo": "919",
+  "nome": "RM Fomento",
+  "tipo": "CB"
+},
+{
+  "codigo": "920",
+  "nome": "Stripe",
+  "tipo": "CV"
+},
+{
+  "codigo": "922",
+  "nome": "Santana Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "923",
+  "nome": "Acesso Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "924",
+  "nome": "PayU",
+  "tipo": "CV"
+},
+{
+  "codigo": "925",
+  "nome": "Global Payments",
+  "tipo": "AC"
+},
+{
+  "codigo": "926",
+  "nome": "Payleven",
+  "tipo": "AC"
+},
+{
+  "codigo": "927",
+  "nome": "Continental Banco Fomento",
+  "tipo": "CB"
+},
+{
+  "codigo": "928",
+  "nome": "SR Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "929",
+  "nome": "Algarve Fomento",
+  "tipo": "CB"
+},
+{
+  "codigo": "930",
+  "nome": "RA Fomento",
+  "tipo": "CB"
+},
+{
+  "codigo": "931",
+  "nome": "Simetrica Eficiência Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "932",
+  "nome": "Capital Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "933",
+  "nome": "WidePay",
+  "tipo": "CV"
+},
+{
+  "codigo": "934",
+  "nome": "Verde Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "935",
+  "nome": "Banricompras",
+  "tipo": "AC"
+},
+{
+  "codigo": "936",
+  "nome": "Brasil Pré-Pagos",
+  "tipo": "AC"
+},
+{
+  "codigo": "937",
+  "nome": "GerenciaNet",
+  "tipo": "CV"
+},
+{
+  "codigo": "938",
+  "nome": "Conta Super",
+  "tipo": "CB"
+},
+{
+  "codigo": "939",
+  "nome": "Hotmart",
+  "tipo": "CV"
+},
+{
+  "codigo": "941",
+  "nome": "BRR FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "942",
+  "nome": "Belluno FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "943",
+  "nome": "Elavon",
+  "tipo": "AC"
+},
+{
+  "codigo": "944",
+  "nome": "Grupo Sifra",
+  "tipo": "CB"
+},
+{
+  "codigo": "945",
+  "nome": "Weel",
+  "tipo": "CB"
+},
+{
+  "codigo": "946",
+  "nome": "Iugu",
+  "tipo": "CV"
+},
+{
+  "codigo": "947",
+  "nome": "Bcash",
+  "tipo": "CV"
+},
+{
+  "codigo": "948",
+  "nome": "Cabal",
+  "tipo": "AC"
+},
+{
+  "codigo": "949",
+  "nome": "Payoneer",
+  "tipo": "CV"
+},
+{
+  "codigo": "950",
+  "nome": "PagSeguro",
+  "tipo": "AC"
+},
+{
+  "codigo": "951",
+  "nome": "Up Plan",
+  "tipo": "AC"
+},
+{
+  "codigo": "952",
+  "nome": "Nubank",
+  "tipo": "AC"
+},
+{
+  "codigo": "953",
+  "nome": "VR",
+  "tipo": "AC"
+},
+{
+  "codigo": "954",
+  "nome": "Cred-System",
+  "tipo": "AC"
+},
+{
+  "codigo": "955",
+  "nome": "Alelo",
+  "tipo": "AC"
+},
+{
+  "codigo": "956",
+  "nome": "BIN",
+  "tipo": "AC"
+},
+{
+  "codigo": "957",
+  "nome": "Stone",
+  "tipo": "AC"
+},
+{
+  "codigo": "958",
+  "nome": "Sipag",
+  "tipo": "AC"
+},
+{
+  "codigo": "959",
+  "nome": "Google",
+  "tipo": "CV"
+},
+{
+  "codigo": "960",
+  "nome": "Green Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "961",
+  "nome": "Ticket",
+  "tipo": "AC"
+},
+{
+  "codigo": "962",
+  "nome": "Peixe Urbano",
+  "tipo": "CV"
+},
+{
+  "codigo": "963",
+  "nome": "iZettle",
+  "tipo": "AC"
+},
+{
+  "codigo": "964",
+  "nome": "Groupon",
+  "tipo": "CV"
+},
+{
+  "codigo": "965",
+  "nome": "Extra.com.br",
+  "tipo": "CV"
+},
+{
+  "codigo": "966",
+  "nome": "Rakuten",
+  "tipo": "CV"
+},
+{
+  "codigo": "967",
+  "nome": "Kanui",
+  "tipo": "CV"
+},
+{
+  "codigo": "968",
+  "nome": "Wirecard",
+  "tipo": "CV"
+},
+{
+  "codigo": "969",
+  "nome": "Mercado Livre",
+  "tipo": "CV"
+},
+{
+  "codigo": "970",
+  "nome": "Visa",
+  "tipo": "AC"
+},
+{
+  "codigo": "971",
+  "nome": "Redecard",
+  "tipo": "AC"
+},
+{
+  "codigo": "972",
+  "nome": "Hipercard",
+  "tipo": "AC"
+},
+{
+  "codigo": "973",
+  "nome": "American",
+  "tipo": "AC"
+},
+{
+  "codigo": "974",
+  "nome": "Sorocred",
+  "tipo": "AC"
+},
+{
+  "codigo": "975",
+  "nome": "TecBan",
+  "tipo": "AC"
+},
+{
+  "codigo": "976",
+  "nome": "CIELO",
+  "tipo": "AC"
+},
+{
+  "codigo": "977",
+  "nome": "GetNet",
+  "tipo": "AC"
+},
+{
+  "codigo": "978",
+  "nome": "Pluxee",
+  "tipo": "AC"
+},
+{
+  "codigo": "979",
+  "nome": "Verocard",
+  "tipo": "AC"
+},
+{
+  "codigo": "980",
+  "nome": "JCB",
+  "tipo": "CR"
+},
+{
+  "codigo": "981",
+  "nome": "Maestro",
+  "tipo": "CR"
+},
+{
+  "codigo": "982",
+  "nome": "Sorocred",
+  "tipo": "CR"
+},
+{
+  "codigo": "983",
+  "nome": "Aura",
+  "tipo": "CR"
+},
+{
+  "codigo": "984",
+  "nome": "Discover",
+  "tipo": "CR"
+},
+{
+  "codigo": "985",
+  "nome": "Visa",
+  "tipo": "CR"
+},
+{
+  "codigo": "986",
+  "nome": "MasterCard",
+  "tipo": "CR"
+},
+{
+  "codigo": "987",
+  "nome": "American Express",
+  "tipo": "CR"
+},
+{
+  "codigo": "988",
+  "nome": "Diners Club",
+  "tipo": "CR"
+},
+{
+  "codigo": "989",
+  "nome": "Hipercard",
+  "tipo": "CR"
+},
+{
+  "codigo": "990",
+  "nome": "PayPal",
+  "tipo": "CV"
+},
+{
+  "codigo": "991",
+  "nome": "PagSeguro",
+  "tipo": "CV"
+},
+{
+  "codigo": "992",
+  "nome": "Elo",
+  "tipo": "CR"
+},
+{
+  "codigo": "993",
+  "nome": "BNDES",
+  "tipo": "CR"
+},
+{
+  "codigo": "994",
+  "nome": "CredSystem",
+  "tipo": "CR"
+},
+{
+  "codigo": "995",
+  "nome": "ASAAS",
+  "tipo": "CV"
+},
+{
+  "codigo": "996",
+  "nome": "B2W",
+  "tipo": "CV"
+},
+{
+  "codigo": "997",
+  "nome": "Walmart",
+  "tipo": "CV"
+},
+{
+  "codigo": "998",
+  "nome": "Nova PontoCom",
+  "tipo": "CV"
+},
+{
+  "codigo": "999",
+  "nome": "-sem instituição-",
+  "tipo": "CX"
+},
+{
+  "codigo": "A01",
+  "nome": "Infinitepay",
+  "tipo": "CB"
+},
+{
+  "codigo": "A02",
+  "nome": "Transpocred",
+  "tipo": "CB"
+},
+{
+  "codigo": "A03",
+  "nome": "Porto Seguro",
+  "tipo": "CR"
+},
+{
+  "codigo": "A04",
+  "nome": "Nic Moura Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "A05",
+  "nome": "Santa Cruz Companhia Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "A06",
+  "nome": "Eva Benefícios",
+  "tipo": "AC"
+},
+{
+  "codigo": "A07",
+  "nome": "Facta Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "A08",
+  "nome": "MaxiPago",
+  "tipo": "AC"
+},
+{
+  "codigo": "A09",
+  "nome": "LeCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "A10",
+  "nome": "Frog Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "A11",
+  "nome": "MaxxCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "A12",
+  "nome": "Fan Card",
+  "tipo": "AC"
+},
+{
+  "codigo": "A13",
+  "nome": "Repom",
+  "tipo": "AC"
+},
+{
+  "codigo": "A14",
+  "nome": "PamCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "A15",
+  "nome": "Fitcard",
+  "tipo": "AC"
+},
+{
+  "codigo": "A16",
+  "nome": "JSL",
+  "tipo": "AC"
+},
+{
+  "codigo": "A17",
+  "nome": "QyonBank",
+  "tipo": "CB"
+},
+{
+  "codigo": "A18",
+  "nome": "CTF BR",
+  "tipo": "AC"
+},
+{
+  "codigo": "A19",
+  "nome": "Rede Frota",
+  "tipo": "AC"
+},
+{
+  "codigo": "A20",
+  "nome": "Seicon",
+  "tipo": "AC"
+},
+{
+  "codigo": "A21",
+  "nome": "Telenet",
+  "tipo": "AC"
+},
+{
+  "codigo": "A22",
+  "nome": "TrioCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "A23",
+  "nome": "Conductor",
+  "tipo": "AC"
+},
+{
+  "codigo": "A24",
+  "nome": "Payly",
+  "tipo": "AC"
+},
+{
+  "codigo": "A25",
+  "nome": "Libercard",
+  "tipo": "AC"
+},
+{
+  "codigo": "A28",
+  "nome": "SemParar",
+  "tipo": "AC"
+},
+{
+  "codigo": "A29",
+  "nome": "Valori Bank",
+  "tipo": "AC"
+},
+{
+  "codigo": "A30",
+  "nome": "OneCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "A31",
+  "nome": "Pagaleve",
+  "tipo": "CV"
+},
+{
+  "codigo": "A32",
+  "nome": "4Tbank",
+  "tipo": "CB"
+},
+{
+  "codigo": "A33",
+  "nome": "Greenn",
+  "tipo": "CV"
+},
+{
+  "codigo": "A34",
+  "nome": "Lia",
+  "tipo": "CV"
+},
+{
+  "codigo": "A35",
+  "nome": "Oruspay",
+  "tipo": "CV"
+},
+{
+  "codigo": "A36",
+  "nome": "Wix",
+  "tipo": "CB"
+},
+{
+  "codigo": "A37",
+  "nome": "Pay2",
+  "tipo": "CV"
+},
+{
+  "codigo": "A38",
+  "nome": "Pagsmile",
+  "tipo": "CV"
+},
+{
+  "codigo": "A39",
+  "nome": "Transfersmile",
+  "tipo": "CV"
+},
+{
+  "codigo": "A40",
+  "nome": "Shipay",
+  "tipo": "CV"
+},
+{
+  "codigo": "A41",
+  "nome": "Volt",
+  "tipo": "CV"
+},
+{
+  "codigo": "A42",
+  "nome": "Fix Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "A43",
+  "nome": "Punto",
+  "tipo": "AC"
+},
+{
+  "codigo": "A44",
+  "nome": "XGrow",
+  "tipo": "CV"
+},
+{
+  "codigo": "A45",
+  "nome": "Pagcerto",
+  "tipo": "CB"
+},
+{
+  "codigo": "A46",
+  "nome": "Edupay",
+  "tipo": "CV"
+},
+{
+  "codigo": "A48",
+  "nome": "LeftBank",
+  "tipo": "CV"
+},
+{
+  "codigo": "A49",
+  "nome": "PayPal",
+  "tipo": "AC"
+},
+{
+  "codigo": "A50",
+  "nome": "Iopay",
+  "tipo": "AC"
+},
+{
+  "codigo": "A51",
+  "nome": "AppMax",
+  "tipo": "AC"
+},
+{
+  "codigo": "A52",
+  "nome": "Cartpanda",
+  "tipo": "CV"
+},
+{
+  "codigo": "A53",
+  "nome": "Barte",
+  "tipo": "CV"
+},
+{
+  "codigo": "A54",
+  "nome": "Cashfast",
+  "tipo": "AC"
+},
+{
+  "codigo": "A55",
+  "nome": "Avizz",
+  "tipo": "AC"
+},
+{
+  "codigo": "A56",
+  "nome": "MRC Pay",
+  "tipo": "CB"
+},
+{
+  "codigo": "A57",
+  "nome": "RealPay",
+  "tipo": "CV"
+},
+{
+  "codigo": "A58",
+  "nome": "BrasilCash",
+  "tipo": "CV"
+},
+{
+  "codigo": "A59",
+  "nome": "Infox",
+  "tipo": "AC"
+},
+{
+  "codigo": "A60",
+  "nome": "Superfin",
+  "tipo": "CV"
+},
+{
+  "codigo": "A61",
+  "nome": "Blu",
+  "tipo": "CB"
+},
+{
+  "codigo": "A62",
+  "nome": "Cyclopay",
+  "tipo": "CV"
+},
+{
+  "codigo": "A63",
+  "nome": "Mêntore Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "A64",
+  "nome": "Prime Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "A65",
+  "nome": "Solo Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "A66",
+  "nome": "One 7 Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "A67",
+  "nome": "Credmei",
+  "tipo": "CB"
+},
+{
+  "codigo": "A68",
+  "nome": "MaisTodos",
+  "tipo": "CB"
+},
+{
+  "codigo": "A69",
+  "nome": "Wix Payments",
+  "tipo": "AC"
+},
+{
+  "codigo": "A70",
+  "nome": "AL5 Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "A71",
+  "nome": "Ágile Seguros",
+  "tipo": "CB"
+},
+{
+  "codigo": "A72",
+  "nome": "SBK Capital",
+  "tipo": "CB"
+},
+{
+  "codigo": "A73",
+  "nome": "Grafeno Digital",
+  "tipo": "CB"
+},
+{
+  "codigo": "A74",
+  "nome": "Fiserv",
+  "tipo": "AC"
+},
+{
+  "codigo": "A75",
+  "nome": "Via Varejo",
+  "tipo": "CV"
+},
+{
+  "codigo": "A76",
+  "nome": "Stars Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "A77",
+  "nome": "Finance BBI Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "A79",
+  "nome": "Meta FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "A80",
+  "nome": "Fragata Credit",
+  "tipo": "CB"
+},
+{
+  "codigo": "A81",
+  "nome": "Rio Sul Invest",
+  "tipo": "CB"
+},
+{
+  "codigo": "A82",
+  "nome": "Shein",
+  "tipo": "CV"
+},
+{
+  "codigo": "A83",
+  "nome": "Shell Box",
+  "tipo": "CV"
+},
+{
+  "codigo": "A84",
+  "nome": "Blackbird",
+  "tipo": "CB"
+},
+{
+  "codigo": "A85",
+  "nome": "Up",
+  "tipo": "AC"
+},
+{
+  "codigo": "A86",
+  "nome": "BitMEX",
+  "tipo": "CV"
+},
+{
+  "codigo": "A87",
+  "nome": "Fireblocks",
+  "tipo": "CV"
+},
+{
+  "codigo": "A88",
+  "nome": "Inovanti",
+  "tipo": "CV"
+},
+{
+  "codigo": "A89",
+  "nome": "Ip4y",
+  "tipo": "CB"
+},
+{
+  "codigo": "A90",
+  "nome": "ViaInvest",
+  "tipo": "CB"
+},
+{
+  "codigo": "A91",
+  "nome": "We Payments",
+  "tipo": "CV"
+},
+{
+  "codigo": "A92",
+  "nome": "CannaPag",
+  "tipo": "CV"
+},
+{
+  "codigo": "A93",
+  "nome": "Loja Integrada",
+  "tipo": "CV"
+},
+{
+  "codigo": "A94",
+  "nome": "Banco VR",
+  "tipo": "CV"
+},
+{
+  "codigo": "A95",
+  "nome": "CashPro Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "A96",
+  "nome": "VLR Securitizadora FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "A97",
+  "nome": "Agoracred",
+  "tipo": "CV"
+},
+{
+  "codigo": "A98",
+  "nome": "Yawpay Pagamentos e Representação",
+  "tipo": "CV"
+},
+{
+  "codigo": "A99",
+  "nome": "All Just",
+  "tipo": "CB"
+},
+{
+  "codigo": "AA2",
+  "nome": "Banrisul",
+  "tipo": "AC"
+},
+{
+  "codigo": "AA3",
+  "nome": "Policard",
+  "tipo": "AC"
+},
+{
+  "codigo": "AA4",
+  "nome": "FitCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "AA5",
+  "nome": "Cartão Qualidade",
+  "tipo": "AC"
+},
+{
+  "codigo": "AA6",
+  "nome": "Graal",
+  "tipo": "AC"
+},
+{
+  "codigo": "AA9",
+  "nome": "Tricard",
+  "tipo": "AC"
+},
+{
+  "codigo": "ADC",
+  "nome": "Adiantamento de Cliente",
+  "tipo": "AD"
+},
+{
+  "codigo": "ADF",
+  "nome": "Adiantamento ao Fornecedor",
+  "tipo": "AD"
+},
+{
+  "codigo": "B01",
+  "nome": "Advanced Corretora de Câmbio",
+  "tipo": "CB"
+},
+{
+  "codigo": "B02",
+  "nome": "BR8 Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "B03",
+  "nome": "Morgan Stanley",
+  "tipo": "CB"
+},
+{
+  "codigo": "B04",
+  "nome": "efrete",
+  "tipo": "AC"
+},
+{
+  "codigo": "B05",
+  "nome": "Exata Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "B06",
+  "nome": "Kamino",
+  "tipo": "CB"
+},
+{
+  "codigo": "B07",
+  "nome": "Capia Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "B08",
+  "nome": "Clara Instituição de Pagamento",
+  "tipo": "AC"
+},
+{
+  "codigo": "B09",
+  "nome": "Poenatela",
+  "tipo": "CB"
+},
+{
+  "codigo": "B10",
+  "nome": "Abmex",
+  "tipo": "CV"
+},
+{
+  "codigo": "B11",
+  "nome": "Adiq",
+  "tipo": "AC"
+},
+{
+  "codigo": "B12",
+  "nome": "Starpag",
+  "tipo": "AC"
+},
+{
+  "codigo": "B13",
+  "nome": "Truist",
+  "tipo": "CB"
+},
+{
+  "codigo": "B14",
+  "nome": "Cerusbank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B15",
+  "nome": "Vindi",
+  "tipo": "AC"
+},
+{
+  "codigo": "B16",
+  "nome": "TicketAgora",
+  "tipo": "CV"
+},
+{
+  "codigo": "B17",
+  "nome": "Barte",
+  "tipo": "AC"
+},
+{
+  "codigo": "B18",
+  "nome": "New Trade Fomento Mercantil",
+  "tipo": "CB"
+},
+{
+  "codigo": "B19",
+  "nome": "China Minsheng Banking",
+  "tipo": "CB"
+},
+{
+  "codigo": "B20",
+  "nome": "Olam",
+  "tipo": "CV"
+},
+{
+  "codigo": "B21",
+  "nome": "Target Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "B22",
+  "nome": "Finanblue Digital",
+  "tipo": "CB"
+},
+{
+  "codigo": "B23",
+  "nome": "PayUP",
+  "tipo": "AC"
+},
+{
+  "codigo": "B24",
+  "nome": "PayPi",
+  "tipo": "AC"
+},
+{
+  "codigo": "B25",
+  "nome": "Banco Monetizando Digital",
+  "tipo": "CB"
+},
+{
+  "codigo": "B26",
+  "nome": "Noxpay",
+  "tipo": "CV"
+},
+{
+  "codigo": "B27",
+  "nome": "Banco Senff",
+  "tipo": "CB"
+},
+{
+  "codigo": "B28",
+  "nome": "pagcripto",
+  "tipo": "CV"
+},
+{
+  "codigo": "B29",
+  "nome": "Owl Digital",
+  "tipo": "CB"
+},
+{
+  "codigo": "B30",
+  "nome": "IoSan Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B31",
+  "nome": "Homecorp",
+  "tipo": "CB"
+},
+{
+  "codigo": "B32",
+  "nome": "Tembank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B33",
+  "nome": "Fame",
+  "tipo": "CB"
+},
+{
+  "codigo": "B34",
+  "nome": "Itaucard",
+  "tipo": "AC"
+},
+{
+  "codigo": "B35",
+  "nome": "Vuelo",
+  "tipo": "AC"
+},
+{
+  "codigo": "B36",
+  "nome": "Trust",
+  "tipo": "CB"
+},
+{
+  "codigo": "B37",
+  "nome": "Digixpay",
+  "tipo": "CV"
+},
+{
+  "codigo": "B38",
+  "nome": "Vexpenses",
+  "tipo": "CR"
+},
+{
+  "codigo": "B39",
+  "nome": "Go.Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B40",
+  "nome": "Payssion",
+  "tipo": "CV"
+},
+{
+  "codigo": "B41",
+  "nome": "Will Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B42",
+  "nome": "Divibank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B43",
+  "nome": "Capital Finanças",
+  "tipo": "CB"
+},
+{
+  "codigo": "B44",
+  "nome": "Kreditare",
+  "tipo": "CB"
+},
+{
+  "codigo": "B45",
+  "nome": "Confiança",
+  "tipo": "CB"
+},
+{
+  "codigo": "B46",
+  "nome": "3MI Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "B47",
+  "nome": "UnicredPay",
+  "tipo": "AC"
+},
+{
+  "codigo": "B48",
+  "nome": "PrimePag",
+  "tipo": "CB"
+},
+{
+  "codigo": "B49",
+  "nome": "Voluti Pagamentos",
+  "tipo": "CV"
+},
+{
+  "codigo": "B50",
+  "nome": "Logzz",
+  "tipo": "CV"
+},
+{
+  "codigo": "B51",
+  "nome": "Nuvende",
+  "tipo": "CB"
+},
+{
+  "codigo": "B52",
+  "nome": "Exppag",
+  "tipo": "CB"
+},
+{
+  "codigo": "B53",
+  "nome": "Agantecipa",
+  "tipo": "CB"
+},
+{
+  "codigo": "B54",
+  "nome": "Let Me Pay",
+  "tipo": "CV"
+},
+{
+  "codigo": "B55",
+  "nome": "Portão 3",
+  "tipo": "CV"
+},
+{
+  "codigo": "B56",
+  "nome": "Vilela Brasil Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B57",
+  "nome": "BK Bank",
+  "tipo": "AC"
+},
+{
+  "codigo": "B58",
+  "nome": "Azulzinha (Caixa Econômica Federal)",
+  "tipo": "AC"
+},
+{
+  "codigo": "B59",
+  "nome": "Banco Flow",
+  "tipo": "CB"
+},
+{
+  "codigo": "B60",
+  "nome": "Edenred",
+  "tipo": "CB"
+},
+{
+  "codigo": "B61",
+  "nome": "Conta Pronta",
+  "tipo": "CB"
+},
+{
+  "codigo": "B62",
+  "nome": "Grupo Lis",
+  "tipo": "CV"
+},
+{
+  "codigo": "B63",
+  "nome": "Têm Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B64",
+  "nome": "Prosper",
+  "tipo": "CV"
+},
+{
+  "codigo": "B65",
+  "nome": "FinFine",
+  "tipo": "CV"
+},
+{
+  "codigo": "B66",
+  "nome": "Aleph Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B67",
+  "nome": "Braip",
+  "tipo": "CV"
+},
+{
+  "codigo": "B68",
+  "nome": "iClinic Pay",
+  "tipo": "AC"
+},
+{
+  "codigo": "B69",
+  "nome": "PayCash",
+  "tipo": "CB"
+},
+{
+  "codigo": "B70",
+  "nome": "BePay Tech",
+  "tipo": "AC"
+},
+{
+  "codigo": "B71",
+  "nome": "Grupo Brasfor",
+  "tipo": "CB"
+},
+{
+  "codigo": "B72",
+  "nome": "ATM Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "B73",
+  "nome": "Pleno Invest",
+  "tipo": "CB"
+},
+{
+  "codigo": "B74",
+  "nome": "One 7",
+  "tipo": "CB"
+},
+{
+  "codigo": "B75",
+  "nome": "Blinder Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B76",
+  "nome": "Ergon",
+  "tipo": "CB"
+},
+{
+  "codigo": "B77",
+  "nome": "Malga",
+  "tipo": "AC"
+},
+{
+  "codigo": "B78",
+  "nome": "Principia",
+  "tipo": "CV"
+},
+{
+  "codigo": "B79",
+  "nome": "Qadianto",
+  "tipo": "CV"
+},
+{
+  "codigo": "B80",
+  "nome": "OteroPay",
+  "tipo": "CB"
+},
+{
+  "codigo": "B81",
+  "nome": "PadMoney",
+  "tipo": "CB"
+},
+{
+  "codigo": "B82",
+  "nome": "Goldi",
+  "tipo": "AC"
+},
+{
+  "codigo": "B83",
+  "nome": "Creditas",
+  "tipo": "CB"
+},
+{
+  "codigo": "B84",
+  "nome": "Unlimit",
+  "tipo": "CB"
+},
+{
+  "codigo": "B85",
+  "nome": "Bluepay Solutions",
+  "tipo": "CV"
+},
+{
+  "codigo": "B86",
+  "nome": "iPag",
+  "tipo": "AC"
+},
+{
+  "codigo": "B87",
+  "nome": "Átrio Securitizadora S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "B88",
+  "nome": "EvoluServices",
+  "tipo": "AC"
+},
+{
+  "codigo": "B89",
+  "nome": "Wells Fargo",
+  "tipo": "CB"
+},
+{
+  "codigo": "B90",
+  "nome": "Caixa Pagamentos",
+  "tipo": "AC"
+},
+{
+  "codigo": "B91",
+  "nome": "Trinus Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "B92",
+  "nome": "Voxcred",
+  "tipo": "AC"
+},
+{
+  "codigo": "B93",
+  "nome": "Foxbit",
+  "tipo": "CV"
+},
+{
+  "codigo": "B94",
+  "nome": "PixtoPay",
+  "tipo": "CB"
+},
+{
+  "codigo": "B95",
+  "nome": "Paag",
+  "tipo": "CB"
+},
+{
+  "codigo": "B96",
+  "nome": "Confianza Empresarial",
+  "tipo": "CB"
+},
+{
+  "codigo": "B97",
+  "nome": "Clear Corretora",
+  "tipo": "CB"
+},
+{
+  "codigo": "B98",
+  "nome": "APG Multicrédito",
+  "tipo": "CB"
+},
+{
+  "codigo": "B99",
+  "nome": "Grupo RDF",
+  "tipo": "CB"
+},
+{
+  "codigo": "C01",
+  "nome": "Novobanco",
+  "tipo": "CB"
+},
+{
+  "codigo": "C02",
+  "nome": "Banvox",
+  "tipo": "CB"
+},
+{
+  "codigo": "C03",
+  "nome": "AutiBank",
+  "tipo": "CV"
+},
+{
+  "codigo": "C04",
+  "nome": "BB Americas Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "C05",
+  "nome": "República Oriental del Uruguai",
+  "tipo": "CB"
+},
+{
+  "codigo": "C06",
+  "nome": "Banco Nacional de La Nación Argentina",
+  "tipo": "CB"
+},
+{
+  "codigo": "C07",
+  "nome": "LS Inter Bank",
+  "tipo": "CB"
+},
+{
+  "codigo": "C08",
+  "nome": "Raiô Benefícios Ltda",
+  "tipo": "AC"
+},
+{
+  "codigo": "C09",
+  "nome": "RCA Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "C10",
+  "nome": "Conta Simples",
+  "tipo": "CR"
+},
+{
+  "codigo": "C11",
+  "nome": "CREF Invest",
+  "tipo": "CB"
+},
+{
+  "codigo": "C12",
+  "nome": "Tuna Pagamentos",
+  "tipo": "AC"
+},
+{
+  "codigo": "C13",
+  "nome": "T2EV Soluções Financeiras",
+  "tipo": "CV"
+},
+{
+  "codigo": "C14",
+  "nome": "B7+ Payment Bank",
+  "tipo": "CV"
+},
+{
+  "codigo": "C15",
+  "nome": "Lance Capital Securitizadora S.A",
+  "tipo": "CB"
+},
+{
+  "codigo": "C16",
+  "nome": "Plug in Pay",
+  "tipo": "CV"
+},
+{
+  "codigo": "C17",
+  "nome": "Banricompras",
+  "tipo": "CR"
+},
+{
+  "codigo": "C18",
+  "nome": "Previa Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "C19",
+  "nome": "Hubla",
+  "tipo": "CV"
+},
+{
+  "codigo": "C20",
+  "nome": "Fomenti",
+  "tipo": "CB"
+},
+{
+  "codigo": "C21",
+  "nome": "SmartBis",
+  "tipo": "CV"
+},
+{
+  "codigo": "C22",
+  "nome": "Ourocard",
+  "tipo": "AC"
+},
+{
+  "codigo": "C23",
+  "nome": "Metal Credit Securitizadora",
+  "tipo": "CB"
+},
+{
+  "codigo": "C24",
+  "nome": "Supplier",
+  "tipo": "AC"
+},
+{
+  "codigo": "C25",
+  "nome": "OpenPix",
+  "tipo": "AC"
+},
+{
+  "codigo": "C26",
+  "nome": "Treeal",
+  "tipo": "CB"
+},
+{
+  "codigo": "C27",
+  "nome": "Gavea Sul FIDC",
+  "tipo": "CB"
+},
+{
+  "codigo": "C28",
+  "nome": "Kirvano",
+  "tipo": "CV"
+},
+{
+  "codigo": "C29",
+  "nome": "Ourocard",
+  "tipo": "CR"
+},
+{
+  "codigo": "C30",
+  "nome": "ConfereCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "C31",
+  "nome": "ConvCard",
+  "tipo": "AC"
+},
+{
+  "codigo": "C32",
+  "nome": "Edenred",
+  "tipo": "AC"
+},
+{
+  "codigo": "C33",
+  "nome": "Rental Coins",
+  "tipo": "CB"
+},
+{
+  "codigo": "C34",
+  "nome": "Uauh",
+  "tipo": "AC"
+},
+{
+  "codigo": "C35",
+  "nome": "Avank",
+  "tipo": "CV"
+},
+{
+  "codigo": "C36",
+  "nome": "Belluno Pagamentos",
+  "tipo": "CV"
+},
+{
+  "codigo": "C37",
+  "nome": "Payoneer",
+  "tipo": "CB"
+},
+{
+  "codigo": "C38",
+  "nome": "Okto Pagamentos S.A.",
+  "tipo": "CB"
+},
+{
+  "codigo": "C39",
+  "nome": "Creditag",
+  "tipo": "CV"
+},
+{
+  "codigo": "C40",
+  "nome": "7trust",
+  "tipo": "CV"
+},
+{
+  "codigo": "C41",
+  "nome": "Centerpar",
+  "tipo": "CB"
+},
+{
+  "codigo": "C42",
+  "nome": "Clara",
+  "tipo": "CB"
+},
+{
+  "codigo": "C43",
+  "nome": "Carrefour",
+  "tipo": "CV"
+},
+{
+  "codigo": "C44",
+  "nome": "Ponte Factoring",
+  "tipo": "CB"
+},
+{
+  "codigo": "C45",
+  "nome": "Nexxera",
+  "tipo": "CV"
+},
+{
+  "codigo": "C46",
+  "nome": "NG Cash",
+  "tipo": "CV"
+},
+{
+  "codigo": "C47",
+  "nome": "Way Inteligência Financeira",
+  "tipo": "CB"
+},
+{
+  "codigo": "C48",
+  "nome": "Zendry",
+  "tipo": "CV"
+},
+{
+  "codigo": "C49",
+  "nome": "Millennium Bcp",
+  "tipo": "CB"
+},
+{
+  "codigo": "J01",
+  "nome": "Justa",
+  "tipo": "CB"
+},
+{
+  "codigo": "V01",
+  "nome": "PayBrokers",
+  "tipo": "CV"
+},
+{
+  "codigo": "V02",
+  "nome": "ZenetPay",
+  "tipo": "CV"
+}]

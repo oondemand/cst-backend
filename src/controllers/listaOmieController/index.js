@@ -2,13 +2,19 @@ const BaseOmie = require("../../models/BaseOmie");
 const ListaOmie = require("../../models/ListaOmie");
 const { ListaOmieService } = require("../../services/omie/listasOmie");
 
+const { sendResponse, sendErrorResponse } = require("../../utils/helpers");
+
 const syncOmie = async (req, res) => {
   try {
     const baseOmie = await BaseOmie.findOne();
     const listaOmie = await ListaOmie.findByIdAndUpdate(req.params.id);
 
     if (!listaOmie) {
-      return res.status(404).json({ message: "Lista não encontrada" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Lista não encontrada",
+      });
     }
 
     const data = await ListaOmieService({
@@ -22,9 +28,19 @@ const syncOmie = async (req, res) => {
     listaOmie.data = data;
     await listaOmie.save();
 
-    res.send();
+    return sendResponse({
+      res,
+      statusCode: 200,
+      message: "Lista sincronizada com sucesso",
+      lista: listaOmie,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      error: error.message,
+      message: "Ocorreu um erro ao sincronizar a lista",
+    });
   }
 };
 
@@ -34,18 +50,38 @@ const update = async (req, res) => {
       ...req.body,
     }).select("-__v -data");
 
-    res.json(lista);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      message: "Lista atualizada com sucesso",
+      lista,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      error: error.message,
+      message: "Ocorreu um erro ao atualizar a lista",
+    });
   }
 };
 
 const listAll = async (req, res) => {
   try {
     const listas = await ListaOmie.find().select("-__v -data -fields -select");
-    res.json(listas);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      message: "Listas encontradas com sucesso",
+      lista: listas,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      error: error.message,
+      message: "Ocorreu um erro ao listar as listas",
+    });
   }
 };
 
@@ -55,9 +91,19 @@ const getListaPorCodigo = async (req, res) => {
       codigo: req.params.codigo,
     }).select("data");
 
-    res.json(lista.data);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      message: "Lista encontrada com sucesso",
+      lista: lista.data,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      error: error.message,
+      message: "Ocorreu um erro ao buscar a lista",
+    });
   }
 };
 
@@ -69,18 +115,38 @@ const create = async (req, res) => {
 
     await lista.save();
 
-    res.status(200).json(lista);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      message: "Lista criada com sucesso",
+      lista,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      error: error.message,
+      message: "Ocorreu um erro ao criar a lista",
+    });
   }
 };
 
 const deleteLista = async (req, res) => {
   try {
     const lista = ListaOmie.findByIdAndDelete(req.params.id);
-    res.status(200).json(lista);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      message: "Lista deletada com sucesso",
+      lista,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return sendErrorResponse({
+      res,
+      statusCode: 500,
+      error: error.message,
+      message: "Ocorreu um erro ao deletar a lista",
+    });
   }
 };
 

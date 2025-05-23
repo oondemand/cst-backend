@@ -1,0 +1,26 @@
+[{
+  "codigo": "listar-categorias",
+  "call": "ListarCategorias",
+  "url": "geral/categorias/",
+  "select": "categoria_cadastro",
+  "fields": {
+    "codigo": true,
+    "descricao": true,
+    "descricao_padrao": true,
+    "nao_exibir": true,
+    "definida_pelo_usuario": true
+  },
+  "data": []
+},
+{
+ 
+  "codigo": "conta_corrente",
+  "call": "ListarContasCorrentes",
+  "url": "geral/contacorrente/",
+  "select": "ListarContasCorrentes",
+  "fields": {
+    "descricao": true,
+    "nCodCC": true
+  },
+  "data": []
+}]

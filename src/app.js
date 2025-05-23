@@ -29,6 +29,7 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 // **Rotas públicas** - Não requerem autenticação
 app.use("/webhooks/", require("./routers/webhookRouter"));
 app.use("/", require("./routers/statusRouter"));
+app.use("/ativacao", require("./routers/seedRouter"));
 
 app.use("/open-api", (req, res) => {
   const schemaOpenAPI = YAML.load("./schemaOpenAPI.yaml");

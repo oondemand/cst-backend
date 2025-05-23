@@ -16,7 +16,7 @@ const ENTIDADES = {
   CONFIGURACAO_LISTA_TIPO_DOCUMENTO_FISCAL:
     "configuracao.lista.tipo-documento-fiscal",
   CONFIGURACAO_LISTA_MOTIVO_RECUSA: "configuracao.lista.motivo-recusa",
-  CONFIGURACAO_LISTA_MOTIVO_OMIE: "configuracao.lista.omie",
+  CONFIGURACAO_LISTA_OMIE: "configuracao.lista.omie",
 };
 
 const ACOES = {

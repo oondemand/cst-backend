@@ -137,7 +137,12 @@ exports.importarDocumentoCadastral = async (req, res) => {
 
     await importacao.save();
 
-    if (arquivo && importacao) res.status(200).json(importacao);
+    if (arquivo && importacao)
+      return sendResponse({
+        res,
+        statusCode: 200,
+        importacao,
+      });
 
     const json = excelToJson({ arquivo });
 

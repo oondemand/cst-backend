@@ -8,7 +8,13 @@ const { ACOES, ORIGENS } = require("../constants/controleAlteracao");
 const contaPagarWebHook = async (req, res) => {
   try {
     const { event, ping, topic } = req.body;
-    if (ping === "omie") return res.status(200).json({ message: "pong" });
+    if (ping === "omie") {
+      return sendResponse({
+        res,
+        statusCode: 200,
+        message: "pong",
+      });
+    }
 
     if (topic === "Financas.ContaPagar.Alterado") {
       console.log("🟩 Conta a pagar alterada");
