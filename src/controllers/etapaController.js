@@ -1,13 +1,28 @@
 const Etapa = require("../models/Etapa");
 const filtersUtils = require("../utils/filter");
 
+const {
+  sendResponse,
+  sendErrorResponse,
+  sendPaginatedResponse,
+} = require("../utils/helpers");
+
 exports.criarEtapa = async (req, res) => {
   try {
     const etapa = new Etapa(req.body);
     await etapa.save();
-    res.status(201).json(etapa);
+    sendResponse({
+      res,
+      statusCode: 201,
+      etapa,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao criar etapa" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      error: error.message,
+      message: "Ouve um erro inesperado ao criar etapa",
+    });
   }
 };
 
@@ -57,8 +72,10 @@ exports.listarEtapas = async (req, res) => {
       Etapa.countDocuments(queryResult),
     ]);
 
-    res.status(200).json({
-      etapas,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      results: etapas,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalDeEtapas / limite),
@@ -67,16 +84,30 @@ exports.listarEtapas = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar etapas" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      error: error.message,
+      message: "Ouve um erro inesperado ao listar etapas",
+    });
   }
 };
 
 exports.listarEtapasAtivas = async (req, res) => {
   try {
     const etapas = await Etapa.find({ status: "ativo" }).sort({ posicao: 1 });
-    res.status(200).json(etapas);
+    sendResponse({
+      res,
+      statusCode: 200,
+      etapas,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar etapas" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      error: error.message,
+      message: "Ouve um erro inesperado ao listar etapas ativas",
+    });
   }
 };
 
@@ -85,11 +116,24 @@ exports.obterEtapa = async (req, res) => {
   try {
     const etapa = await Etapa.findById(req.params.id);
     if (!etapa) {
-      return res.status(404).json({ error: "Etapa não encontrada" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Etapa não encontrada",
+      });
     }
-    res.status(200).json(etapa);
+    sendResponse({
+      res,
+      statusCode: 200,
+      etapa,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao obter etapa" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      error: error.message,
+      message: "Ouve um erro inesperado ao obter etapa",
+    });
   }
 };
 
@@ -101,11 +145,24 @@ exports.atualizarEtapa = async (req, res) => {
       runValidators: true,
     });
     if (!etapa) {
-      return res.status(404).json({ error: "Etapa não encontrada" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Etapa não encontrada",
+      });
     }
-    res.status(200).json(etapa);
+    sendResponse({
+      res,
+      statusCode: 200,
+      etapa,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao atualizar etapa" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      error: error.message,
+      message: "Ouve um erro inesperado ao atualizar etapa",
+    });
   }
 };
 
@@ -114,10 +171,23 @@ exports.excluirEtapa = async (req, res) => {
   try {
     const etapa = await Etapa.findByIdAndDelete(req.params.id);
     if (!etapa) {
-      return res.status(404).json({ error: "Etapa não encontrada" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Etapa não encontrada",
+      });
     }
-    res.status(200).json({ message: "Etapa excluída com sucesso" });
+    sendResponse({
+      res,
+      statusCode: 200,
+      etapa,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao excluir etapa" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      error: error.message,
+      message: "Ouve um erro inesperado ao excluir etapa",
+    });
   }
 };
