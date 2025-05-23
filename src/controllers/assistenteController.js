@@ -1,13 +1,27 @@
 const Assistente = require("../models/Assistente");
 const filtersUtils = require("../utils/filter");
+const {
+  sendErrorResponse,
+  sendResponse,
+  sendPaginatedResponse,
+} = require("../utils/helpers");
 
 exports.criarAssistente = async (req, res) => {
   try {
     const assistente = new Assistente(req.body);
     await assistente.save();
-    res.status(201).json(assistente);
+    sendResponse({
+      res,
+      statusCode: 201,
+      assistente,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao criar assistente" });
+    sendErrorResponse({
+      res,
+      error: error.message,
+      message: "Ouve um erro inesperado ao criar assistente",
+      statusCode: 400,
+    });
   }
 };
 
@@ -55,8 +69,10 @@ exports.listarAssistentes = async (req, res) => {
       Assistente.countDocuments(queryResult),
     ]);
 
-    res.status(200).json({
-      assistentes,
+    sendPaginatedResponse({
+      res,
+      statusCode: 200,
+      results: assistentes,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalDeAssistentes / limite),
@@ -65,16 +81,30 @@ exports.listarAssistentes = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar assistentes" });
+    sendErrorResponse({
+      res,
+      error: error.message,
+      message: "Ouve um erro inesperado ao listar assistentes",
+      statusCode: 400,
+    });
   }
 };
 
 exports.listarAssistentesAtivos = async (req, res) => {
   try {
     const assistentes = await Assistente.find({ status: "ativo" });
-    res.status(200).json(assistentes);
+    sendResponse({
+      res,
+      statusCode: 200,
+      assistentes,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao listar assistentes" });
+    sendErrorResponse({
+      res,
+      error: error.message,
+      message: "Ouve um erro inesperado ao listar assistentes ativos",
+      statusCode: 400,
+    });
   }
 };
 
@@ -82,11 +112,24 @@ exports.obterAssistente = async (req, res) => {
   try {
     const assistente = await Assistente.findById(req.params.id);
     if (!assistente) {
-      return res.status(404).json({ error: "Assistente não encontrada" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Assistente não encontrada",
+      });
     }
-    res.status(200).json(assistente);
+    sendResponse({
+      res,
+      statusCode: 200,
+      assistente,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao obter assistente" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao obter assistente",
+      error: error.message,
+    });
   }
 };
 
@@ -97,11 +140,24 @@ exports.atualizarAssistente = async (req, res) => {
       req.body
     );
     if (!assistente) {
-      return res.status(404).json({ error: "Assistente não encontrado" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Assistente não encontrado",
+      });
     }
-    res.status(200).json(assistente);
+    sendResponse({
+      res,
+      statusCode: 200,
+      assistente,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao atualizar assistente" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao atualizar assistente",
+      error: error.message,
+    });
   }
 };
 
@@ -109,10 +165,23 @@ exports.excluirAssistente = async (req, res) => {
   try {
     const assistente = await Assistente.findByIdAndDelete(req.params.id);
     if (!assistente) {
-      return res.status(404).json({ error: "Assistente não encontrada" });
+      return sendErrorResponse({
+        res,
+        statusCode: 404,
+        message: "Assistente não encontrada",
+      });
     }
-    res.status(200).json({ message: "Assistente excluída com sucesso" });
+    sendResponse({
+      res,
+      statusCode: 200,
+      assistente,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Erro ao excluir assistente" });
+    sendErrorResponse({
+      res,
+      statusCode: 400,
+      message: "Erro ao excluir assistente",
+      error: error.message,
+    });
   }
 };
