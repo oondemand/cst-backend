@@ -1,5 +1,34 @@
 # Documento de Arquitetura e Segurança do Projeto CST-Rakuten
 
+## Sumário
+
+1. [Introdução](#1-introdução)  
+2. [Visão Geral do Sistema](#2-visão-geral-do-sistema)  
+3. [Componentes Arquiteturais](#3-componentes-arquiteturais)  
+   - [Servidor Express](#31-servidor-express)  
+   - [Banco de Dados MongoDB](#32-banco-de-dados-mongodb)  
+   - [Modelos de Dados (Mongoose Schemas)](#33-modelos-de-dados-mongoose-schemas)  
+   - [Controladores](#34-controladores)  
+   - [Roteadores](#35-roteadores)  
+   - [Serviços Externos (Omie API)](#36-serviços-externos-omie-api)  
+   - [Middlewares](#37-middlewares)  
+     - [authMiddleware](#371-authmiddleware)  
+     - [rastreabilidadeMiddleware](#372-rastreabilidademiddleware)  
+   - [Utilitários](#38-utilitários)  
+4. [Fluxo de Dados](#4-fluxo-de-dados)  
+5. [Medidas de Segurança](#5-medidas-de-segurança)  
+   - [Autenticação e Autorização](#51-autenticação-e-autorização)  
+   - [Proteção de Dados](#52-proteção-de-dados)  
+   - [Validação de Entrada](#53-validação-de-entrada)  
+   - [Limitação de Tamanho de Upload](#54-limitação-de-tamanho-de-upload)  
+   - [Logging e Monitoramento](#55-logging-e-monitoramento)  
+   - [Gestão de Erros](#56-gestão-de-erros)  
+   - [Segurança de API](#57-segurança-de-api)  
+6. [Tecnologias Utilizadas](#6-tecnologias-utilizadas)  
+7. [Instalação](#7-instalação)  
+8. [Conclusão](#8-conclusão)
+
+
 ## 1. Introdução
 
 Este documento detalha a arquitetura e as práticas de segurança implementadas no projeto **CST-Rakuten**, desenvolvido utilizando tecnologias modernas como Node.js, Express e MongoDB. O objetivo é fornecer uma visão abrangente dos componentes do sistema, seu funcionamento e as medidas adotadas para garantir a integridade, confidencialidade e disponibilidade das informações.
@@ -153,7 +182,48 @@ A segurança é uma preocupação central no desenvolvimento do CST-Rakuten. As 
 - **dotenv**: Gerenciamento de variáveis de ambiente.
 - **crypto**: Criptografia e geração de hashes.
 
-## 7. Conclusão
+## 7. Instalação
+
+### Pré requisitos
+- [NodeJs](https://nodejs.org/pt)
+- [Docker](https://www.docker.com/)
+- [Git](https://git-scm.com/downloads)
+- [Docker compose](https://docs.docker.com/compose/)
+
+### Passos
+
+1. Clone o repositório
+```
+git clone https://github.com/oondemand/cst-backend.git
+cd cst-backend
+```
+
+2. Inicialise o banco de dados
+```
+docker-compose -f infra/docker/docker-compose.yml up -d
+```
+
+3. Criar o .env
+> Se você preferir voce pode simplismente criar o arquivo .env na raiz do projeto e copiar as variaveis do .env.dev
+```
+cp .env.dev .env
+```
+ou no cmd do windowns
+```
+copy .env.dev .env
+```
+
+4. instalar as dependencias
+```
+npm install
+```
+
+5. Executar o projeto
+```
+npm run dev
+```
+
+## 8. Conclusão
 
 O projeto **CST-Rakuten** foi desenvolvido com uma arquitetura modular e segura, adotando boas práticas de desenvolvimento para garantir escalabilidade, manutenção e proteção dos dados. As integrações com serviços externos e as medidas de segurança implementadas asseguram que a aplicação possa operar de forma eficiente e confiável, atendendo às necessidades dos usuários e mantendo a integridade das informações.
 
