@@ -2,32 +2,31 @@
 
 ## Sumário
 
-1. [Introdução](#1-introdução)  
-2. [Visão Geral do Sistema](#2-visão-geral-do-sistema)  
-3. [Componentes Arquiteturais](#3-componentes-arquiteturais)  
-   - [Servidor Express](#31-servidor-express)  
-   - [Banco de Dados MongoDB](#32-banco-de-dados-mongodb)  
-   - [Modelos de Dados (Mongoose Schemas)](#33-modelos-de-dados-mongoose-schemas)  
-   - [Controladores](#34-controladores)  
-   - [Roteadores](#35-roteadores)  
-   - [Serviços Externos (Omie API)](#36-serviços-externos-omie-api)  
-   - [Middlewares](#37-middlewares)  
-     - [authMiddleware](#371-authmiddleware)  
-     - [rastreabilidadeMiddleware](#372-rastreabilidademiddleware)  
-   - [Utilitários](#38-utilitários)  
-4. [Fluxo de Dados](#4-fluxo-de-dados)  
-5. [Medidas de Segurança](#5-medidas-de-segurança)  
-   - [Autenticação e Autorização](#51-autenticação-e-autorização)  
-   - [Proteção de Dados](#52-proteção-de-dados)  
-   - [Validação de Entrada](#53-validação-de-entrada)  
-   - [Limitação de Tamanho de Upload](#54-limitação-de-tamanho-de-upload)  
-   - [Logging e Monitoramento](#55-logging-e-monitoramento)  
-   - [Gestão de Erros](#56-gestão-de-erros)  
-   - [Segurança de API](#57-segurança-de-api)  
-6. [Tecnologias Utilizadas](#6-tecnologias-utilizadas)  
-7. [Instalação](#7-instalação)  
+1. [Introdução](#1-introdução)
+2. [Visão Geral do Sistema](#2-visão-geral-do-sistema)
+3. [Componentes Arquiteturais](#3-componentes-arquiteturais)
+   - [Servidor Express](#31-servidor-express)
+   - [Banco de Dados MongoDB](#32-banco-de-dados-mongodb)
+   - [Modelos de Dados (Mongoose Schemas)](#33-modelos-de-dados-mongoose-schemas)
+   - [Controladores](#34-controladores)
+   - [Roteadores](#35-roteadores)
+   - [Serviços Externos (Omie API)](#36-serviços-externos-omie-api)
+   - [Middlewares](#37-middlewares)
+     - [authMiddleware](#371-authmiddleware)
+     - [rastreabilidadeMiddleware](#372-rastreabilidademiddleware)
+   - [Utilitários](#38-utilitários)
+4. [Fluxo de Dados](#4-fluxo-de-dados)
+5. [Medidas de Segurança](#5-medidas-de-segurança)
+   - [Autenticação e Autorização](#51-autenticação-e-autorização)
+   - [Proteção de Dados](#52-proteção-de-dados)
+   - [Validação de Entrada](#53-validação-de-entrada)
+   - [Limitação de Tamanho de Upload](#54-limitação-de-tamanho-de-upload)
+   - [Logging e Monitoramento](#55-logging-e-monitoramento)
+   - [Gestão de Erros](#56-gestão-de-erros)
+   - [Segurança de API](#57-segurança-de-api)
+6. [Tecnologias Utilizadas](#6-tecnologias-utilizadas)
+7. [Instalação](#7-instalação)
 8. [Conclusão](#8-conclusão)
-
 
 ## 1. Introdução
 
@@ -185,6 +184,7 @@ A segurança é uma preocupação central no desenvolvimento do CST-Rakuten. As 
 ## 7. Instalação
 
 ### Pré requisitos
+
 - [NodeJs](https://nodejs.org/pt)
 - [Docker](https://www.docker.com/)
 - [Git](https://git-scm.com/downloads)
@@ -193,34 +193,64 @@ A segurança é uma preocupação central no desenvolvimento do CST-Rakuten. As 
 ### Passos
 
 1. Clone o repositório
-```
+
+```bash
 git clone https://github.com/oondemand/cst-backend.git
 cd cst-backend
 ```
 
 2. Inicialise o banco de dados
-```
+
+```bash
 docker-compose -f infra/docker/docker-compose.yml up -d
 ```
 
 3. Criar o .env
-> Se você preferir voce pode simplismente criar o arquivo .env na raiz do projeto e copiar as variaveis do .env.dev
-```
+   > Se você preferir voce pode simplismente criar o arquivo **.env** na raiz do projeto e copiar as variaveis do **.env.dev**
+
+```bash
 cp .env.dev .env
 ```
+
 ou no cmd do windowns
-```
+
+```bash
 copy .env.dev .env
 ```
 
-4. instalar as dependencias
-```
+4. Instalar as dependencias
+
+```bash
 npm install
 ```
 
 5. Executar o projeto
-```
+
+```bash
 npm run dev
+```
+
+6. Popular banco de dados 
+
+> Uma base omie oficial não é necessária, porém desta forma você tera problemas na integração com o omie.
+
+```bash
+curl -X POST http://localhost:4000/ativacao \
+  -H "Content-Type: application/json" \
+  -d '{
+    "baseOmie": {
+      "nome": "Dev",
+      "cnpj": "11111111111112",
+      "appKey": "0000000091403",
+      "appSecret": "000000000000000000000000000000"
+    },
+    "usuario": {
+      "nome": "User dev",
+      "email": "userdev@gmail.com",
+      "senha": "123456",
+      "tipo": "admin"
+    }
+  }'
 ```
 
 ## 8. Conclusão
