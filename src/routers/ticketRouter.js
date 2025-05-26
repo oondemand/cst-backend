@@ -78,18 +78,37 @@ router.delete(
 
 router.post(
   "/adicionar-servico/:ticketId/:servicoId/",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.TICKET,
+  }),
   ticketController.addServico
 );
 
-router.post("/remover-servico/:servicoId", ticketController.removeServico);
+router.post(
+  "/remover-servico/:servicoId",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.TICKET,
+  }),
+  ticketController.removeServico
+);
 
 router.post(
   "/adicionar-documento-fiscal/:ticketId/:documentoFiscalId/",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.TICKET,
+  }),
   ticketController.addDocumentoFiscal
 );
 
 router.post(
   "/remover-documento-fiscal/:documentoFiscalId",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.TICKET,
+  }),
   ticketController.removeDocumentoFiscal
 );
 
