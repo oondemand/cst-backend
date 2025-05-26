@@ -10,12 +10,12 @@ const Etapa = require("../models/Etapa");
 const Sistema = require("../models/Sistema");
 const ListaOmie = require("../models/ListaOmie");
 
-const bancos = require("../../seeds/bancos.json");
-const estados = require("../../seeds/estados.json");
-const listas = require("../../seeds/listas.json");
-const listaomies = require("../../seeds/listaomies.json");
-const sistemas = require("../../seeds/sistemas.json");
-const etapas = require("../../seeds/etapas.json");
+const bancos = require("../seeds/bancos.json");
+const estados = require("../seeds/estados.json");
+const listas = require("../seeds/listas.json");
+const listaomies = require("../seeds/listaomies.json");
+const sistemas = require("../seeds/sistemas.json");
+const etapas = require("../seeds/etapas.json");
 
 const { sendErrorResponse, sendResponse } = require("../utils/helpers");
 
