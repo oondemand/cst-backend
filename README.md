@@ -206,7 +206,7 @@ docker-compose -f infra/docker/docker-compose.yml up -d
 ```
 
 3. Criar o .env
-   > Se você preferir voce pode simplismente criar o arquivo **.env** na raiz do projeto e copiar as variaveis do **.env.dev**
+> Se você preferir voce pode simplismente criar o arquivo **.env** na raiz do projeto e copiar as variaveis do **.env.dev**
 
 ```bash
 cp .env.dev .env
