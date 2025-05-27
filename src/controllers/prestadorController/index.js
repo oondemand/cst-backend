@@ -87,7 +87,7 @@ exports.listarPrestadores = async (req, res) => {
     const schema = Prestador.schema;
 
     const camposBusca = [
-      "manager",
+      // "manager",
       "nome",
       "documento",
       "dadosBancariosSchema.agencia",

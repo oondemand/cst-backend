@@ -24,7 +24,6 @@ const dadosBancariosSchema = new mongoose.Schema({
 const prestadorSchema = new mongoose.Schema(
   {
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
-    manager: { type: String },
     nome: { type: String, required: true },
     tipo: { type: String, enum: ["pj", "pf", "ext", ""] },
     documento: { type: String, unique: true },

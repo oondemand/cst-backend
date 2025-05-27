@@ -14,34 +14,13 @@ const {
 
 const { sendErrorResponse, sendResponse } = require("../../utils/helpers");
 
-const criarNovoManager = async ({ manager, usuario }) => {
-  const managers = await Lista.findOne({ codigo: "manager" });
-  const managerExistente = managers.valores.some(
-    (e) => e?.valor?.trim() === manager?.trim()
-  );
-
-  if (!managerExistente) {
-    managers.valores.push({ valor: manager?.trim() });
-    await managers.save();
-
-    registrarAcao({
-      acao: ACOES.ADICIONADO,
-      entidade: ENTIDADES.CONFIGURACAO_LISTA_MANAGER,
-      origem: ORIGENS.IMPORTACAO,
-      dadosAtualizados: managers,
-      idRegistro: managers._id,
-      usuario: usuario,
-    });
-  }
-};
-
 const converterLinhaEmPrestador = async ({ row }) => {
   const pais = LISTA_PAISES_OMIE.find(
-    (e) => e.cDescricao.toLowerCase() === row[15]?.toLowerCase()
+    (e) => e.cDescricao.toLowerCase() === row[14]?.toLowerCase()
   );
 
   const formatDataNascimento = () => {
-    const data = row[16];
+    const data = row[15];
 
     if (data === "") return null;
 
@@ -53,31 +32,30 @@ const converterLinhaEmPrestador = async ({ row }) => {
   };
 
   const prestador = {
-    manager: row[0],
-    nome: row[1],
-    tipo: row[2],
-    documento: row[3],
+    nome: row[0],
+    tipo: row[1],
+    documento: row[2],
     dadosBancarios: {
-      banco: row[4],
-      agencia: row[5],
-      conta: row[6],
-      tipoConta: row[7]?.toLowerCase(),
+      banco: row[3],
+      agencia: row[4],
+      conta: row[5],
+      tipoConta: row[6]?.toLowerCase(),
     },
-    email: row[8] === "" ? null : row[8],
+    email: row[7] === "" ? null : row[7],
     endereco: {
-      cep: row[9]?.replaceAll("-", ""),
-      rua: row[10],
-      numero: row[11],
-      complemento: row[12],
-      cidade: row[13],
-      estado: row[14],
+      cep: row[8]?.replaceAll("-", ""),
+      rua: row[9],
+      numero: row[10],
+      complemento: row[11],
+      cidade: row[12],
+      estado: row[13],
       pais: { nome: pais?.cDescricao, cod: pais?.cCodigo },
     },
     pessoaFisica: {
       dataNascimento: formatDataNascimento(),
-      pis: row[17],
+      pis: row[16],
     },
-    pessoaJuridica: { nomeFantasia: row[18] },
+    pessoaJuridica: { nomeFantasia: row[17] },
   };
 
   return prestador;
@@ -198,7 +176,7 @@ const processarJsonPrestadores = async ({ json, usuario }) => {
         usuario,
       });
 
-      await criarNovoManager({ manager: prestadorObj?.manager, usuario });
+      // await criarNovoManager({ manager: prestadorObj?.manager, usuario });
 
       if (!prestador) {
         prestador = await criarNovoPrestador({
