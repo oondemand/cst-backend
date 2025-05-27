@@ -95,9 +95,15 @@ exports.getAllTickets = async (req, res) => {
     })
       .populate("prestador")
       .populate("servicos")
-      .populate("documentosFiscais")
       .populate("arquivos", "nomeOriginal size mimetype tipo")
-      .populate("contaPagarOmie");
+      .populate("contaPagarOmie")
+      .populate({
+        path: "documentosFiscais",
+        populate: {
+          path: "arquivo",
+          select: "nomeOriginal",
+        },
+      });
 
     sendResponse({
       res,

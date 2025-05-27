@@ -162,8 +162,6 @@ Pipeline executado via GitHub Actions na branch `homolog`:
 | `DB_TSL_HOMOLOG`                        | Configuração TLS do banco                             |
 | `API_OMIE`                              | Chave ou URL para integração com API Omie             |
 | `JWT_SECRET`                            | Chave secreta para geração/verificação de JWT         |
-| `SENDGRID_REMETENTE`                    | Email remetente para envio via SendGrid               |
-| `SENDGRID_API_KEY`                      | API Key para autenticação no SendGrid                 |
 | `BASE_URL_CST_HOMOLOG`                  | URL base do sistema CST para homologação              |
 | `BASE_URL_APP_PUBLISHER_HOMOLOG`        | URL base do app publisher em homologação              |
 | `DO_ACCESS_TOKEN_HOMOLOG`               | Token para acessar cluster Kubernetes na DigitalOcean |
