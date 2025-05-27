@@ -1,10 +1,8 @@
 const Importacao = require("../../models/Importacao.js");
 const Prestador = require("../../models/Prestador.js");
-const Usuario = require("../../models/Usuario.js");
-const Lista = require("../../models/Lista.js");
 const { parse } = require("date-fns");
 const { arrayToExcelBuffer, excelToJson } = require("../../utils/excel.js");
-const { LISTA_PAISES_OMIE } = require("../../utils/omie.js");
+const { mapRowToPrestador } = require("../../services/prestadorService/prestadorExcelMapper.js");
 const { registrarAcao } = require("../../services/controleService");
 const {
   ACOES,
@@ -13,72 +11,28 @@ const {
 } = require("../../constants/controleAlteracao");
 
 const { sendErrorResponse, sendResponse } = require("../../utils/helpers");
+const {
+  createPrestador,
+  updatePrestador,
+} = require("../../services/prestadorService/prestadorCrudService");
+const {
+  validateCreatePrestador,
+  validateUpdatePrestador,
+} = require("../../services/prestadorService/prestadorBusinessService");
 
-const converterLinhaEmPrestador = async ({ row }) => {
-  const pais = LISTA_PAISES_OMIE.find(
-    (e) => e.cDescricao.toLowerCase() === row[14]?.toLowerCase()
-  );
-
-  const formatDataNascimento = () => {
-    const data = row[15];
-
-    if (data === "") return null;
-
-    if (typeof data === "string") {
-      return parse(data.replace(/[^\w\/]/g, ""), "dd/MM/yyyy", new Date());
-    }
-
-    return data;
-  };
-
-  const prestador = {
-    nome: row[0],
-    tipo: row[1],
-    documento: row[2],
-    dadosBancarios: {
-      banco: row[3],
-      agencia: row[4],
-      conta: row[5],
-      tipoConta: row[6]?.toLowerCase(),
-    },
-    email: row[7] === "" ? null : row[7],
-    endereco: {
-      cep: row[8]?.replaceAll("-", ""),
-      rua: row[9],
-      numero: row[10],
-      complemento: row[11],
-      cidade: row[12],
-      estado: row[13],
-      pais: { nome: pais?.cDescricao, cod: pais?.cCodigo },
-    },
-    pessoaFisica: {
-      dataNascimento: formatDataNascimento(),
-      pis: row[16],
-    },
-    pessoaJuridica: { nomeFantasia: row[17] },
-  };
-
-  return prestador;
+const parseDate = (dateStr) => {
+  if (!dateStr || dateStr === "") return null;
+  if (typeof dateStr === "string") {
+    return parse(dateStr.replace(/[^\w\/]/g, ""), "dd/MM/yyyy", new Date());
+  }
+  return dateStr;
 };
 
 const criarNovoPrestador = async ({ prestador, usuario }) => {
-  if (prestador?.email) {
-    const prestadorExistente = await Prestador.findOne({
-      email: prestador?.email,
-    });
-
-    if (prestadorExistente) {
-      throw new Error(
-        `Prestador com o mesmo email já cadastrado: ${prestador?.email}`
-      );
-    }
-  }
-
-  const novoPrestador = new Prestador({
-    ...prestador,
-    status: "ativo",
-  });
-
+  // Use business service to validate
+  await validateCreatePrestador(prestador);
+  // Create and persist using CRUD service, adding status ativo
+  const novoPrestador = await createPrestador({ ...prestador, status: "ativo" });
   registrarAcao({
     acao: ACOES.ADICIONADO,
     entidade: ENTIDADES.PRESTADOR,
@@ -87,8 +41,6 @@ const criarNovoPrestador = async ({ prestador, usuario }) => {
     idRegistro: novoPrestador._id,
     usuario: usuario,
   });
-
-  await novoPrestador.save();
   return novoPrestador;
 };
 
@@ -102,43 +54,11 @@ const buscarPrestadorPorDocumentoEAtualizar = async ({
   const prestadorExistente = await Prestador.findOne({ documento });
   if (!prestadorExistente) return null;
 
-  if (prestador?.email) {
-    const prestadorPorEmail = await Prestador.findOne({
-      email: prestador?.email,
-    });
+  // Use business service to validate update: pass the existing id with new data
+  await validateUpdatePrestador(prestadorExistente._id, prestador);
 
-    if (
-      prestadorPorEmail &&
-      prestadorPorEmail?._id?.toString() !== prestadorExistente._id.toString()
-    ) {
-      throw new Error(
-        `Prestador com o mesmo email já cadastrado: ${prestador?.email}`
-      );
-    }
-
-    if (prestadorExistente?.usuario) {
-      const usuario = await Usuario.findOne({ email: prestador?.email });
-
-      if (usuario) {
-        if (
-          usuario?._id?.toString() !== prestadorExistente.usuario.toString()
-        ) {
-          throw new Error(
-            `Usuário prestador com o mesmo email já cadastrado: ${prestador?.email}`
-          );
-        }
-
-        usuario.email = prestador?.email;
-        await usuario.save();
-      }
-    }
-  }
-
-  const prestadorAtualizado = await Prestador.findOneAndUpdate(
-    { documento },
-    prestador
-  );
-
+  // Update via CRUD service
+  const prestadorAtualizado = await updatePrestador(prestadorExistente._id, prestador);
   registrarAcao({
     acao: ACOES.ALTERADO,
     entidade: ENTIDADES.PRESTADOR,
@@ -147,7 +67,6 @@ const buscarPrestadorPorDocumentoEAtualizar = async ({
     idRegistro: prestadorAtualizado._id,
     usuario: usuario,
   });
-
   return prestadorAtualizado;
 };
 
@@ -168,7 +87,8 @@ const processarJsonPrestadores = async ({ json, usuario }) => {
         arquivoDeErro.push(row);
         continue;
       }
-      const prestadorObj = await converterLinhaEmPrestador({ row });
+      // Utiliza o prestadorExcelMapper para mapear a linha
+      const prestadorObj = await mapRowToPrestador(row);
 
       let prestador = await buscarPrestadorPorDocumentoEAtualizar({
         documento: prestadorObj?.documento,
@@ -176,16 +96,12 @@ const processarJsonPrestadores = async ({ json, usuario }) => {
         usuario,
       });
 
-      // await criarNovoManager({ manager: prestadorObj?.manager, usuario });
-
       if (!prestador) {
         prestador = await criarNovoPrestador({
           prestador: prestadorObj,
           usuario,
         });
-
         detalhes.novosPrestadores += 1;
-        await prestador.save();
       }
     } catch (error) {
       arquivoDeErro.push(row);
