@@ -1,170 +1,24 @@
-# Documento de Arquitetura e Segurança do Projeto CST-Rakuten
+# CST-Backend
+
+![GitHub stars](https://img.shields.io/github/stars/oondemand/cst-backend)
+![GitHub issues](https://img.shields.io/github/issues/oondemand/cst-backend)
+![GitHub license](https://img.shields.io/github/license/oondemand/cst-backend)
+[![Required Node.JS >=18.0.0](https://img.shields.io/static/v1?label=node&message=%20%3E=18.0.0&logo=node.js&color=3f893e)](https://nodejs.org/about/releases)
 
 ## Sumário
 
-1. [Introdução](#1-introdução)
-2. [Visão Geral do Sistema](#2-visão-geral-do-sistema)
-3. [Componentes Arquiteturais](#3-componentes-arquiteturais)
-   - [Servidor Express](#31-servidor-express)
-   - [Banco de Dados MongoDB](#32-banco-de-dados-mongodb)
-   - [Modelos de Dados (Mongoose Schemas)](#33-modelos-de-dados-mongoose-schemas)
-   - [Controladores](#34-controladores)
-   - [Roteadores](#35-roteadores)
-   - [Serviços Externos (Omie API)](#36-serviços-externos-omie-api)
-   - [Middlewares](#37-middlewares)
-     - [authMiddleware](#371-authmiddleware)
-     - [rastreabilidadeMiddleware](#372-rastreabilidademiddleware)
-   - [Utilitários](#38-utilitários)
-4. [Fluxo de Dados](#4-fluxo-de-dados)
-5. [Medidas de Segurança](#5-medidas-de-segurança)
-   - [Autenticação e Autorização](#51-autenticação-e-autorização)
-   - [Proteção de Dados](#52-proteção-de-dados)
-   - [Validação de Entrada](#53-validação-de-entrada)
-   - [Limitação de Tamanho de Upload](#54-limitação-de-tamanho-de-upload)
-   - [Logging e Monitoramento](#55-logging-e-monitoramento)
-   - [Gestão de Erros](#56-gestão-de-erros)
-   - [Segurança de API](#57-segurança-de-api)
-6. [Tecnologias Utilizadas](#6-tecnologias-utilizadas)
-7. [Instalação](#7-instalação)
-8. [Conclusão](#8-conclusão)
+1. [Visão Geral do Sistema](#1-visão-geral-do-sistema)
+2. [Tecnologias Utilizadas](#2-tecnologias-utilizadas)
+3. [Estrutura do Projeto](#3-estrutura-do-projeto)
+4. [Instalação](#4-instalação)
+5. [Deploy Automático - Ambiente de Homologação](#5-deploy-automático---ambiente-de-homologação)
+6. [Guia de Contribuição](#6-guia-de-contribuição)
 
-## 1. Introdução
+## 1. Visão Geral do Sistema
 
-Este documento detalha a arquitetura e as práticas de segurança implementadas no projeto **CST-Rakuten**, desenvolvido utilizando tecnologias modernas como Node.js, Express e MongoDB. O objetivo é fornecer uma visão abrangente dos componentes do sistema, seu funcionamento e as medidas adotadas para garantir a integridade, confidencialidade e disponibilidade das informações.
+O **CST-Backend** é uma aplicação backend que gerencia processos relacionados a prestadores de serviços, tickets, serviços, integrações com a API da Omie, além de funcionalidades de autenticação e autorização de usuários. A aplicação segue uma arquitetura RESTful, permitindo comunicação eficiente com clientes front-end e serviços externos.
 
-## 2. Visão Geral do Sistema
-
-O **CST-Rakuten** é uma aplicação backend que gerencia processos relacionados a prestadores de serviços, tickets, serviços, integrações com a API da Omie, além de funcionalidades de autenticação e autorização de usuários. A aplicação segue uma arquitetura RESTful, permitindo comunicação eficiente com clientes front-end e serviços externos.
-
-## 3. Componentes Arquiteturais
-
-### 3.1. Servidor Express
-
-O servidor principal é configurado nos arquivos `app.js` e `server.js`. Utilizando o framework **Express**, o servidor gerencia rotas, middlewares e a configuração geral da aplicação. O Express facilita a modularização das rotas e a implementação de middlewares globais para segurança e logging.
-
-### 3.2. Banco de Dados MongoDB
-
-A aplicação utiliza **MongoDB** como banco de dados NoSQL, acessado através do ORM **Mongoose**. A configuração da conexão está localizada em `src/config/db.js`, onde são definidas as variáveis de ambiente para uma conexão segura com o banco de dados.
-
-### 3.3. Modelos de Dados (Mongoose Schemas)
-
-Os modelos de dados estão localizados em `src/models/` e definem a estrutura das coleções do MongoDB, incluindo:
-
-- **Usuario**
-- **Prestador**
-- **Ticket**
-- **Servico**
-- **Arquivo**
-- **Log**
-- **Etapa**
-- **BaseOmie**
-
-Cada modelo contém validações e relações entre si para garantir a consistência e integridade dos dados.
-
-### 3.4. Controladores
-
-Localizados em `src/controllers/`, os controladores gerenciam a lógica de negócio para cada rota. Eles interagem com os modelos para realizar operações CRUD, processar dados de integrações externas e gerenciar o fluxo de trabalho dos tickets e serviços.
-
-### 3.5. Roteadores
-
-Os roteadores em `src/routers/` definem os endpoints da API e associam cada rota ao respectivo controlador. Exemplos incluem:
-
-- `authRouter`
-- `ticketRouter`
-- `usuarioRouter`
-- `prestadorRouter`
-- `servicoRouter`
-- `etapaRouter`
-- `logRouter`
-- `baseOmieRouter`
-
-Essa organização permite uma estrutura clara e modular das rotas da aplicação.
-
-### 3.6. Serviços Externos (Omie API)
-
-A aplicação integra-se com a **API da Omie** através dos serviços localizados em `src/services/omie/`, como:
-
-- `clienteService.js`
-- `contaPagarService.js`
-- `anexosService.js`
-
-Esses serviços gerenciam a comunicação com a Omie para operações de clientes e contas a pagar, incluindo tratamento de erros e tentativas de reconexão para garantir resiliência na comunicação.
-
-### 3.7. Middlewares
-
-#### 3.7.1. authMiddleware
-
-Localizado em `src/middlewares/authMiddleware.js`, este middleware verifica a validade do token JWT em cada requisição protegida, garantindo que apenas usuários autenticados possam acessar determinadas rotas.
-
-#### 3.7.2. rastreabilidadeMiddleware
-
-Localizado em `src/middlewares/rastreabilidadeMiddleware.js`, este middleware registra logs detalhados das requisições e respostas, armazenando informações como usuário, endpoint, método HTTP, IP e dados de requisição e resposta.
-
-### 3.8. Utilitários
-
-Localizados em `src/utils/`, os utilitários incluem funcionalidades para:
-
-- Manipulação de datas (`dateUtils.js`)
-- Formatação de dados (`formatters.js`)
-- Manipulação de arquivos (`fileHandler.js`)
-- Envio de emails (`emailUtils.js`)
-- Interações com APIs externas (`brasilApi.js`)
-
-## 4. Fluxo de Dados
-
-O fluxo de dados no sistema inicia-se com a requisição de um cliente para um endpoint específico. O roteador correspondente direciona a requisição ao controlador apropriado, que processa a lógica de negócio, interage com os modelos para acessar ou modificar dados no banco de dados, e retorna uma resposta ao cliente. Durante esse processo, middlewares globais e específicos garantem a segurança e rastreabilidade das operações.
-
-### Exemplo de Fluxo:
-
-1. **Cliente faz uma requisição** para criar um novo ticket.
-2. **Roteador (`ticketRouter`)** direciona a requisição para o **Controlador (`ticketController`)**.
-3. **Controlador** valida os dados e interage com o **Modelo (`Ticket`)** para salvar as informações no MongoDB.
-4. **Middlewares** autenticam o usuário e registram logs da operação.
-5. **Resposta** é enviada de volta ao cliente confirmando a criação do ticket.
-
-## 5. Medidas de Segurança
-
-A segurança é uma preocupação central no desenvolvimento do CST-Rakuten. As principais medidas implementadas incluem:
-
-### 5.1. Autenticação e Autorização
-
-- **JWT (JSON Web Tokens)**: Utilizado para autenticação, os tokens JWT são gerados no login e verificados em cada requisição protegida através do `authMiddleware`. Isso assegura que apenas usuários autenticados tenham acesso a recursos sensíveis.
-
-- **Hashing de Senhas**: As senhas dos usuários são armazenadas de forma segura utilizando **bcrypt** para hashing, prevenindo o vazamento de senhas em caso de brechas de segurança.
-
-### 5.2. Proteção de Dados
-
-- **Helmet**: Implementado via middleware global em `app.js`, o Helmet adiciona cabeçalhos HTTP para proteger a aplicação contra ataques bem conhecidos, como XSS, clickjacking e injeção de conteúdo.
-
-- **CORS (Cross-Origin Resource Sharing)**: Configurado para permitir apenas origens confiáveis, prevenindo requisições maliciosas de domínios não autorizados.
-
-### 5.3. Validação de Entrada
-
-- **Mongoose Schemas**: As validações nos modelos garantem que apenas dados com formatos e restrições esperadas sejam armazenados no banco de dados, prevenindo injeções de dados e inconsistências.
-
-### 5.4. Limitação de Tamanho de Upload
-
-- **Multer**: Configurado com limites de tamanho de arquivo para prevenir ataques de negação de serviço (DoS) por upload de arquivos muito grandes. Por exemplo, a rota `importar-comissoes` limita o tamanho dos arquivos para 10MB.
-
-### 5.5. Logging e Monitoramento
-
-- **Winston Logger**: Utilizado para registrar logs de erro e informações em arquivos específicos (`logs/error.log` e `logs/info.log`), facilitando o monitoramento e a identificação de problemas.
-
-- **Rastreabilidade Middleware**: Armazena logs detalhados de cada requisição e resposta, permitindo auditorias e análises detalhadas de atividades no sistema.
-
-### 5.6. Gestão de Erros
-
-- **Middleware de Erro**: Implementado em `app.js`, captura e trata erros globais, retornando respostas apropriadas e evitando vazamento de informações sensíveis.
-
-- **Retries e Handling de Erros em Serviços Externos**: Serviços que interagem com APIs externas implementam tentativas de reconexão e tratamento de erros para garantir resiliência na comunicação.
-
-### 5.7. Segurança de API
-
-- **Proteção contra Ataques de Força Bruta**: Implementação de limites de tentativas de login e outras medidas para prevenir ataques de força bruta.
-
-- **Sanitização de Entrada**: Embora não explicitamente mencionado no código fornecido, é recomendável implementar sanitização de entrada para prevenir injeções de código e outros ataques.
-
-## 6. Tecnologias Utilizadas
+## 2. Tecnologias Utilizadas
 
 - **Node.js**: Ambiente de execução para JavaScript no servidor.
 - **Express**: Framework web para Node.js.
@@ -181,7 +35,23 @@ A segurança é uma preocupação central no desenvolvimento do CST-Rakuten. As 
 - **dotenv**: Gerenciamento de variáveis de ambiente.
 - **crypto**: Criptografia e geração de hashes.
 
-## 7. Instalação
+## 3. Estrutura do Projeto
+
+```plaintext
+src/
+├── assets/         # Recursos estáticos como imagens, arquivos públicos, ícones, utilizados pela aplicação.
+├── config/         # Configurações centrais da aplicação, incluindo conexão com MongoDB, setup do Axios para integrações externas, configuração do logger Winston e variáveis de ambiente.
+├── constants/      # Definições de constantes globais, como status, códigos de erro, tipos de usuário e outras strings fixas usadas em toda a aplicação.
+├── controllers/    # Controladores que contêm a lógica principal de tratamento das requisições HTTP, organizados por entidade (usuários, tickets, serviços, etc).
+├── middlewares/    # Funções intermediárias que processam requisições HTTP antes de chegarem aos controllers.
+├── models/         # Modelos de dados com esquemas Mongoose, representando as coleções do banco MongoDB e suas regras de validação.
+├── routers/        # Definição das rotas da API, agrupadas por recursos, responsáveis por direcionar as requisições para os controllers apropriados.
+├── seeds/          # Scripts e arquivos JSON para popular o banco de dados com dados iniciais, facilitando testes e ambientes de desenvolvimento. Exemplo: usuários default, configurações iniciais.
+├── services/       # Camada responsável pela comunicação com serviços externos, como a API Omie, envio de e-mails via SendGrid e outras integrações, abstraindo a lógica de terceiros.
+└── utils/          # Funções utilitárias reutilizáveis para formatação, validação, manipulação de dados, criptografia e outras tarefas comuns da aplicação.
+```
+
+## 4. Instalação
 
 ### Pré requisitos
 
@@ -206,7 +76,7 @@ docker-compose -f infra/docker/docker-compose.yml up -d
 ```
 
 3. Criar o .env
-> Se você preferir voce pode simplismente criar o arquivo **.env** na raiz do projeto e copiar as variaveis do **.env.dev**
+   > Se você preferir voce pode simplismente criar o arquivo **.env** na raiz do projeto e copiar as variaveis do **.env.dev**
 
 ```bash
 cp .env.dev .env
@@ -230,7 +100,7 @@ npm install
 npm run dev
 ```
 
-6. Popular banco de dados 
+6. Popular banco de dados
 
 > Uma base omie oficial não é necessária, porém desta forma você tera problemas na integração com o omie.
 
@@ -253,10 +123,84 @@ curl -X POST http://localhost:4000/ativacao \
   }'
 ```
 
-## 8. Conclusão
+## 5. Deploy Automático - Ambiente de Homologação
 
-O projeto **CST-Rakuten** foi desenvolvido com uma arquitetura modular e segura, adotando boas práticas de desenvolvimento para garantir escalabilidade, manutenção e proteção dos dados. As integrações com serviços externos e as medidas de segurança implementadas asseguram que a aplicação possa operar de forma eficiente e confiável, atendendo às necessidades dos usuários e mantendo a integridade das informações.
+### 5.1 Como Funciona o Deploy
 
----
+Pipeline executado via GitHub Actions na branch `homolog`:
 
-Este documento serve como uma referência para desenvolvedores, auditores e partes interessadas que desejam compreender a estrutura e as medidas de segurança implementadas no projeto CST-Rakuten.
+1. Checkout do código
+2. Configuração do git para criação de tags
+3. Instalação das dependências
+4. Criação de release e geração de tag via `release-it`
+5. Build da imagem Docker e push para GHCR
+6. Criação do kubeconfig para acesso ao cluster Kubernetes
+7. Aplicação do deployment com substituição das variáveis no arquivo `deployment-homolog.yaml`
+
+### 5.2 Arquivos Importantes
+
+- `infra/docker/Dockerfile.prod`
+- `infra/kubernetes/deployment-homolog.yaml`
+- `.github/workflows/deploy-homolog.yml`
+
+### 5.3 Variáveis de Ambiente Utilizadas
+
+| Variável                                | Descrição                                             |
+| --------------------------------------- | ----------------------------------------------------- |
+| `GITHUB_TOKEN`                          | Token padrão do GitHub Actions                        |
+| `DOCKER_USERNAME`                       | Usuário para login no GitHub Container Registry       |
+| `GH_PAT`                                | Token pessoal para acesso ao GHCR                     |
+| `NODE_ENV`                              | Ambiente Node (ex: homolog)                           |
+| `SERVICE_NAME`                          | Nome do serviço                                       |
+| `PORT`                                  | Porta onde o serviço roda                             |
+| `DB_SERVER_HOMOLOG`                     | URL do banco de dados no ambiente homolog             |
+| `DB_USER_HOMOLOG`                       | Usuário do banco no homolog                           |
+| `DB_PASSWORD_HOMOLOG`                   | Senha do banco no homolog                             |
+| `DB_NAME_HOMOLOG`                       | Nome do banco no homolog                              |
+| `DB_AUTH_SOURCE`                        | Fonte de autenticação do banco (MongoDB)              |
+| `DB_REPLICA_SET_HOMOLOG`                | Replica set do banco (se aplicável)                   |
+| `DB_TSL_HOMOLOG`                        | Configuração TLS do banco                             |
+| `API_OMIE`                              | Chave ou URL para integração com API Omie             |
+| `JWT_SECRET`                            | Chave secreta para geração/verificação de JWT         |
+| `SENDGRID_REMETENTE`                    | Email remetente para envio via SendGrid               |
+| `SENDGRID_API_KEY`                      | API Key para autenticação no SendGrid                 |
+| `BASE_URL_CST_HOMOLOG`                  | URL base do sistema CST para homologação              |
+| `BASE_URL_APP_PUBLISHER_HOMOLOG`        | URL base do app publisher em homologação              |
+| `DO_ACCESS_TOKEN_HOMOLOG`               | Token para acessar cluster Kubernetes na DigitalOcean |
+| `DO_CLUSTER_AUTHENTICATION_URL_HOMOLOG` | Endpoint de autenticação do cluster                   |
+| `CLUSTER_HOMOLOG`                       | Nome do cluster Kubernetes para homologação           |
+
+## 6 Guia de Contribuição
+
+Obrigado por querer contribuir com este projeto! 🎉  
+Siga os passos abaixo para garantir que sua contribuição seja bem-sucedida.
+
+### 6.1 Como contribuir
+
+- [ ] Faça um fork do repositório
+- [ ] Crie uma nova branch descritiva: `git checkout -b feat/nome-da-sua-feature`
+- [ ] Faça suas alterações e adicione testes, se necessário
+- [ ] Confirme as alterações: `git commit -m "feat: adiciona nova feature"`
+- [ ] Envie a branch: `git push origin feat/nome-da-sua-feature`
+- [ ] Crie um Pull Request explicando as mudanças realizadas
+
+### 6.2 Padrões de código
+
+- Mantenha o código limpo e legível
+- Siga a estrutura e padrões já existentes
+- Evite adicionar dependências desnecessárias
+
+### 6.3 Commits
+
+Use o [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/):
+
+Exemplos:
+
+- `feat: adiciona botão de login`
+- `fix: corrige erro ao carregar usuários`
+- `refactor: melhora performance do datagrid`
+
+### 6.4 Feedback
+
+Se tiver dúvidas ou sugestões, abra uma **Issue** para discutirmos.  
+Sua colaboração é sempre bem-vinda! 🚀
