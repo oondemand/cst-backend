@@ -19,15 +19,18 @@ const dadosBancariosSchema = new mongoose.Schema({
   agencia: String,
   conta: String,
   tipoConta: { type: String, enum: ["", "corrente", "poupanca"] },
+  tipoChavePix: {
+    type: String,
+    enum: ["cpf", "email", "telefone", "aleatoria", ""],
+    default: "",
+  },
+  chavePix: { type: String, default: "" },
 });
 
 const prestadorSchema = new mongoose.Schema(
   {
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
     nome: { type: String, required: true },
-    tipo: { type: String, enum: ["pj", "pf", "ext", ""] },
-    documento: { type: String, unique: true },
-    dadosBancarios: dadosBancariosSchema,
     email: {
       type: String,
       lowercase: true,
@@ -39,7 +42,9 @@ const prestadorSchema = new mongoose.Schema(
       },
       required: false,
     },
-    endereco: enderecoSchema,
+    tipo: { type: String, enum: ["pj", "pf", "ext", ""] },
+    documento: { type: String, unique: true },
+    
     pessoaFisica: {
       dataNascimento: Date,
       pis: String,
@@ -48,8 +53,8 @@ const prestadorSchema = new mongoose.Schema(
         orgaoEmissor: String,
       },
     },
+
     pessoaJuridica: {
-      razaoSocial: String,
       nomeFantasia: String,
       codigoCNAE: String,
       codigoServicoNacional: String,
@@ -58,6 +63,9 @@ const prestadorSchema = new mongoose.Schema(
         enum: ["MEI", "Simples Nacional", "Lucro Presumido", "Lucro Real"],
       },
     },
+    
+    dadosBancarios: dadosBancariosSchema,
+    endereco: enderecoSchema,
     comentariosRevisao: String,
     status: {
       type: String,
