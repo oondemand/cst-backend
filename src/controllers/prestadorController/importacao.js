@@ -2,7 +2,7 @@ const Importacao = require("../../models/Importacao.js");
 const Prestador = require("../../models/Prestador.js");
 const { parse } = require("date-fns");
 const { arrayToExcelBuffer, excelToJson } = require("../../utils/excel.js");
-const { mapRowToPrestador } = require("../../services/prestadorService/prestadorExcelMapper.js");
+const { mapRowToPrestador } = require("../../services/prestadorService/prestadorExcelImporter.js");
 const { registrarAcao } = require("../../services/controleService");
 const {
   ACOES,

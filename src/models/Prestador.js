@@ -60,7 +60,7 @@ const prestadorSchema = new mongoose.Schema(
       codigoServicoNacional: String,
       regimeTributario: {
         type: String,
-        enum: ["MEI", "Simples Nacional", "Lucro Presumido", "Lucro Real"],
+        enum: ["MEI", "Simples Nacional", "Lucro Presumido", "Lucro Real"], 
       },
     },
     
