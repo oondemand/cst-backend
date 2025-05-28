@@ -1,15 +1,11 @@
 const Prestador = require("../../models/Prestador");
-const {
-  sincronizarPrestador,
-} = require("../../services/omie/sincronizarPrestador");
+const { prestadorOmieSync } = require("../../services/prestadorService/prestadorOmieSync");
 const filtersUtils = require("../../utils/filter");
 const { parsePagination, parseSorting } = require("../../utils/pagination");
-} = require("../../constants/controleAlteracao");
 const { createPrestador, updatePrestador, deletePrestador } = require("../../services/prestadorService/prestadorCrudService");
 const { validateCreatePrestador, validateUpdatePrestador } = require("../../services/prestadorService/prestadorBusinessService");
 const { sendPaginatedResponse, sendResponse, sendErrorResponse } = require("../../utils/helpers");
 const asyncHandler = require("../../middlewares/asyncHandler");
-const { handleWebhook } = require("../../services/prestadorService/prestadorWebHookService");
 
 exports.obterPrestadorPorIdUsuario = asyncHandler(async (req, res) => {
   const prestador = await Prestador.findOne({ usuario: req.params.idUsuario });
@@ -42,37 +38,7 @@ exports.criarPrestador = asyncHandler(async (req, res) => {
 exports.listarPrestadores = asyncHandler(async (req, res) => {
   const { sortBy, searchTerm, ...rest } = req.query;
   const schema = Prestador.schema;
-  const camposBusca = [
-    "nome",
-    "email",
-    "tipo",
-    "documento",
-    "pessoaFisica.dataNascimento",
-    "pessoaFisica.pis",
-    "pessoaFisica.rg.numero",
-    "pessoaFisica.rg.orgaoEmissor",
-    "pessoaJuridica.nomeFantasia",
-    "pessoaJuridica.codigoCNAE",
-    "pessoaJuridica.codigoServicoNacional",
-    "pessoaJuridica.regimeTributario",
-    "dadosBancarios.banco",
-    "dadosBancarios.agencia",
-    "dadosBancarios.conta",
-    "dadosBancarios.tipoConta",
-    "endereco.cep",
-    "endereco.rua",
-    "endereco.numero",
-    "endereco.complemento",
-    "endereco.cidade",
-    "endereco.estado",
-    "endereco.pais.nome",
-    "endereco.pais.cod",
-    "comentariosRevisao",
-    "status",
-    "dataExportacao",
-    "createdAt",
-    "updatedAt",
-  ];
+  const camposBusca = Object.keys(schema.paths);
 
   const queryResult = filtersUtils.buildQuery({
     filtros: rest,
@@ -121,7 +87,7 @@ exports.atualizarPrestador = asyncHandler(async (req, res) => {
   const prestadorAtualizado = await updatePrestador(req.params.id, req.body);
 
   // Sincronização permanece na controller ou pode ser extraída se necessário
-  sincronizarPrestador({ id: prestadorAtualizado._id, prestador: prestadorAtualizado });
+  prestadorOmieSync(prestadorAtualizado);  // Atualização usando a nova função
 
   sendResponse({ res, statusCode: 200, prestador: prestadorAtualizado });
 });
@@ -155,15 +121,4 @@ exports.obterPrestadorPorPis = asyncHandler(async (req, res) => {
     return sendErrorResponse({ res, statusCode: 404, message: "Prestador não encontrado" });
   }
   sendResponse({ res, statusCode: 200, prestador });
-});
-
-exports.prestadorWebHook = asyncHandler(async (req, res) => {
-	const { event, ping, topic } = req.body;
-	if (ping === "omie") {
-		return sendResponse({ res, statusCode: 200, message: "pong" });
-	}
-	if (topic === "ClienteFornecedor.Alterado") {
-		await handleWebhook(event);
-	}
-	sendResponse({ res, statusCode: 200, message: "Webhook recebido. Dados sendo atualizados." });
 });
