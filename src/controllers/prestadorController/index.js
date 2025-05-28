@@ -1,16 +1,9 @@
 const Prestador = require("../../models/Prestador");
-const Ticket = require("../../models/Ticket");
 const {
   sincronizarPrestador,
 } = require("../../services/omie/sincronizarPrestador");
 const filtersUtils = require("../../utils/filter");
 const { parsePagination, parseSorting } = require("../../utils/pagination");
-const Usuario = require("../../models/Usuario");
-const { registrarAcao } = require("../../services/controleService");
-const {
-  ACOES,
-  ENTIDADES,
-  ORIGENS,
 } = require("../../constants/controleAlteracao");
 const { createPrestador, updatePrestador, deletePrestador } = require("../../services/prestadorService/prestadorCrudService");
 const { validateCreatePrestador, validateUpdatePrestador } = require("../../services/prestadorService/prestadorBusinessService");

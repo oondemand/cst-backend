@@ -20,14 +20,6 @@ const {
   validateUpdatePrestador,
 } = require("../../services/prestadorService/prestadorBusinessService");
 
-const parseDate = (dateStr) => {
-  if (!dateStr || dateStr === "") return null;
-  if (typeof dateStr === "string") {
-    return parse(dateStr.replace(/[^\w\/]/g, ""), "dd/MM/yyyy", new Date());
-  }
-  return dateStr;
-};
-
 const criarNovoPrestador = async ({ prestador, usuario }) => {
   // Use business service to validate
   await validateCreatePrestador(prestador);
