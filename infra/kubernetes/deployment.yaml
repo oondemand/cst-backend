@@ -52,8 +52,6 @@
 #               value: "${JWT_SECRET}"
 #             - name: SENDGRID_REMETENTE
 #               value: "${SENDGRID_REMETENTE}"
-#             - name: SENDGRID_API_KEY
-#               value: "${SENDGRID_API_KEY}"
 #             - name: BASE_URL_CST
 #               value: "${BASE_URL_CST}"
 #             - name: BASE_URL_APP_PUBLISHER

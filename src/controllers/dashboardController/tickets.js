@@ -29,6 +29,11 @@ exports.ticketsPorEtapa = async (req, res) => {
   try {
     const aggregationPipeline = [
       {
+        $match: {
+          status: { $ne: "arquivado" },
+        },
+      },
+      {
         $group: {
           _id: "$etapa",
           count: { $sum: 1 },

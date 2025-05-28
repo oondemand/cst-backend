@@ -68,7 +68,5 @@
 #           DB_TSL: ${{ secrets.DB_TSL }}
 #           API_OMIE: ${{ secrets.API_OMIE }}
 #           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-#           SENDGRID_REMETENTE: ${{ secrets.SENDGRID_REMETENTE }}
-#           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 #           BASE_URL_CST: ${{ secrets.BASE_URL_CST }}
 #           BASE_URL_APP_PUBLISHER: ${{ secrets.BASE_URL_APP_PUBLISHER }}
