@@ -11,8 +11,6 @@ const {
   sendResponse,
   sendPaginatedResponse,
 } = require("../utils/helpers");
-const { registrarAcao } = require("../services/controleService");
-const { ACOES, ENTIDADES, ORIGENS } = require("../constants/controleAlteracao");
 
 exports.seedUsuario = async (req, res) => {
   const { nome, email, senha, status, permissoes } = req.body;
