@@ -76,4 +76,14 @@ prestadorSchema.methods.gerarToken = function () {
   }); // Token expira em 24 horas
 };
 
+/*
+Regras do Modelo:
+- O endereço possui validação para CEP (8 dígitos) e valores padrão para país.
+- Dados bancários: tipoConta somente aceita "corrente" ou "poupanca".
+- E-mail é convertido para lowercase e validado por regex.
+- Campos para pessoa física e jurídica estão estruturados conforme necessidades operacionais.
+- Método gerarToken utiliza process.env.JWT_SECRET e expira em 24h.
+Este arquivo foi estruturado para facilitar futuras modificações sem quebrar a compatibilidade.
+*/
+
 module.exports = mongoose.model("Prestador", prestadorSchema);
