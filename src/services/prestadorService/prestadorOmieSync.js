@@ -1,6 +1,6 @@
 const clienteService = require("../../services/omie/clienteService");
 const BaseOmie = require("../../models/BaseOmie");
-const { mapPrestadorToOmie } = require("./prestadorOmieMapper");
+const { mapPrestadorToOmie } = require("./prestadorOmieExporter");
 
 exports.prestadorOmieSync = async (prestador) => {
   try {

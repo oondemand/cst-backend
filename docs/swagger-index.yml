@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: CST Backend API
+  version: "1.0.0"
+  description: >
+    Documentação completa da API do CST Backend, com todos os módulos.
+    Utilize este documento para testar todos os endpoints com o Swagger.
+servers:
+  - url: http://localhost:4000
+paths:
+  /prestadores:
+    $ref: "./prestador/prestador-swagger.yml#/paths/~1prestadores"
+  /prestadores/{id}:
+    $ref: "./prestador/prestador-swagger.yml#/paths/~1prestadores~1{id}"
+  /prestadores/webhook:
+    $ref: "./prestador/prestador-swagger.yml#/paths/~1prestadores~1webhook"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: CST Backend - Autenticação API
+  version: "1.0.0"
+  description: >
+    Documentação interativa da API para o módulo de Autenticação.
+    Esta API gerencia login, registro inicial (seed), validação de token, recuperação e alteração de senha.
+servers:
+  - url: http://localhost:4000
+security: []  # Sem segurança para visualização
+paths:
+  /auth/login:
+    post:
+      summary: Login de usuário
+      requestBody:
+        description: Dados de login do usuário
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInput'
+      responses:
+        '200':
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  usuario:
+                    $ref: '#/components/schemas/Usuario'
+        '401':
+          description: Credenciais inválidas
+  /auth/seed-usuario:
+    post:
+      summary: Registro do primeiro usuário (seed)
+      requestBody:
+        description: Dados para criação do primeiro usuário
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeedInput'
+      responses:
+        '201':
+          description: Usuário criado com sucesso
+        '400':
+          description: Erro ao registrar usuário
+  /auth/validar-token:
+    get:
+      summary: Validação do Token
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token válido – dados do usuário retornados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '401':
+          description: Token inválido ou expirado
+  /auth/esqueci-minha-senha:
+    post:
+      summary: Solicitar recuperação de senha
+      requestBody:
+        description: Dados de email do usuário para recuperação
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Email de recuperação enviado
+        '404':
+          description: Usuário não encontrado
+  /auth/alterar-senha:
+    post:
+      summary: Alterar senha do usuário
+      requestBody:
+        description: Dados para alteração de senha (usando token de recuperação ou senha atual)
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                senhaAtual:
+                  type: string
+                novaSenha:
+                  type: string
+                confirmacao:
+                  type: string
+                code:
+                  type: string
+                  description: Token de recuperação (se aplicável)
+      responses:
+        '200':
+          description: Senha alterada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          description: Dados inválidos ou conflito na alteração da senha
+components:
+  schemas:
+    LoginInput:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "usuario@exemplo.com"
+        senha:
+          type: string
+          example: "123456"
+      required:
+        - email
+        - senha
+    SeedInput:
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        status:
+          type: string
+        permissoes:
+          type: array
+          items:
+            type: string
+      required:
+        - nome
+        - email
+        - senha
+    Usuario:
+      type: object
+      properties:
+        _id:
+          type: string
+        nome:
+          type: string
+        email:
+          type: string
+        tipo:
+          type: string
+        status:
+          type: string
+        configuracoes:
+          type: object
+          properties:
+            idioma:
+              type: string
+      example:
+        _id: "607d1a81b3c2f72a0c9f1abc"
+        nome: "Usuário Exemplo"
+        email: "usuario@exemplo.com"
+        tipo: "prestador"
+        status: "ativo"
+        configuracoes:
+          idioma: "pt-BR"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

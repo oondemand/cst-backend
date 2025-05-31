@@ -19,4 +19,4 @@ function mapPrestadorToOmie(prestador) {
   };
 }
 
-module.exports = { mapPrestadorToOmieExport };
+module.exports = { mapPrestadorToOmie };

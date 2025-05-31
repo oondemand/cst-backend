@@ -6,6 +6,7 @@ const router = express.Router();
 
 const { registrarAcaoMiddleware, } = require("../middlewares/registrarAcaoMiddleware");
 const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
+const { prestadorWebHook } = require("../controllers/prestadorController/webhook");
 
 router.post("/",
   registrarAcaoMiddleware({ acao: ACOES.ADICIONADO, entidade: ENTIDADES.PRESTADOR, }),
@@ -32,5 +33,6 @@ router.delete("/:id",
 
 // TODO: Registrar a acao de importação
 router.post("/importar", uploadExcel.array("file"), importarPrestador);
+router.post("/webhook", prestadorWebHook);
 
 module.exports = router;

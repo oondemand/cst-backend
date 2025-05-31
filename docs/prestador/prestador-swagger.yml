@@ -6,250 +6,117 @@ info:
     Documentação interativa da API para o módulo Prestador. Esta API gerencia as operações de criação, leitura, atualização, exclusão, importação (Excel) e sincronização com a Omie, bem como o processamento de webhooks provenientes da Omie.
 servers:
   - url: http://localhost:4000
+security: []  # Sem segurança para visualização
 paths:
-  /prestadores/usuario/{idUsuario}:
-    get:
-      summary: Obter prestador por usuário
-      parameters:
-        - in: path
-          name: idUsuario
-          required: true
-          schema:
-            type: string
-          description: ID do usuário associado ao prestador
-      responses:
-        '200':
-          description: Prestador encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Prestador'
-        '404':
-          description: Prestador não encontrado
   /prestadores:
     get:
-      summary: Listar prestadores
-      parameters:
-        - in: query
-          name: searchTerm
-          schema:
-            type: string
-          description: Termo para busca (aplicado em todos os campos)
-        - in: query
-          name: sortBy
-          schema:
-            type: string
-          description: Campo para ordenação
-        - in: query
-          name: page
-          schema:
-            type: integer
-          description: Página para paginação
-        - in: query
-          name: limit
-          schema:
-            type: integer
-          description: Número de registros por página
+      summary: Lista todos os prestadores
+      operationId: listarPrestadores
+      tags:
+        - Prestadores
       responses:
         '200':
-          description: Lista de prestadores com dados de paginação
+          description: Lista de prestadores
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  results:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Prestador'
-                  pagination:
-                    type: object
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prestador'
     post:
-      summary: Criar prestador
+      summary: Cria um novo prestador
+      operationId: criarPrestador
+      tags:
+        - Prestadores
       requestBody:
-        description: Dados para criação do prestador
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PrestadorInput'
       responses:
-        '200':
+        '201':
           description: Prestador criado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Prestador'
+        '400':
+          description: Erro na validação dos dados
   /prestadores/{id}:
     get:
-      summary: Obter prestador por ID
+      summary: Obtém um prestador específico
+      operationId: obterPrestador
+      tags:
+        - Prestadores
       parameters:
-        - in: path
-          name: id
+        - name: id
+          in: path
           required: true
+          description: ID do prestador
           schema:
             type: string
-          description: ID do prestador
       responses:
         '200':
-          description: Prestador encontrado
+          description: Detalhes do prestador
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Prestador'
         '404':
           description: Prestador não encontrado
-    patch:
-      summary: Atualizar prestador
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: ID do prestador
-      requestBody:
-        description: Dados para atualização do prestador
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PrestadorInput'
-      responses:
-        '200':
-          description: Prestador atualizado e sincronização com Omie acionada
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Prestador'
-    delete:
-      summary: Excluir prestador
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: ID do prestador
-      responses:
-        '200':
-          description: Prestador excluído com sucesso
   /prestadores/webhook:
     post:
-      summary: Processar Webhook do Omie
-      requestBody:
-        description: Corpo do evento do Omie para atualização do prestador
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                event:
-                  type: object
-                ping:
-                  type: string
-                topic:
-                  type: string
+      summary: Processa webhook do Prestador
+      operationId: processarPrestadorWebhook
+      tags:
+        - Prestadores
       responses:
         '200':
           description: Webhook processado com sucesso
-  /prestadores/importar:
-    post:
-      summary: Importar prestadores via Excel
-      requestBody:
-        description: Arquivo Excel contendo dados dos prestadores
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-      responses:
-        '200':
-          description: Importação realizada com sucesso
+        '400':
+          description: Erro ao processar webhook
 components:
   schemas:
     Prestador:
       type: object
       properties:
-        _id:
+        id:
           type: string
+          format: uuid
+          description: ID único do prestador
         nome:
           type: string
+          description: Nome do prestador
         email:
           type: string
-        tipo:
+          format: email
+          description: Email de contato
+        telefone:
           type: string
+          description: Número de telefone
         documento:
           type: string
-        pessoaFisica:
-          type: object
-          properties:
-            dataNascimento:
-              type: string
-            pis:
-              type: string
-            rg:
-              type: object
-              properties:
-                numero:
-                  type: string
-                orgaoEmissor:
-                  type: string
-        pessoaJuridica:
-          type: object
-          properties:
-            nomeFantasia:
-              type: string
-            codigoCNAE:
-              type: string
-            codigoServicoNacional:
-              type: string
-            regimeTributario:
-              type: string
-        dadosBancarios:
-          type: object
-          properties:
-            banco:
-              type: string
-            agencia:
-              type: string
-            conta:
-              type: string
-            tipoConta:
-              type: string
+          description: Documento de identificação (CPF/CNPJ)
         endereco:
           type: object
           properties:
-            cep:
-              type: string
             rua:
               type: string
             numero:
               type: string
             complemento:
               type: string
+            bairro:
+              type: string
             cidade:
               type: string
             estado:
               type: string
-            pais:
-              type: object
-              properties:
-                nome:
-                  type: string
-                cod:
-                  type: string
-        comentariosRevisao:
+            cep:
+              type: string
+        criadoEm:
           type: string
-        status:
+          format: date-time
+        atualizadoEm:
           type: string
-        dataExportacao:
-          type: string
+          format: date-time
     PrestadorInput:
       type: object
       properties:
@@ -257,65 +124,31 @@ components:
           type: string
         email:
           type: string
-        tipo:
+          format: email
+        telefone:
           type: string
         documento:
           type: string
-        pessoaFisica:
-          type: object
-          properties:
-            dataNascimento:
-              type: string
-            pis:
-              type: string
-            rg:
-              type: object
-              properties:
-                numero:
-                  type: string
-                orgaoEmissor:
-                  type: string
-        pessoaJuridica:
-          type: object
-          properties:
-            nomeFantasia:
-              type: string
-            codigoCNAE:
-              type: string
-            codigoServicoNacional:
-              type: string
-            regimeTributario:
-              type: string
-        dadosBancarios:
-          type: object
-          properties:
-            banco:
-              type: string
-            agencia:
-              type: string
-            conta:
-              type: string
-            tipoConta:
-              type: string
         endereco:
           type: object
           properties:
-            cep:
-              type: string
             rua:
               type: string
             numero:
               type: string
             complemento:
               type: string
+            bairro:
+              type: string
             cidade:
               type: string
             estado:
               type: string
-            pais:
-              type: object
-              properties:
-                nome:
-                  type: string
-                cod:
-                  type: string
+            cep:
+              type: string
+      required:
+        - nome
+        - email
+        - telefone
+        - documento
+        - endereco

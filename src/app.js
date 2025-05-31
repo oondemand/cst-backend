@@ -3,7 +3,6 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const YAML = require("yamljs");
 const fs = require("fs");
 
 const path = require("node:path");
@@ -27,16 +26,11 @@ app.use(express.static(path.join(__dirname, "public")));
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 // **Rotas públicas** - Não requerem autenticação
+app.use("/docs", require("./routers/docsRouter"));
 app.use("/webhooks/", require("./routers/webhookRouter"));
-app.use("/", require("./routers/statusRouter"));
 app.use("/ativacao", require("./routers/seedRouter"));
-
-app.use("/open-api", (req, res) => {
-  const schemaOpenAPI = YAML.load("./schemaOpenAPI.yaml");
-  res.json(schemaOpenAPI);
-});
-
 app.use("/auth", require("./routers/authRouter"));
+app.use("/", require("./routers/statusRouter"));
 
 app.get("/image/:filename", (req, res) => {
   const filename = req.params.filename;
@@ -65,10 +59,7 @@ app.use("/logs", require("./routers/logRouter"));
 app.use("/prestadores", require("./routers/prestadorRouter"));
 app.use("/servicos", require("./routers/servicoRouter"));
 app.use("/documentos-fiscais", require("./routers/documentoFiscalRouter"));
-app.use(
-  "/documentos-cadastrais",
-  require("./routers/documentoCadastralRouter")
-);
+app.use("/documentos-cadastrais", require("./routers/documentoCadastralRouter"));
 app.use("/registros", require("./routers/controleAlteracao"));
 app.use("/listas", require("./routers/listaRouter"));
 app.use("/estados", require("./routers/estadoRouter"));
