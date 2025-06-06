@@ -2,6 +2,11 @@ const Importacao = require("../../models/Importacao.js");
 const Prestador = require("../../models/Prestador.js");
 const Usuario = require("../../models/Usuario.js");
 const Servico = require("../../models/Servico.js");
+const {
+  sendErrorResponse,
+  sendPaginatedResponse,
+  sendResponse,
+} = require("../../utils/helpers.js");
 
 const { registrarAcao } = require("../../services/controleService");
 const {
@@ -15,8 +20,6 @@ const {
   arredondarValor,
   excelToJson,
 } = require("../../utils/excel.js");
-
-const { sendErrorResponse } = require("../../utils/helpers");
 
 const converterLinhaEmServico = async ({ row }) => {
   const tipoPessoa =
@@ -200,11 +203,13 @@ exports.importarServico = async (req, res) => {
 
     await importacao.save();
   } catch (error) {
+    console.log("error", error);
+
     return sendErrorResponse({
       res,
       statusCode: 500,
       message: "Ouve um erro ao importar arquivo",
-      error,
+      error: error?.message,
     });
   }
 };

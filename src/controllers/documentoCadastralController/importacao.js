@@ -4,6 +4,12 @@ const DocumentoCadastral = require("../../models/DocumentoCadastral.js");
 const Lista = require("../../models/Lista.js");
 const { arrayToExcelBuffer, excelToJson } = require("../../utils/excel.js");
 
+const {
+  sendErrorResponse,
+  sendPaginatedResponse,
+  sendResponse,
+} = require("../../utils/helpers.js");
+
 const converterLinhaEmDocumentoCadastral = async ({ row }) => {
   const documentoCadastral = {
     prestador: {
@@ -138,7 +144,7 @@ exports.importarDocumentoCadastral = async (req, res) => {
     await importacao.save();
 
     if (arquivo && importacao)
-      return sendResponse({
+      sendResponse({
         res,
         statusCode: 200,
         importacao,
