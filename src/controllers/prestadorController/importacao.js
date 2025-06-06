@@ -37,7 +37,7 @@ const criarNovoManager = async ({ manager, usuario }) => {
 
 const converterLinhaEmPrestador = async ({ row }) => {
   const pais = LISTA_PAISES_OMIE.find(
-    (e) => e.cDescricao.toLowerCase() === row[15]?.toLowerCase()
+    (e) => e.cDescricao.toLowerCase() === row[15]?.toString().toLowerCase()
   );
 
   const formatDataNascimento = () => {

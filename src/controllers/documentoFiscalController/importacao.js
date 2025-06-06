@@ -21,6 +21,8 @@ const { sendErrorResponse, sendResponse } = require("../../utils/helpers");
 const converterLinhaEmDocumentoFiscal = async ({ row }) => {
   const competencia = row[4];
 
+  console.log(row[0]);
+
   const documentoFiscal = {
     prestador: {
       nome: row[0],
@@ -170,9 +172,10 @@ const processarJsonDocumentosFiscais = async ({ json, usuario }) => {
 
       detalhes.novosDocumentosFiscais += 1;
     } catch (error) {
+      console.log("ERROR", error);
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;
-      detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [SID: ${row[1]} - PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`;
+      detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PRESTADOR: ${row[0]}] - \nDETALHES DO ERRO: ${error}\n\n`;
     }
   }
 
@@ -191,7 +194,7 @@ exports.importarDocumentoFiscal = async (req, res) => {
     await importacao.save();
 
     if (arquivo && importacao) {
-      return sendResponse({
+      sendResponse({
         res,
         statusCode: 200,
         importacao,
@@ -211,6 +214,8 @@ exports.importarDocumentoFiscal = async (req, res) => {
 
     await importacao.save();
   } catch (error) {
+    console.log("Error", error);
+
     return sendErrorResponse({
       res,
       statusCode: 500,
